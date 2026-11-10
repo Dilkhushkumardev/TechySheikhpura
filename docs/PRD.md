@@ -52,3 +52,4 @@ Students of GEC Sheikhpura need an official, modern, high-tech platform to explo
 - Unnecessary legacy college administrative notice archives.
 - Payment gateway merchant account integration (UPI intent simulation used).
 - Heavy external dependencies that slow down loading.
+

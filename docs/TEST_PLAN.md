@@ -31,3 +31,4 @@
 ## 3. Performance & Compilation
 - [ ] `npm run lint` (`oxlint`) passes with 0 warnings.
 - [ ] `npm run build` (`tsc -b && vite build`) passes with 0 errors.
+

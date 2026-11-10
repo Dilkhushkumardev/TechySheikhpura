@@ -25,3 +25,4 @@
 - **Date:** 2026-11-10
 - **Decision:** Generate dynamic digital passes with QR code data in `PassBookingModal.tsx` and trigger `canvas-confetti`.
 - **Reason:** Gives students instant gratification and downloadable proof of registration.
+

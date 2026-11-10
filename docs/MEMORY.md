@@ -27,3 +27,4 @@
 - Fest Name: **TechySheikhpura '26**
 - No Google Maps section in the layout.
 - Hero title must remain dead-centered and bold.
+

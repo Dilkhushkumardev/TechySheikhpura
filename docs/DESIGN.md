@@ -42,3 +42,4 @@
 - **CTAs & Action Buttons:**
   - Gradient Primary: `bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold`
   - Glass Secondary: `bg-white/10 hover:bg-white/20 border border-white/25 text-white`
+

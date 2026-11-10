@@ -66,3 +66,4 @@ c:\Users\dilkh\OneDrive\Desktop\GECS
    - `mousePos`: Dynamic ambient spotlight tracker.
 3. **Local Storage:**
    - Saved delegate passes stored under `techy_sheikhpura_passes`.
+

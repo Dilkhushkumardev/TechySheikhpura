@@ -11,3 +11,4 @@
 ## 3. Safe External Assets
 - External image URLs are restricted to verified CDNs (Unsplash, official tech logos).
 - Web Audio API oscillators are securely destroyed and ramped down to prevent audio clipping or memory leaks.
+

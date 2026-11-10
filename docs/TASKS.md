@@ -34,3 +34,4 @@
 - [x] Create complete `docs/` suite following the Vibe Coding Guide
 - [x] Verify zero warnings with `oxlint`
 - [x] Verify clean production build with `tsc -b && vite build`
+

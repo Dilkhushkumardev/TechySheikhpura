@@ -22,3 +22,4 @@
   1. Run `npm run lint` (or `oxlint`) — ensure 0 warnings and 0 errors.
   2. Run `npm run build` (`tsc -b && vite build`) — ensure clean bundle output.
   3. Verify Hot Module Replacement (HMR) on the dev server.
+
