@@ -39,6 +39,18 @@
   }
 }
 
+/* Exact TechVerse Layout Utilities */
+.section-shell {
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-inner {
+  width: min(1100px, 100% - 2rem);
+  margin-inline: auto;
+}
+
 /* Glassmorphism Card (Exact TechVerse Style) */
 .glass-card {
   background: rgba(11, 11, 17, 0.78);

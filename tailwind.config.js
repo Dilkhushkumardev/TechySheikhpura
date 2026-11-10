@@ -30,9 +30,9 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Syne', 'Inter', 'sans-serif'],
-        heading: ['Syne', 'Inter', 'sans-serif'],
-        condensed: ['Inter', 'sans-serif'],
+        display: ['Syne', 'sans-serif'],
+        heading: ['Syne', 'sans-serif'],
+        condensed: ['Syne', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
       },
       boxShadow: {
