@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" width="1200" height="340" role="img" aria-label="TechySheikhpura '26 Platform Modules Showcase">
+  <defs>
+    <linearGradient id="canvasBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#05010a" />
+      <stop offset="100%" stop-color="#0b0816" />
+    </linearGradient>
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#130b20" />
+      <stop offset="100%" stop-color="#090710" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="340" rx="18" fill="url(#canvasBg)" stroke="#a855f7" stroke-opacity="0.28" stroke-width="1.5" />
+
+  <!-- Top Header Strip -->
+  <text x="600" y="42" text-anchor="middle" fill="#f8fafc" font-family="'Segoe UI', Arial, sans-serif" font-size="18" font-weight="800" letter-spacing="2">
+    UNIFIED PLATFORM ROUTES &amp; INTERACTIVE MODULES
+  </text>
+  <line x1="260" y1="58" x2="940" y2="58" stroke="#d946ef" stroke-opacity="0.3" stroke-width="1" />
+
+  <!-- Card 1: / Main Portal -->
+  <g transform="translate(36, 82)">
+    <rect width="264" height="224" rx="14" fill="url(#cardBg)" stroke="#d946ef" stroke-opacity="0.55" stroke-width="1.4" />
+    <rect x="18" y="18" width="68" height="24" rx="6" fill="#2e103d" stroke="#d946ef" stroke-opacity="0.7" />
+    <text x="52" y="34" text-anchor="middle" fill="#f5d0fe" font-family="monospace" font-size="12" font-weight="700">/</text>
+    <text x="18" y="70" fill="#ffffff" font-family="'Segoe UI', Arial, sans-serif" font-size="17" font-weight="700">Fest Landing Portal</text>
+    <text x="18" y="96" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">Hero Campus Backdrop</text>
+    <text x="18" y="118" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">Live Countdown HUD</text>
+    <text x="18" y="140" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">Search 14 Events &amp; Rules</text>
+    <text x="18" y="162" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">2-Day Schedule &amp; FAQs</text>
+    <rect x="18" y="182" width="228" height="24" rx="6" fill="#1b0b28" />
+    <text x="132" y="198" text-anchor="middle" fill="#f0abfc" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="700">PUBLIC SPA + OFFLINE MODE</text>
+  </g>
+
+  <!-- Card 2: /verify -->
+  <g transform="translate(324, 82)">
+    <rect width="264" height="224" rx="14" fill="url(#cardBg)" stroke="#06b6d4" stroke-opacity="0.55" stroke-width="1.4" />
+    <rect x="18" y="18" width="90" height="24" rx="6" fill="#082836" stroke="#06b6d4" stroke-opacity="0.7" />
+    <text x="63" y="34" text-anchor="middle" fill="#a5f3fc" font-family="monospace" font-size="12" font-weight="700">/verify</text>
+    <text x="18" y="70" fill="#ffffff" font-family="'Segoe UI', Arial, sans-serif" font-size="17" font-weight="700">QR Pass Verification</text>
+    <text x="18" y="96" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">13x13 SVG QR Decoding</text>
+    <text x="18" y="118" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">HMAC ?sig= Validation</text>
+    <text x="18" y="140" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">Instant Roll &amp; Tier Check</text>
+    <text x="18" y="162" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">Printable Delegate Slip</text>
+    <rect x="18" y="182" width="228" height="24" rx="6" fill="#08222e" />
+    <text x="132" y="198" text-anchor="middle" fill="#67e8f9" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="700">CRYPTOGRAPHIC SEAL CHECK</text>
+  </g>
+
+  <!-- Card 3: /admin -->
+  <g transform="translate(612, 82)">
+    <rect width="264" height="224" rx="14" fill="url(#cardBg)" stroke="#a855f7" stroke-opacity="0.55" stroke-width="1.4" />
+    <rect x="18" y="18" width="84" height="24" rx="6" fill="#23113c" stroke="#a855f7" stroke-opacity="0.7" />
+    <text x="60" y="34" text-anchor="middle" fill="#e9d5ff" font-family="monospace" font-size="12" font-weight="700">/admin</text>
+    <text x="18" y="70" fill="#ffffff" font-family="'Segoe UI', Arial, sans-serif" font-size="17" font-weight="700">Organizer Command Desk</text>
+    <text x="18" y="96" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">PIN Auth + Bearer Token</text>
+    <text x="18" y="118" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">Live Check-In &amp; Analytics</text>
+    <text x="18" y="140" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">Events, Clubs &amp; Notices CMS</text>
+    <text x="18" y="162" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">CSV Export + Audit Logs</text>
+    <rect x="18" y="182" width="228" height="24" rx="6" fill="#1c0d30" />
+    <text x="132" y="198" text-anchor="middle" fill="#d8b4fe" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="700">PIN-GUARDED MANAGEMENT</text>
+  </g>
+
+  <!-- Card 4: /api/* -->
+  <g transform="translate(900, 82)">
+    <rect width="264" height="224" rx="14" fill="url(#cardBg)" stroke="#10b981" stroke-opacity="0.55" stroke-width="1.4" />
+    <rect x="18" y="18" width="84" height="24" rx="6" fill="#092920" stroke="#10b981" stroke-opacity="0.7" />
+    <text x="60" y="34" text-anchor="middle" fill="#a7f3d0" font-family="monospace" font-size="12" font-weight="700">/api/*</text>
+    <text x="18" y="70" fill="#ffffff" font-family="'Segoe UI', Arial, sans-serif" font-size="17" font-weight="700">Node 24 + SQLite API</text>
+    <text x="18" y="96" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">17 Normalized Tables</text>
+    <text x="18" y="118" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">3 Views + Trigger (WAL)</text>
+    <text x="18" y="140" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">Sliding-Window Rate Limit</text>
+    <text x="18" y="162" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="13">VACUUM INTO Live Backup</text>
+    <rect x="18" y="182" width="228" height="24" rx="6" fill="#082119" />
+    <text x="132" y="198" text-anchor="middle" fill="#6ee7b7" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="700">ZERO EXTERNAL BROKERS</text>
+  </g>
+</svg>
