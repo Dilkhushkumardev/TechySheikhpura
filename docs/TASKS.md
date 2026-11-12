@@ -51,10 +51,10 @@
 ### Phase 4: Aesthetic Refinement (Exact TechVerse Match)
 
 - [x] **[TASK-019]** Remove legacy circulars and admin scaffolding.
-- [x] **[TASK-020]** Integrate clean TechVerse crowd illustration (`/footer-bg.png`).
+- [x] **[TASK-020]** Integrate custom AI-generated twilight engineering-fest illustration (`/footer-bg.jpg`).
 - [x] **[TASK-021]** Remove Google Maps embed and venue contact box per user directive.
 - [x] **[TASK-022]** Recreate exact TechVerse footer with outlined `GEC SHEIKHPURA` typography.
-- [x] **[TASK-023]** Import Google Fonts `Syne` (`400–800`) and `Inter` across `index.html` and Tailwind config.
+- [x] **[TASK-023]** Import Google Fonts `Oxanium`, `Space Grotesk`, `Plus Jakarta Sans`, and `Barlow Condensed` across `index.html` and Tailwind config.
 - [x] **[TASK-024]** Switch root background, modals, and 404 page cleanly to `#020003` + fuchsia TechVerse theme.
 - [x] **[TASK-025]** Dead-center `Techy Sheikhpura '26` hero and footer titles.
 

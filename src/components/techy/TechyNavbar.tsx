@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sparkles, Ticket } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Menu, X, Sparkles, Ticket, ShieldCheck, Lock } from 'lucide-react';
 import { FEST_INFO } from '../../data/techySheikhpuraData';
 
 interface TechyNavbarProps {
@@ -90,8 +91,24 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
           </nav>
 
           {/* Action CTA Button */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2.5">
+            <Link
+              to="/verify"
+              className="px-3.5 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-200 hover:text-white font-semibold text-xs font-mono flex items-center gap-1.5 transition-all"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Verify Pass</span>
+            </Link>
+            <Link
+              to="/admin"
+              className="px-3 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-fuchsia-300 font-semibold text-xs font-mono flex items-center gap-1 transition-all"
+              title="Organizer Console"
+            >
+              <Lock className="w-3.5 h-3.5" />
+              <span>Desk</span>
+            </Link>
             <button
+              type="button"
               onClick={onOpenPassModal}
               className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold text-xs font-mono uppercase tracking-wider hover:opacity-95 shadow-glow-fuchsia flex items-center gap-2 transition-all hover:scale-105"
             >
@@ -103,6 +120,7 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-2 lg:hidden">
             <button
+              type="button"
               onClick={onOpenPassModal}
               className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-bold text-xs font-mono uppercase tracking-wider"
             >
@@ -134,8 +152,27 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
               {item.name}
             </a>
           ))}
+          <div className="grid grid-cols-2 gap-2 pt-1">
+            <Link
+              to="/verify"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg bg-white/5 border border-white/10 text-emerald-300 font-semibold"
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Verify Pass</span>
+            </Link>
+            <Link
+              to="/admin"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg bg-white/5 border border-white/10 text-fuchsia-300 font-semibold"
+            >
+              <Lock className="w-3.5 h-3.5" />
+              <span>Organizer Desk</span>
+            </Link>
+          </div>
           <div className="pt-2">
             <button
+              type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenPassModal();

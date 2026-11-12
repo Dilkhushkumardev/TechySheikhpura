@@ -3,8 +3,8 @@
 > **TechVerse Aesthetic Specifications** — Visual Design Identity for TechySheikhpura '26 at Government Engineering College, Sheikhpura.
 
 [![Theme: Void #020003](https://img.shields.io/badge/Base_Theme-%23020003-black?style=for-the-badge)](DESIGN.md)
-[![Typography: Syne](https://img.shields.io/badge/Heading_Font-Syne-d45d8c?style=for-the-badge)](https://fonts.google.com/specimen/Syne)
-[![Typography: Inter](https://img.shields.io/badge/Body_Font-Inter-61DAFB?style=for-the-badge)](https://fonts.google.com/specimen/Inter)
+[![Typography: Oxanium](https://img.shields.io/badge/Heading_Font-Oxanium-d45d8c?style=for-the-badge)](https://fonts.google.com/specimen/Oxanium)
+[![Typography: Plus Jakarta Sans](https://img.shields.io/badge/Body_Font-Plus_Jakarta_Sans-61DAFB?style=for-the-badge)](https://fonts.google.com/specimen/Plus+Jakarta+Sans)
 
 ---
 
@@ -15,7 +15,7 @@ The design system for **TechySheikhpura '26** is modeled directly after the `htt
 - **Pitch Midnight Void:** A deep `#020003` canvas with minimal visual noise.
 - **Glassmorphic Obsidian Cards:** Translucent dark cards (`#0b0b11`) with subtle crisp borders.
 - **Radiant Ambient Glows:** Strategic radial highlights in fuchsia (`#d45d8c`), pink (`#ff8cb8`), and violet (`#e293e0`).
-- **Geometric Typographic Impact:** Google Font **Syne** (`400–800`) for display titles and condensed uppercase badges, paired with **Inter** for readable body copy and **JetBrains Mono** for HUD telemetry.
+- **Geometric Typographic Impact:** Google Font **Oxanium** (`500–800`) for flagship display titles and outlined footer branding, **Space Grotesk** (`500–700`) for UI subheadings, **Barlow Condensed** (`500–700`) for condensed footer/label strips, **Plus Jakarta Sans** (`400–800`) for readable body copy, and **JetBrains Mono** for HUD telemetry.
 
 ---
 
@@ -44,20 +44,22 @@ The design system for **TechySheikhpura '26** is modeled directly after the `htt
 ## 3. Typography Hierarchy
 
 ```text
-DISPLAY (Syne)       -->  TECHY SHEIKHPURA '26  (84px+ / Bold-Black)
-SUB-TITLE (Syne)     -->  WHERE IDEAS MEET INNOVATION (24px / Bold / Tracking 0.14em)
-SECTION HEAD (Syne)  -->  FEST EVENTS ARENA (36px–48px / Black)
-BODY (Inter)         -->  The flagship annual intra-college techno-cultural festival... (14px)
-HUD DATA (Mono)      -->  LOC: 25.1322° N, 85.8488° E • MEHUS, SHEIKHPURA (11px / Bold)
+DISPLAY (Oxanium)        -->  TECHY SHEIKHPURA '26  (84px+ / Bold-ExtraBold)
+SUB-TITLE (Oxanium)      -->  WHERE IDEAS MEET INNOVATION (24px / Bold / Tracking 0.14em)
+SECTION HEAD (Oxanium)   -->  FEST EVENTS ARENA (36px–48px / Bold-Black)
+CONDENSED (Barlow Cond.) -->  MADE WITH TEAM HUNTER FROM GEC SHEIKHPURA
+BODY (Plus Jakarta Sans) -->  The flagship annual intra-college techno-cultural festival... (14px)
+HUD DATA (Mono)          -->  LOC: 25.1322° N, 85.8488° E • MEHUS, SHEIKHPURA (11px / Bold)
 ```
 
 | Element | Font Family | Size (Mobile to Desktop) | Weight | Letter Spacing |
 |---|---|---|---|---|
-| **Hero Main Title** | `Syne` | `48px -> 108px` | `900` (mapped to `800`) | `-0.02em` |
-| **Hero Tagline** | `Syne` | `16px -> 24px` | `700 (Bold)` | `0.14em` |
-| **Section Headings** | `Syne` | `30px -> 48px` | `800 (ExtraBold)` | `-0.01em` |
-| **Card Headings** | `Syne` | `20px -> 24px` | `700 (Bold)` | `Normal` |
-| **Body Paragraphs** | `Inter` | `12px -> 15px` | `400 (Regular)` | `Normal` |
+| **Hero Main Title** | `Oxanium` | `48px -> 108px` | `800 (ExtraBold)` | `-0.01em` |
+| **Hero Tagline** | `Oxanium` | `16px -> 24px` | `700 (Bold)` | `0.14em` |
+| **Section Headings** | `Oxanium` | `30px -> 48px` | `800 (ExtraBold)` | `-0.01em` |
+| **Card Headings** | `Space Grotesk` | `20px -> 24px` | `700 (Bold)` | `-0.015em` |
+| **Footer Credits / Pills** | `Barlow Condensed` | `16px -> 24px` | `600 (SemiBold)` | `0.16em` |
+| **Body Paragraphs** | `Plus Jakarta Sans` | `12px -> 15px` | `400–600` | `Normal` |
 | **Badges / Tickers** | `JetBrains Mono` | `10px -> 12px` | `700 (Bold)` | `0.12em` |
 
 ---
@@ -85,7 +87,7 @@ HUD DATA (Mono)      -->  LOC: 25.1322° N, 85.8488° E • MEHUS, SHEIKHPURA (1
 
 ```css
 .outlined-institution-text {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Oxanium', 'Space Grotesk', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;

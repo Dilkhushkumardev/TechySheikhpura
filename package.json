@@ -4,7 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "node server/dev.mjs",
+    "dev:client": "vite --host --port 5173",
+    "dev:server": "node --no-warnings server/index.ts",
+    "start": "node --no-warnings server/index.ts",
+    "test": "node --no-warnings --test server/tests/api.test.ts",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"

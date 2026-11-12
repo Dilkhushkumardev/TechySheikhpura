@@ -36,6 +36,25 @@ export interface ScheduleItem {
   description: string;
 }
 
+export interface CampusClub {
+  id: string;
+  name: string;
+  role: string;
+  icon: 'code' | 'bot' | 'plane' | 'sparkles' | 'gamepad' | 'cpu';
+  colorClass: string;
+  leadName: string;
+}
+
+export interface OrganizerMember {
+  id: string;
+  name: string;
+  role: string;
+  department: string;
+  phone: string;
+  category: 'faculty' | 'student' | 'team';
+  featuredFooter: boolean;
+}
+
 export const FEST_INFO = {
   name: "TechySheikhpura '26",
   shortName: "TechySheikhpura",
@@ -55,8 +74,7 @@ export const FEST_INFO = {
     email: "techy@gecsheikhpura.ac.in",
     phone: "+91 6341 223010",
     studentConvenor: "+91 98765 43210",
-    instagram: "https://instagram.com/techy_sheikhpura",
-    whatsapp: "https://chat.whatsapp.com/gecsheikhpura",
+    telegram: "https://t.me/beucsepreparation",
   }
 };
 
@@ -535,5 +553,96 @@ export const FEST_FAQS = [
     q: "Where will the events take place?",
     a: "All events are hosted within the permanent campus of Government Engineering College, Sheikhpura (Administrative Block, Central Computing Center, Seminar Halls, and Campus Grounds) on NH-333A, Mehus, Sheikhpura."
   }
+];
+
+export const FEST_CLUBS: CampusClub[] = [
+  {
+    id: 'code-gecs',
+    name: 'CodeGECS Club',
+    role: 'Coding & HackArena',
+    icon: 'code',
+    colorClass: 'text-fuchsia-400',
+    leadName: 'Aryan Raj',
+  },
+  {
+    id: 'robogec-society',
+    name: 'RoboGEC Society',
+    role: 'Robotics & Track-O-Bot',
+    icon: 'bot',
+    colorClass: 'text-purple-400',
+    leadName: 'Aditya Prakash',
+  },
+  {
+    id: 'aerox-flight-wing',
+    name: 'AeroX Flight Wing',
+    role: 'AeroStrike Drone Derby',
+    icon: 'plane',
+    colorClass: 'text-pink-400',
+    leadName: 'Rohan Patel',
+  },
+  {
+    id: 'ecell-sheikhpura',
+    name: 'E-Cell Sheikhpura',
+    role: 'Pro-To-Pitch Startups',
+    icon: 'sparkles',
+    colorClass: 'text-amber-400',
+    leadName: 'Pooja Sharma',
+  },
+  {
+    id: 'gecs-esports-guild',
+    name: 'GECS Esports Guild',
+    role: 'BGMI & Free Fire',
+    icon: 'gamepad',
+    colorClass: 'text-emerald-400',
+    leadName: 'Vikash Gupta',
+  },
+];
+
+export const FEST_ORGANIZERS: OrganizerMember[] = [
+  {
+    id: 'org-principal',
+    name: 'Dr. Alok Kumar Singh',
+    role: 'Chief Patron & Principal',
+    department: 'GEC Sheikhpura',
+    phone: '+91 6341 223010',
+    category: 'faculty',
+    featuredFooter: false,
+  },
+  {
+    id: 'org-dilkhush',
+    name: 'Dilkhush',
+    role: 'Student Convenor & Tech Lead',
+    department: 'CSE',
+    phone: '+919876543210',
+    category: 'student',
+    featuredFooter: true,
+  },
+  {
+    id: 'org-amrita',
+    name: 'Amrita',
+    role: 'Robotics & Operations Head',
+    department: 'GEC Sheikhpura',
+    phone: '+919876543212',
+    category: 'student',
+    featuredFooter: true,
+  },
+  {
+    id: 'org-ashish',
+    name: 'Ashish',
+    role: 'Events & Esports Convenor',
+    department: 'GEC Sheikhpura',
+    phone: '+919876543213',
+    category: 'student',
+    featuredFooter: true,
+  },
+  {
+    id: 'org-team-hunter',
+    name: 'Team Hunter',
+    role: 'Platform & Systems Engineering',
+    department: 'GEC Sheikhpura',
+    phone: '+91 98765 43210',
+    category: 'team',
+    featuredFooter: false,
+  },
 ];
 

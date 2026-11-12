@@ -36,7 +36,7 @@ Build Verification : Built in 1.61s (JS: 358.31 kB / gzip 109.63 kB, CSS: 37.33 
 - **Official Helpline:** `+91 6341 223010`
 - **Student Convenors:** Aryan (`+91 98765 43210`), Aditya (`+91 98765 43212`), Vikash (`+91 98765 43213`)
 - **Hero Visual Asset:** `public/gecs-campus.jpg` (Administrative Block)
-- **Footer Visual Asset:** `public/footer-bg.png` (TechVerse Crowd Artwork)
+- **Footer Visual Asset:** `public/footer-bg.jpg` (AI-Generated Twilight Students & Tech Orb Illustration)
 
 ---
 
@@ -44,7 +44,7 @@ Build Verification : Built in 1.61s (JS: 358.31 kB / gzip 109.63 kB, CSS: 37.33 
 
 1. **Exact TechVerse 1:1 Match:**
    - Dark void `#020003` background across main view, modals, and 404 route.
-   - Google Fonts `Syne` (`400–800`) and `Inter`.
+   - Google Fonts `Oxanium` (`500–800`), `Space Grotesk` (`500–700`), `Plus Jakarta Sans` (`400–800`), and `Barlow Condensed` (`500–700`).
    - Footer maintains the exact clean crowd illustration with giant outlined `GEC SHEIKHPURA` typography.
 2. **Hero Main Title Center Alignment:**
    - `Techy Sheikhpura` and `'26` remain dead-centered and prominent across all viewports.

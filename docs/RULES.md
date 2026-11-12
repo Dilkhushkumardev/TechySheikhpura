@@ -18,12 +18,12 @@
    - Zero `any` types permitted. Define explicit interfaces for all domain models (`BookedPassData`, `FestEvent`, `FestPass`, `ScheduleItem`) and browser extensions.
    - Always use `import type` when importing interfaces or types.
 2. **Design Integrity:**
-   - Adhere strictly to `#020003` background, `#0b0b11` cards, fuchsia/purple accents, and `Syne` / `Inter` typography defined in [`DESIGN.md`](DESIGN.md).
+   - Adhere strictly to `#020003` background, `#0b0b11` cards, fuchsia/purple accents, and the `Oxanium`, `Space Grotesk`, `Plus Jakarta Sans`, and `Barlow Condensed` typography defined in [`DESIGN.md`](DESIGN.md).
    - Never leave stale cyan/navy modal overrides or non-standard CSS utility classes.
 3. **Preserve User Constraints:**
    - Identity must remain **Government Engineering College, Sheikhpura (GEC Sheikhpura)** and **TechySheikhpura '26**.
    - Hero background image must remain the authentic Administrative Block (`/gecs-campus.jpg`).
-   - Footer must strictly maintain the TechVerse crowd illustration (`/footer-bg.png`) with outlined `GEC SHEIKHPURA` typography.
+   - Footer must maintain the purple twilight engineering-fest illustration (`/footer-bg.jpg`) with outlined `GEC SHEIKHPURA` typography.
    - Do not add a Google Maps embed back into the layout.
 
 ---

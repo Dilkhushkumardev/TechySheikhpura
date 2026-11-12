@@ -23,21 +23,21 @@ Built with a **TechVerse-inspired pitch-midnight aesthetic (`#020003`)**, the SP
 
 ## Visual Highlights
 
-| Section | Highlights |
-|---|---|
-| **Hero Landing** | High-resolution GEC Sheikhpura Administrative Block backdrop with midnight void fade, centered `Syne` display heading, and live registration ticker. |
-| **Countdown Timer** | Real-time HUD countdown computing Days : Hours : Minutes : Seconds to November 28, 2026 (09:00 IST). |
-| **Events Arena** | 14 engineering events across Coding, Robotics, Aero & Drone, Esports, Startup & Pitch, Mechanical & Civil, and Fun & Brain with instant search. |
-| **Delegate Passes** | E-Sports Pass (₹29), All-Events Pass (₹149), and VIP All-Access Pass (₹199) with deterministic holographic SVG QR badges and confetti burst. |
-| **Schedule & Timeline** | Tabbed Day 1 vs Day 2 itinerary switcher detailing session times and campus venues. |
-| **Signature Footer** | Panoramic purple crowd illustration (`footer-bg.png`), WhatsApp/Instagram/LinkedIn community pills, and giant outlined **GEC SHEIKHPURA** typography. |
+| Section                 | Highlights                                                                                                                                              |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Hero Landing**        | High-resolution GEC Sheikhpura Administrative Block backdrop with midnight void fade, centered `Oxanium` display heading, and live registration ticker. |
+| **Countdown Timer**     | Real-time HUD countdown computing Days : Hours : Minutes : Seconds to November 28, 2026 (09:00 IST).                                                    |
+| **Events Arena**        | 14 engineering events across Coding, Robotics, Aero & Drone, Esports, Startup & Pitch, Mechanical & Civil, and Fun & Brain with instant search.         |
+| **Delegate Passes**     | E-Sports Pass (₹29), All-Events Pass (₹149), and VIP All-Access Pass (₹199) with deterministic holographic SVG QR badges and confetti burst.            |
+| **Schedule & Timeline** | Tabbed Day 1 vs Day 2 itinerary switcher detailing session times and campus venues.                                                                     |
+| **Signature Footer**    | Custom AI twilight tech illustration (`footer-bg.jpg`), Telegram community pill, and giant outlined **GEC SHEIKHPURA** typography.                      |
 
 ---
 
 ## Key Features
 
 - **Authentic Campus Identity:** Real photography of the GEC Sheikhpura Administrative Block on NH-333A, Mehus.
-- **TechVerse 1:1 Theme Consistency:** `#020003` canvas, obsidian `#0b0b11` cards, Google Fonts `Syne` & `Inter`, and unified fuchsia/purple accents across modals and 404 views.
+- **TechVerse 1:1 Theme Consistency:** `#020003` canvas, obsidian `#0b0b11` cards, Google Fonts `Oxanium`, `Space Grotesk`, `Plus Jakarta Sans`, & `Barlow Condensed`, and unified fuchsia/purple accents across modals and 404 views.
 - **14 Technical & Gaming Events:**
   - **HackArena:** 24-Hour Collaborative Code Sprint
   - **Track-O-Bot:** Autonomous Line Follower & Obstacle Bot
@@ -64,19 +64,18 @@ Built with a **TechVerse-inspired pitch-midnight aesthetic (`#020003`)**, the SP
 ┌────────────────────────────────────────────────────────┐
 │                      Client Layer                      │
 │     React 19.3  •  TypeScript 7.0  •  Tailwind CSS     │
-│      Google Fonts: Syne (Display) & Inter (Body)       │
+│     Pages: /, /verify (QR Lookup), /admin (Desk)       │
 └───────────────────────────┬────────────────────────────┘
-                            │
+                            │ /api/* (Vite Proxy :5173 -> :5000)
 ┌───────────────────────────▼────────────────────────────┐
-│                    Component System                    │
-│   TechyNavbar • Hero • CountdownTimer • EventsGrid     │
-│   PassBookingModal • EventDetailModal • TechyFooter    │
+│                  Node 24 REST API Layer                │
+│   server/index.ts • server/routes/api.ts • Admin Auth  │
 └───────────────────────────┬────────────────────────────┘
-                            │
+                            │ node:sqlite (WAL + Foreign Keys)
 ┌───────────────────────────▼────────────────────────────┐
-│                    Data & Utilities                    │
-│  techySheikhpuraData.ts • Web Audio API • Confetti FX  │
-│        Safe LocalStorage Ticket Persistence            │
+│                Embedded SQLite Database                │
+│     server/db/schema.sql • server/db/database.ts       │
+│  17 Tables • 3 Views • Auto-Seeded Catalog • Backups   │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -86,45 +85,54 @@ Built with a **TechVerse-inspired pitch-midnight aesthetic (`#020003`)**, the SP
 
 ```text
 GECS/
-├── docs/                           # Complete engineering & QA documentation suite
-│   ├── PRD.md                      # Product requirements & 14-event catalog
-│   ├── ARCHITECTURE.md             # System architecture, diagrams & metrics
-│   ├── DESIGN.md                   # Design tokens (#020003, Syne, Inter)
-│   ├── RULES.md                    # Strict TypeScript & engineering rules
-│   ├── TASKS.md                    # Completed project phases & milestones
-│   ├── DECISIONS.md                # Architecture Decision Records (ADRs)
-│   ├── MEMORY.md                   # Active state & institutional branding parameters
-│   ├── TEST_PLAN.md                # QA feature matrix & viewport checks
-│   └── SECURITY.md                 # Client sanitization & safe lifecycle specs
+├── docs/                           # Complete engineering & backend design suite (BACKEND_DESIGN.md)
 ├── public/
 │   ├── gecs-campus.jpg             # GEC Sheikhpura Administrative Block photo
-│   ├── footer-bg.png               # Panoramic TechVerse crowd artwork
+│   ├── footer-bg.jpg               # Custom AI-generated twilight footer artwork
 │   └── favicon.svg                 # Fest emblem favicon
+├── server/
+│   ├── app.ts                      # HTTP handler factory + dist/ SPA fallback
+│   ├── index.ts                    # Node 24 HTTP server (port 5000) & graceful shutdown
+│   ├── dev.mjs                     # Clean dual-process Backend (:5000) + Vite (:5173) launcher
+│   ├── config/env.ts               # .env loader & typed backend runtime configuration
+│   ├── middleware/                 # HMAC auth tokens, sliding-window rate limits & headers
+│   ├── db/
+│   │   ├── schema.sql              # 17-table relational SQLite schema, views & triggers
+│   │   └── database.ts             # WAL-mode DatabaseSync, auto-seeding, CRUD & analytics
+│   ├── routes/                     # Modular public & admin REST endpoints + CSV export
+│   └── tests/api.test.ts           # Built-in node:test API & SQLite integration tests
 ├── src/
 │   ├── components/
 │   │   ├── common/
 │   │   │   └── ParticleCanvas.tsx  # Ambient particle network canvas
 │   │   └── techy/
 │   │       ├── CountdownTimer.tsx  # Live HUD countdown timer
+│   │       ├── DelegateQrSvg.tsx   # Shared deterministic 13x13 QR badge
 │   │       ├── EventDetailModal.tsx# Event guidelines & coordinator contacts modal
-│   │       ├── PassBookingModal.tsx# Interactive pass form & QR pass generator
-│   │       ├── TechyNavbar.tsx     # Sticky responsive navbar
-│   │       └── TechyFooter.tsx     # Exact TechVerse panoramic footer
+│   │       ├── HelpdeskSection.tsx # Student support form backed by POST /api/inquiries
+│   │       ├── PassBookingModal.tsx# SQLite-backed pass booking form + offline fallback
+│   │       ├── TechyNavbar.tsx     # Sticky navbar (Verify Pass, Desk, Get Fest Pass)
+│   │       └── TechyFooter.tsx     # Twilight footer with Team Hunter & Telegram channel
 │   ├── data/
-│   │   └── techySheikhpuraData.ts  # 14 Events, 3 Pass Tiers, Schedule & FAQs
+│   │   └── techySheikhpuraData.ts  # 14 Events, 3 Pass Tiers, Schedule & FAQs baseline
 │   ├── pages/
 │   │   ├── HomePage.tsx            # Entry re-export of TechySheikhpuraPage
-│   │   ├── TechySheikhpuraPage.tsx # Main fest single-page application
+│   │   ├── TechySheikhpuraPage.tsx # Main fest SPA hydrated from /api/fest
+│   │   ├── VerifyPassPage.tsx      # Public pass verification route (/verify)
+│   │   ├── AdminDashboardPage.tsx  # Organizer check-in & analytics console (/admin)
 │   │   └── NotFoundPage.tsx        # Cyber 404 anomaly route
+│   ├── services/
+│   │   └── api.ts                  # Typed frontend API service & DTOs
 │   ├── App.tsx                     # Root Router shell
 │   ├── main.tsx                    # React DOM strict entrypoint
 │   └── index.css                   # Tailwind imports & custom keyframes
-├── .env.example                    # Environment template
-├── index.html                      # Root HTML with Syne & Inter fonts
-├── package.json                    # Dependencies & npm scripts
+├── .env.example                    # Environment & backend PIN template
+├── index.html                      # Root HTML with Oxanium, Space Grotesk & UI fonts
+├── package.json                    # Dependencies & full-stack scripts
 ├── tailwind.config.js              # Tailwind extensions
+├── tsconfig.node.json              # Strict Node/server TypeScript config
 ├── tsconfig.app.json               # Strict application TS config
-└── vite.config.ts                  # Vite bundler config
+└── vite.config.ts                  # Vite bundler & /api proxy config
 ```
 
 ---
@@ -133,38 +141,42 @@ GECS/
 
 ### Prerequisites
 
-- Node.js v18.0.0 or higher
+- Node.js **v24.0.0** or higher (for built-in `node:sqlite`)
 - npm
 
-### 1. Clone the Repository
+### 1. Clone & Install
 
 ```bash
 git clone https://github.com/Dilkhushkumardev/TechySheikhpura.git
 cd TechySheikhpura
-```
-
-### 2. Install Dependencies
-
-```bash
 npm install
 ```
 
-### 3. Start Development Server
+### 2. Start Full-Stack Development (Backend + Frontend)
 
 ```bash
 npm run dev
 ```
 
-Open your browser at `http://localhost:5173/`.
+- **Frontend (Vite + Proxy):** `http://localhost:5173/`
+- **Backend API + SQLite (`server/data/techysheikhpura.db`):** `http://localhost:5000/`
+- **Pass Verification Portal:** `http://localhost:5173/verify`
+- **Organizer Desk Console:** `http://localhost:5173/admin` (Default dev PIN: `GECS2026`, override via `ORGANIZER_PIN` env var)
 
-### 4. Run Linter & Strict TypeScript Build
+### 3. Production Build & Serve
 
 ```bash
 # Lint check (0 warnings, 0 errors)
 npm run lint
 
-# Typecheck (tsc -b) + Vite production bundle
+# Automated backend API & SQLite integration test suite
+npm test
+
+# Typecheck (tsc -b across client + server) + Vite production bundle
 npm run build
+
+# Serve production API + dist/ SPA bundle together
+npm start
 ```
 
 ---

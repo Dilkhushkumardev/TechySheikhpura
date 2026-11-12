@@ -25,5 +25,8 @@ jobs:
       - name: Run Oxlint
         run: npm run lint
 
+      - name: Run Backend API & SQLite Tests
+        run: npm test
+
       - name: Typecheck & build production bundle
         run: npm run build

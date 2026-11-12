@@ -12,7 +12,7 @@
 | ADR ID | Decision Title | Status | Date |
 |---|---|---|---|
 | **ADR-001** | Vite + React 19 Client SPA over Server Framework | `ACCEPTED` | 2026-11-10 |
-| **ADR-002** | Adoption of TechVerse 1:1 Aesthetic Identity (`#020003`, Syne, Inter) | `ACCEPTED` | 2026-11-10 |
+| **ADR-002** | Adoption of TechVerse Dark Void & Futuristic Font System (`#020003`, Oxanium, Plus Jakarta Sans) | `ACCEPTED` | 2026-11-10 |
 | **ADR-003** | Authentic Administrative Block Photography as Hero Backdrop | `ACCEPTED` | 2026-11-10 |
 | **ADR-004** | Client-Side Holographic QR Badge & Dynamic Confetti Engine | `ACCEPTED` | 2026-11-10 |
 | **ADR-005** | Elimination of Google Maps & Complex Contact Form | `ACCEPTED` | 2026-11-10 |
@@ -33,7 +33,7 @@
 ### ADR-002: Adoption of TechVerse 1:1 Aesthetic Identity
 
 - **Context:** The fest identity targets a seamless 1:1 aesthetic alignment with `https://techverse-dce.me/` customized for GEC Sheikhpura.
-- **Decision:** Use `#020003` deep midnight void, Google Fonts `Syne` and `Inter`, obsidian glass cards, fuchsia/magenta ambient radiance, and clean crowd artwork in the footer across every view, modal, and 404 route.
+- **Decision:** Use `#020003` deep midnight void, Google Fonts `Oxanium`, `Space Grotesk`, `Plus Jakarta Sans`, and `Barlow Condensed`, obsidian glass cards, fuchsia/magenta ambient radiance, and custom AI twilight artwork in the footer across every view, modal, and 404 route.
 - **Consequences:**
   - *Pros:* Unified visual language with zero jarring cyan/navy remnants.
   - *Cons:* Requires disciplined token usage across dialogs and utility routes.

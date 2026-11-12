@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HomePage } from './pages/HomePage';
+import { VerifyPassPage } from './pages/VerifyPassPage';
+import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 export const App: React.FC = () => {
@@ -11,6 +13,8 @@ export const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/verify" element={<VerifyPassPage />} />
+          <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>

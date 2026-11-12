@@ -1,18 +1,31 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import confetti from 'canvas-confetti';
-import { X, CheckCircle, Ticket, ShieldCheck, Printer, RotateCcw } from 'lucide-react';
-import { FEST_PASSES, FEST_INFO } from '../../data/techySheikhpuraData';
+import { X, CheckCircle, Ticket, ShieldCheck, Printer, RotateCcw, Loader2, ExternalLink } from 'lucide-react';
+import { FEST_PASSES, FEST_INFO, type FestEvent, type FestPass } from '../../data/techySheikhpuraData';
+import {
+  ApiError,
+  createRegistration,
+  type ActivityItem,
+  type RegistrationRecord,
+} from '../../services/api';
+import { DelegateQrSvg } from './DelegateQrSvg';
 
 interface PassBookingModalProps {
   isOpen: boolean;
   onClose: () => void;
   selectedPassId?: string;
+  selectedEvent?: FestEvent | null;
+  passes?: FestPass[];
+  onBooked?: (payload: { registration: RegistrationRecord; activityStream: ActivityItem[] }) => void;
 }
 
 export interface BookedPassData {
   regId: string;
   passName: string;
   price: number;
+  eventTitle?: string | null;
+  teamName?: string | null;
   fullName: string;
   rollNo: string;
   branch: string;
@@ -20,65 +33,29 @@ export interface BookedPassData {
   phone: string;
   email: string;
   bookedAt: string;
-}
-
-/**
- * Generates a deterministic 13x13 QR-like visual matrix with 3 finder patterns
- * from a delegate registration payload so the holographic pass badge renders offline.
- */
-function buildQrCells(seedText: string): boolean[] {
-  const size = 13;
-  const cells = new Array<boolean>(size * size).fill(false);
-
-  const setFinder = (startRow: number, startCol: number) => {
-    for (let r = 0; r < 5; r++) {
-      for (let c = 0; c < 5; c++) {
-        const isBorder = r === 0 || r === 4 || c === 0 || c === 4;
-        const isCenter = r === 2 && c === 2;
-        cells[(startRow + r) * size + (startCol + c)] = isBorder || isCenter;
-      }
-    }
-  };
-
-  setFinder(0, 0);
-  setFinder(0, size - 5);
-  setFinder(size - 5, 0);
-
-  let hash = 2166136261;
-  for (let i = 0; i < seedText.length; i++) {
-    hash ^= seedText.charCodeAt(i);
-    hash = Math.imul(hash, 16777619);
-  }
-
-  for (let r = 0; r < size; r++) {
-    for (let c = 0; c < size; c++) {
-      const inTopLeft = r < 6 && c < 6;
-      const inTopRight = r < 6 && c >= size - 6;
-      const inBottomLeft = r >= size - 6 && c < 6;
-      if (inTopLeft || inTopRight || inBottomLeft) continue;
-
-      hash ^= (r * 31 + c * 17 + 7);
-      hash = Math.imul(hash, 16777619);
-      cells[r * size + c] = (hash & 1) === 1;
-    }
-  }
-
-  return cells;
+  verifyCode?: string;
+  persistedInDb?: boolean;
 }
 
 export const PassBookingModal: React.FC<PassBookingModalProps> = ({
   isOpen,
   onClose,
   selectedPassId = 'all-events-pass',
+  selectedEvent = null,
+  passes = FEST_PASSES,
+  onBooked,
 }) => {
   const [overridePassId, setOverridePassId] = useState<string | null>(null);
   const [fullName, setFullName] = useState('');
   const [rollNo, setRollNo] = useState('');
   const [branch, setBranch] = useState('Computer Science & Engineering (CSE)');
   const [year, setYear] = useState('3rd Year (2024-28)');
+  const [teamName, setTeamName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
+  const [duplicateRegId, setDuplicateRegId] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [confirmedPass, setConfirmedPass] = useState<BookedPassData | null>(null);
 
   const passId = overridePassId ?? selectedPassId;
@@ -93,65 +70,27 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  const qrCells = useMemo(() => {
-    if (!confirmedPass) return [];
-    return buildQrCells(`${confirmedPass.regId}|${confirmedPass.rollNo}|${confirmedPass.passName}`);
-  }, [confirmedPass]);
-
   if (!isOpen) return null;
 
-  const currentPass = FEST_PASSES.find((p) => p.id === passId) || FEST_PASSES[0];
+  const availablePasses = passes.length > 0 ? passes : FEST_PASSES;
+  const currentPass = availablePasses.find((p) => p.id === passId) || availablePasses[0];
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const cleanName = fullName.trim();
-    const cleanRoll = rollNo.trim();
-    const cleanPhone = phone.trim();
-    const cleanEmail = email.trim();
-
-    if (!cleanName || !cleanRoll || !cleanPhone || !cleanEmail) {
-      setFormError('Please fill in all mandatory student details before confirming.');
-      return;
-    }
-
-    setFormError(null);
-
-    const regId = `TS26-GECS-${Math.floor(10000 + Math.random() * 90000)}`;
-    const passData: BookedPassData = {
-      regId,
-      passName: currentPass.name,
-      price: currentPass.price,
-      fullName: cleanName,
-      rollNo: cleanRoll,
-      branch,
-      year,
-      phone: cleanPhone,
-      email: cleanEmail,
-      bookedAt: new Date().toLocaleDateString('en-IN', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-      }),
-    };
-
-    setConfirmedPass(passData);
-
-    // Safely persist registration to localStorage
+  const saveOfflineCopy = (passData: BookedPassData) => {
     try {
       const saved = localStorage.getItem('techy_sheikhpura_passes');
       const parsed: unknown = saved ? JSON.parse(saved) : [];
       const existing = Array.isArray(parsed) ? parsed : [];
       localStorage.setItem('techy_sheikhpura_passes', JSON.stringify([passData, ...existing]));
     } catch {
-      // Ignore storage quota or malformed JSON recovery
       try {
         localStorage.setItem('techy_sheikhpura_passes', JSON.stringify([passData]));
       } catch {
         // Storage unavailable in private mode
       }
     }
+  };
 
-    // Confetti celebration blast!
+  const triggerCelebration = () => {
     try {
       confetti({
         particleCount: 120,
@@ -164,13 +103,104 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanName = fullName.trim();
+    const cleanRoll = rollNo.trim();
+    const cleanPhone = phone.trim();
+    const cleanEmail = email.trim();
+    const cleanTeam = teamName.trim();
+
+    if (!cleanName || !cleanRoll || !cleanPhone || !cleanEmail) {
+      setFormError('Please fill in all mandatory student details before confirming.');
+      setDuplicateRegId(null);
+      return;
+    }
+
+    setFormError(null);
+    setDuplicateRegId(null);
+    setIsSubmitting(true);
+
+    try {
+      const result = await createRegistration({
+        passId: currentPass.id,
+        eventId: selectedEvent?.id,
+        fullName: cleanName,
+        rollNo: cleanRoll,
+        branch,
+        year,
+        phone: cleanPhone,
+        email: cleanEmail,
+        teamName: cleanTeam || undefined,
+      });
+
+      const passData: BookedPassData = {
+        regId: result.registration.regId,
+        passName: result.registration.passName,
+        price: result.registration.price,
+        eventTitle: result.registration.eventTitle,
+        teamName: result.registration.teamName,
+        fullName: result.registration.fullName,
+        rollNo: result.registration.rollNo,
+        branch: result.registration.branch,
+        year: result.registration.year,
+        phone: result.registration.phone,
+        email: result.registration.email,
+        bookedAt: result.registration.bookedAt,
+        verifyCode: result.registration.verifyCode,
+        persistedInDb: true,
+      };
+
+      setConfirmedPass(passData);
+      saveOfflineCopy(passData);
+      onBooked?.(result);
+      triggerCelebration();
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setFormError(error.message);
+        setDuplicateRegId(error.existingRegId ?? null);
+        return;
+      }
+
+      // Offline fallback if running purely statically without the Node/SQLite backend
+      const offlineRegId = `TS26-GECS-${Math.floor(10000 + Math.random() * 90000)}`;
+      const fallbackPass: BookedPassData = {
+        regId: offlineRegId,
+        passName: currentPass.name,
+        price: currentPass.price,
+        eventTitle: selectedEvent?.title ?? null,
+        teamName: cleanTeam || null,
+        fullName: cleanName,
+        rollNo: cleanRoll.toUpperCase(),
+        branch,
+        year,
+        phone: cleanPhone,
+        email: cleanEmail.toLowerCase(),
+        bookedAt: new Date().toLocaleDateString('en-IN', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        }),
+        persistedInDb: false,
+      };
+
+      setConfirmedPass(fallbackPass);
+      saveOfflineCopy(fallbackPass);
+      triggerCelebration();
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleBookAnother = () => {
     setConfirmedPass(null);
     setFullName('');
     setRollNo('');
+    setTeamName('');
     setPhone('');
     setEmail('');
     setFormError(null);
+    setDuplicateRegId(null);
   };
 
   const handlePrint = () => {
@@ -240,7 +270,7 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                 <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-3 relative">
                   <div>
                     <span className="text-[10px] font-mono font-bold text-fuchsia-400 uppercase tracking-widest block">
-                      OFFICIAL DELEGATE PASS
+                      {confirmedPass.persistedInDb ? 'SYNCED TO SQLITE DATABASE' : 'OFFLINE PASS COPY'}
                     </span>
                     <strong className="text-base font-extrabold text-white font-display block mt-0.5">
                       {confirmedPass.passName}
@@ -255,28 +285,28 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                     className="p-1.5 rounded-xl bg-white shrink-0 shadow-lg"
                     title={`QR Code for ${confirmedPass.regId}`}
                   >
-                    <svg
-                      viewBox="0 0 13 13"
+                    <DelegateQrSvg
+                      seedText={`${confirmedPass.regId}|${confirmedPass.rollNo}|${confirmedPass.passName}|${confirmedPass.verifyCode || 'offline'}`}
+                      label={`Delegate QR badge ${confirmedPass.regId}`}
                       className="w-16 h-16"
-                      shapeRendering="crispEdges"
-                      aria-label={`Delegate QR badge ${confirmedPass.regId}`}
-                    >
-                      <rect width="13" height="13" fill="#ffffff" />
-                      {qrCells.map((filled, idx) =>
-                        filled ? (
-                          <rect
-                            key={`qr-${Math.floor(idx / 13)}-${idx % 13}`}
-                            x={idx % 13}
-                            y={Math.floor(idx / 13)}
-                            width="1"
-                            height="1"
-                            fill="#020003"
-                          />
-                        ) : null
-                      )}
-                    </svg>
+                    />
                   </div>
                 </div>
+
+                {(confirmedPass.eventTitle || confirmedPass.teamName) && (
+                  <div className="flex flex-wrap gap-2 text-[11px] font-mono relative">
+                    {confirmedPass.eventTitle && (
+                      <span className="px-2.5 py-1 rounded-lg bg-fuchsia-500/15 border border-fuchsia-400/30 text-fuchsia-200">
+                        Event: {confirmedPass.eventTitle}
+                      </span>
+                    )}
+                    {confirmedPass.teamName && (
+                      <span className="px-2.5 py-1 rounded-lg bg-purple-500/15 border border-purple-400/30 text-purple-200">
+                        Team: {confirmedPass.teamName}
+                      </span>
+                    )}
+                  </div>
+                )}
 
                 <div className="grid grid-cols-2 gap-3 text-xs font-mono relative">
                   <div>
@@ -300,10 +330,19 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                 </div>
 
                 <div className="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 font-mono relative">
-                  <span>Valid: {FEST_INFO.dates}</span>
-                  <span className="text-emerald-400 font-bold flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5" /> VERIFIED GECS DELEGATE
+                  <span>
+                    Valid: {FEST_INFO.dates}
+                    {confirmedPass.verifyCode ? ` • Seal ${confirmedPass.verifyCode}` : ''}
                   </span>
+                  <Link
+                    to={`/verify?q=${encodeURIComponent(confirmedPass.regId)}${confirmedPass.verifyCode ? `&sig=${encodeURIComponent(confirmedPass.verifyCode)}` : ''}`}
+                    onClick={onClose}
+                    className="text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1"
+                  >
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    <span>Verify Online</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </Link>
                 </div>
               </div>
 
@@ -339,9 +378,26 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
               {formError && (
                 <div
                   role="alert"
-                  className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 text-xs font-mono"
+                  className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-200 text-xs font-mono space-y-2"
                 >
-                  {formError}
+                  <p>{formError}</p>
+                  {duplicateRegId && (
+                    <Link
+                      to={`/verify?q=${encodeURIComponent(duplicateRegId)}`}
+                      onClick={onClose}
+                      className="inline-flex items-center gap-1.5 text-fuchsia-300 hover:text-white underline underline-offset-4 font-bold"
+                    >
+                      <span>Open Pass {duplicateRegId}</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </Link>
+                  )}
+                </div>
+              )}
+
+              {selectedEvent && (
+                <div className="px-3.5 py-2.5 rounded-xl bg-fuchsia-500/10 border border-fuchsia-400/30 flex items-center justify-between gap-2 text-xs font-mono">
+                  <span className="text-slate-300">Primary Event Track:</span>
+                  <strong className="text-fuchsia-300 truncate">{selectedEvent.title}</strong>
                 </div>
               )}
 
@@ -351,7 +407,7 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                   Select Your Fest Pass:
                 </label>
                 <div className="grid grid-cols-3 gap-2">
-                  {FEST_PASSES.map((p) => (
+                  {availablePasses.map((p) => (
                     <button
                       key={p.id}
                       type="button"
@@ -436,23 +492,39 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                   </div>
                 </div>
 
-                <div>
-                  <label htmlFor="pass-branch" className="block text-slate-300 mb-1 font-medium">
-                    Branch / Department
-                  </label>
-                  <select
-                    id="pass-branch"
-                    value={branch}
-                    onChange={(e) => setBranch(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
-                  >
-                    <option>Computer Science &amp; Engineering (CSE)</option>
-                    <option>Electronics &amp; Communication Engineering (ECE)</option>
-                    <option>Electrical Engineering (EE)</option>
-                    <option>Civil Engineering (CE)</option>
-                    <option>Mechanical Engineering (ME)</option>
-                    <option>Mechatronics Engineering</option>
-                  </select>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label htmlFor="pass-branch" className="block text-slate-300 mb-1 font-medium">
+                      Branch / Department
+                    </label>
+                    <select
+                      id="pass-branch"
+                      value={branch}
+                      onChange={(e) => setBranch(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
+                    >
+                      <option>Computer Science &amp; Engineering (CSE)</option>
+                      <option>Electronics &amp; Communication Engineering (ECE)</option>
+                      <option>Electrical Engineering (EE)</option>
+                      <option>Civil Engineering (CE)</option>
+                      <option>Mechanical Engineering (ME)</option>
+                      <option>Mechatronics Engineering</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="pass-team-name" className="block text-slate-300 mb-1 font-medium">
+                      Team / Squad Name (Optional)
+                    </label>
+                    <input
+                      id="pass-team-name"
+                      type="text"
+                      value={teamName}
+                      onChange={(e) => setTeamName(e.target.value)}
+                      placeholder="e.g. CyberKnights"
+                      className="w-full px-3 py-2 rounded-xl bg-[#020003]/80 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
+                    />
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -492,10 +564,20 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold text-xs uppercase font-mono tracking-wider hover:opacity-95 shadow-glow-fuchsia flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
+                  disabled={isSubmitting}
+                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold text-xs uppercase font-mono tracking-wider hover:opacity-95 disabled:opacity-60 disabled:cursor-not-allowed shadow-glow-fuchsia flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
                 >
-                  <Ticket className="w-4 h-4" />
-                  <span>Confirm &amp; Generate Delegate Pass (₹{currentPass.price})</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Registering in SQLite Database...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Ticket className="w-4 h-4" />
+                      <span>Confirm &amp; Generate Delegate Pass (₹{currentPass.price})</span>
+                    </>
+                  )}
                 </button>
                 <p className="text-[10px] text-slate-500 text-center font-mono mt-2">
                   Official GEC Sheikhpura Intra-College Technical Fest.

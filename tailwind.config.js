@@ -29,10 +29,10 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Syne', 'sans-serif'],
-        heading: ['Syne', 'sans-serif'],
-        condensed: ['Syne', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        display: ['Oxanium', '"Space Grotesk"', 'sans-serif'],
+        heading: ['"Space Grotesk"', 'Oxanium', 'sans-serif'],
+        condensed: ['"Barlow Condensed"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
       },
       boxShadow: {

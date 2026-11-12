@@ -11,13 +11,18 @@
   body {
     background-color: #020003;
     color: #f1f5f9;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Syne', 'Inter', sans-serif;
-    letter-spacing: -0.02em;
+  h1, h2 {
+    font-family: 'Oxanium', 'Space Grotesk', sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: -0.015em;
   }
 
   /* Custom Sleek Scrollbar */
