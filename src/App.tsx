@@ -7,7 +7,7 @@ import { NotFoundPage } from './pages/NotFoundPage';
 
 export const App: React.FC = () => {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <div className="relative min-h-screen bg-[#020003] text-white antialiased selection:bg-fuchsia-500/30 selection:text-white">
         {/* TechySheikhpura Fest Website Routes */}
         <Routes>

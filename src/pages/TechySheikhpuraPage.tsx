@@ -290,7 +290,7 @@ export const TechySheikhpuraPage: React.FC = () => {
         {/* Background Image: Uploaded GEC Sheikhpura Administrative Block */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/gecs-campus.jpg"
+            src={`${import.meta.env.BASE_URL}gecs-campus.jpg`}
             alt="Government Engineering College Sheikhpura - Administrative Block"
             className="w-full h-full object-cover filter brightness-[0.32] contrast-125 scale-105"
           />
@@ -469,7 +469,7 @@ export const TechySheikhpuraPage: React.FC = () => {
           <div className="lg:col-span-5 relative">
             <div className="relative rounded-3xl overflow-hidden border border-white/20 shadow-2xl group">
               <img
-                src="/gecs-campus.jpg"
+                src={`${import.meta.env.BASE_URL}gecs-campus.jpg`}
                 alt="GEC Sheikhpura Campus Administrative Block"
                 className="w-full h-[460px] object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95 contrast-105"
               />

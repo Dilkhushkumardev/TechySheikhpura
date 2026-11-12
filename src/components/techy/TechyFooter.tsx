@@ -19,7 +19,7 @@ export const TechyFooter: React.FC<TechyFooterProps> = ({
     <footer className="section-shell pt-16 sm:pt-20 bg-[#020003]">
       {/* Custom AI-Generated TechySheikhpura Twilight Footer Illustration */}
       <img
-        src="/footer-bg.jpg"
+        src={`${import.meta.env.BASE_URL}footer-bg.jpg`}
         alt="Four engineering students collaborating around a glowing holographic orb under a purple twilight sky"
         className="absolute inset-0 h-full w-full object-cover object-center"
       />
