@@ -495,6 +495,26 @@ function runMigrations(db: DatabaseSync): void {
       'Updated footer organizer contacts to Dilkhush, Amrita, and Ashish'
     );
   }
+
+  const hasV4 = asNumber(
+    (db.prepare('SELECT COUNT(*) AS c FROM schema_migrations WHERE version = 4').get() as SqlRow | undefined)?.c
+  );
+  if (hasV4 === 0) {
+    db.prepare(`
+      UPDATE organizers
+      SET name = 'Dr. Anil Singh Yadav'
+      WHERE id = 'org-principal'
+    `).run();
+    db.prepare(`
+      UPDATE schedule_items
+      SET description = REPLACE(description, 'Dr. Alok Kumar Singh', 'Dr. Anil Singh Yadav')
+      WHERE description LIKE '%Dr. Alok Kumar Singh%'
+    `).run();
+    db.prepare('INSERT OR IGNORE INTO schema_migrations (version, description) VALUES (?, ?)').run(
+      4,
+      'Updated Chief Patron & Principal name to Dr. Anil Singh Yadav'
+    );
+  }
 }
 
 export function initDatabase(customPath?: string): DatabaseSync {

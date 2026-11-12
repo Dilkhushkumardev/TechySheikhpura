@@ -393,8 +393,14 @@ describe('TechySheikhpura Backend API & SQLite Integration', () => {
     }>('/api/admin/db/stats', { headers: bearerHeaders });
     assert.equal(dbStats.status, 200);
     assert.equal(dbStats.data.dbStats.integrityCheck, 'ok');
-    assert.equal(dbStats.data.dbStats.schemaVersion, 3);
+    assert.equal(dbStats.data.dbStats.schemaVersion, 4);
     assert.equal(Object.keys(dbStats.data.dbStats.tableCounts).length, 17);
+
+    const facultyRes = await apiJson<{ organizers: { id: string; name: string }[] }>(
+      '/api/organizers?category=faculty'
+    );
+    assert.equal(facultyRes.status, 200);
+    assert.equal(facultyRes.data.organizers[0]?.name, 'Dr. Anil Singh Yadav');
 
     const footerContactsRes = await apiJson<{ organizers: { name: string; featuredFooter: boolean }[] }>(
       '/api/organizers?category=student'

@@ -448,7 +448,7 @@ export const FEST_SCHEDULE: ScheduleItem[] = [
     title: "Grand Inauguration Ceremony",
     category: "Ceremony",
     venue: "Main Auditorium, GEC Sheikhpura",
-    description: "Lamp lighting, address by Principal Dr. Alok Kumar Singh, and unveiling of TechySheikhpura '26 trophy.",
+    description: "Lamp lighting, address by Principal Dr. Anil Singh Yadav, and unveiling of TechySheikhpura '26 trophy.",
   },
   {
     day: "Day 1",
@@ -601,7 +601,7 @@ export const FEST_CLUBS: CampusClub[] = [
 export const FEST_ORGANIZERS: OrganizerMember[] = [
   {
     id: 'org-principal',
-    name: 'Dr. Alok Kumar Singh',
+    name: 'Dr. Anil Singh Yadav',
     role: 'Chief Patron & Principal',
     department: 'GEC Sheikhpura',
     phone: '+91 6341 223010',

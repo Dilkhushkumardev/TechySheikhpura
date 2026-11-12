@@ -309,7 +309,7 @@ flowchart LR
 
 ## Database and API
 
-<p>Powered by built-in <strong>Node.js 24 <code>node:sqlite</code></strong> (<code>DatabaseSync</code>) with <code>PRAGMA foreign_keys = ON</code>, <code>WAL</code> journaling, automatic schema migrations (<code>schemaVersion: 3</code>), and auto-seeded domain data. See <a href="docs/BACKEND_DESIGN.md"><code>docs/BACKEND_DESIGN.md</code></a> for complete ERDs.</p>
+<p>Powered by built-in <strong>Node.js 24 <code>node:sqlite</code></strong> (<code>DatabaseSync</code>) with <code>PRAGMA foreign_keys = ON</code>, <code>WAL</code> journaling, automatic schema migrations (<code>schemaVersion: 4</code>), and auto-seeded domain data. See <a href="docs/BACKEND_DESIGN.md"><code>docs/BACKEND_DESIGN.md</code></a> for complete ERDs.</p>
 
 <table width="100%">
   <thead>
@@ -532,7 +532,7 @@ TechySheikhpura/
 
 <p>
   <strong>Core Student Contacts:</strong> Dilkhush &nbsp;•&nbsp; Amrita &nbsp;•&nbsp; Ashish<br />
-  <strong>Chief Patron:</strong> Dr. Alok Kumar Singh (Principal, GEC Sheikhpura) &nbsp;•&nbsp; <strong>Engineered By:</strong> Team Hunter<br />
+  <strong>Chief Patron:</strong> Dr. Anil Singh Yadav (Principal, GEC Sheikhpura) &nbsp;•&nbsp; <strong>Engineered By:</strong> Team Hunter<br />
   <strong>Campus Venue:</strong> Government Engineering College, Sheikhpura — NH-333A, Mehus, Bihar 811105
 </p>
 
