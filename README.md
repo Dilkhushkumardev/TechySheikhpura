@@ -21,7 +21,6 @@
 
 ---
 
-> [!TIP]
 > **Live Public Portal:** **[dilkhushkumardev.github.io/TechySheikhpura](https://dilkhushkumardev.github.io/TechySheikhpura/)**
 >
 > GitHub Pages hosts the responsive frontend, **14 events**, **countdown HUD**, **Dilkhush | Amrita | Ashish** contacts, and offline/localStorage QR pass generation. To run the **shared 17-table SQLite database, `/api/*` endpoints, and Organizer Admin Desk (`/admin`)**, launch the zero-config Node.js 24 backend locally with `npm run dev`.
@@ -32,7 +31,7 @@
 
 ![GEC Sheikhpura Administrative Block](public/gecs-campus.jpg)
 
-*Government Engineering College, Sheikhpura — Administrative Block (NH-333A, Mehus, Sheikhpura, Bihar)*
+**Venue Spotlight:** *Government Engineering College, Sheikhpura — Administrative Block (NH-333A, Mehus, Sheikhpura, Bihar)*
 
 - **TechVerse Midnight Canvas (`#020003`):** High-contrast obsidian cards (`#0b0b11`), neon fuchsia/purple/cyan accents, ambient `ParticleCanvas`, and display typography (`Oxanium`, `Space Grotesk`, `Plus Jakarta Sans`, `Barlow Condensed`).
 - **Real-Time Fest Countdown:** Live HUD timer tracking **Days : Hours : Minutes : Seconds** to **November 28–29, 2026**.
@@ -104,7 +103,9 @@ flowchart LR
 
     Portal --> Sec
     AdminUI --> Sec
-    Sec --> Auth --> Routes --> Schema
+    Sec --> Auth
+    Auth --> Routes
+    Routes --> Schema
     Schema --> Tx
 ```
 
@@ -263,4 +264,4 @@ TechySheikhpura/
 
 ---
 
-**TechySheikhpura '26** — Built for **Government Engineering College, Sheikhpura** • Design inspired by [TechVerse](https://techverse-dce.me/) • Licensed under the [MIT License](LICENSE) • [Back to Top](#techysheikhpura-26)
+**TechySheikhpura '26** — Built for **Government Engineering College, Sheikhpura** • Design inspired by [TechVerse](https://techverse-dce.me/) • Licensed under the [MIT License](LICENSE) • [Quick Start](#quick-start)
