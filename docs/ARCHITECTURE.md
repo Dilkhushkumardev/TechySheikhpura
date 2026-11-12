@@ -25,7 +25,7 @@ flowchart TD
         AppComp["App.tsx (Router & Shell)"]
 
         subgraph Pages["Pages & Views"]
-            Home["HomePage.tsx (Clean Re-export)"]
+            Home["HomePage.tsx (Entry Wrapper)"]
             Master["TechySheikhpuraPage.tsx (Master Fest View)"]
             NotFound["NotFoundPage.tsx (404 Anomaly Route)"]
         end
@@ -68,66 +68,78 @@ flowchart TD
 ```mermaid
 sequenceDiagram
     autonumber
-    actor User as Student / Visitor
+    actor User as Student or Visitor
     participant Nav as TechyNavbar
     participant Page as TechySheikhpuraPage
-    participant Modal as EventDetailModal / PassBookingModal
+    participant PassModal as PassBookingModal
     participant Storage as LocalStorage
     participant FX as Confetti & Audio Engine
 
     User->>Nav: Click "Get Fest Pass"
-    Nav->>Page: Trigger handleOpenPass("all-events-pass")
-    Page->>FX: Synthesize cyber click audio tone (Web Audio API)
-    Page->>Modal: Open PassBookingModal with selected tier
-    User->>Modal: Fill Name, Roll No, Branch, Year, Contact
-    User->>Modal: Submit Pass Form
-    Modal->>Storage: Safely serialize delegate pass JSON
-    Modal->>FX: Fire confetti burst (particleCount: 120)
-    Modal->>User: Display Holographic QR Pass Card & Print Option
+    Nav->>Page: Invoke onOpenPassModal() callback
+    Page->>FX: Call playClickSound() (Web Audio API)
+    Page->>PassModal: Open modal via handleOpenPass("all-events-pass")
+    User->>PassModal: Fill Name, Roll No, Branch, Year, Email, Phone
+    User->>PassModal: Submit Delegate Pass Form
+    PassModal->>Storage: Save JSON array to "techy_sheikhpura_passes"
+    PassModal->>FX: Fire confetti burst (particleCount = 120)
+    PassModal->>User: Render SVG QR Badge & Print Option
 ```
 
 ---
 
-## 3. Component Hierarchy Tree
+## 3. Component Hierarchy & Repository Structure
 
 ```text
-src/
-├── App.tsx                               # BrowserRouter & Root Container
-├── main.tsx                              # StrictMode entrypoint
-├── index.css                             # Global Tailwind utilities & animations
-├── data/
-│   └── techySheikhpuraData.ts            # 14 Events, 3 Pass Tiers, Schedule & FAQs
-├── pages/
-│   ├── HomePage.tsx                      # Clean re-export of TechySheikhpuraPage
-│   ├── TechySheikhpuraPage.tsx           # Single-Page Fest Application:
-│   │   ├── Navigation                    # Sticky Navbar with branding
-│   │   ├── Hero Section                  # Campus Photo + Centered Title
-│   │   ├── Countdown Timer               # Live HUD countdown
-│   │   ├── Marquee Ticker                # Continuous event ticker
-│   │   ├── About Section                 # Core pillars & headquarters card
-│   │   ├── Events Arena                  # Category pills + real-time search (14 events)
-│   │   ├── Passes Section                # 3-tier pass pricing cards
-│   │   ├── Clubs Showcase                # GEC Sheikhpura 5 student societies
-│   │   ├── Schedule Section              # Day 1 vs Day 2 switcher
-│   │   ├── FAQs Accordion                # Collapsible clarifications
-│   │   └── Footer Section                # Exact TechVerse crowd artwork & outline
-│   └── NotFoundPage.tsx                  # 404 Error handler
-└── components/techy/
-    ├── CountdownTimer.tsx                # High-contrast HUD timer
-    ├── EventDetailModal.tsx              # Complete guidelines & contacts dialog
-    ├── PassBookingModal.tsx              # Interactive holographic QR pass generator
-    ├── TechyNavbar.tsx                   # Responsive navigation bar
-    └── TechyFooter.tsx                   # Panoramic TechVerse aesthetic footer
+TechySheikhpura/
+├── .github/workflows/
+│   ├── ci.yml                              # Node 24 CI: npm ci, oxlint, tsc + vite build
+│   └── datadog-synthetics.yml              # Guarded Datadog E2E workflow (runs when secrets set)
+├── public/
+│   ├── favicon.svg                         # Fest shield SVG emblem
+│   ├── footer-bg.png                       # Panoramic TechVerse footer background artwork
+│   └── gecs-campus.jpg                     # Authenticated GEC Sheikhpura campus hero image
+└── src/
+    ├── App.tsx                             # BrowserRouter routes (/, /home, *)
+    ├── main.tsx                            # React StrictMode DOM mount
+    ├── index.css                           # Tailwind directives, custom classes & marquee CSS
+    ├── data/
+    │   └── techySheikhpuraData.ts          # 14 Events, 3 Pass Tiers, Schedule & FAQs
+    ├── pages/
+    │   ├── HomePage.tsx                    # Root route wrapper rendering TechySheikhpuraPage
+    │   ├── TechySheikhpuraPage.tsx         # Master fest page orchestrator & modals host
+    │   └── NotFoundPage.tsx                # 404 route with Home & Events anchor recovery
+    └── components/
+        ├── common/
+        │   └── ParticleCanvas.tsx          # Standalone particle background utility (currently unmounted)
+        └── techy/
+            ├── CountdownTimer.tsx          # High-contrast HUD event countdown
+            ├── EventDetailModal.tsx        # Event rules, prize & coordinator modal
+            ├── PassBookingModal.tsx        # Interactive booking form & deterministic SVG QR pass
+            ├── TechyNavbar.tsx             # Responsive sticky navigation bar
+            └── TechyFooter.tsx             # TechVerse crowd footer with GEC SHEIKHPURA watermark
 ```
+
+Rendered sections inside `TechySheikhpuraPage.tsx`:
+
+1. **Navigation (`TechyNavbar`)** — Sticky header with brand mark, anchor links (`#hero`, `#about`, `#events`, `#passes`, `#schedule`), and `Get Fest Pass` action.
+2. **Hero & HUD (`#hero`, `CountdownTimer`)** — GEC Sheikhpura campus backdrop, quick stats grid, fest action triggers, and countdown timer to `Nov 28, 2026`.
+3. **Marquee Ticker** — Continuous seamless double-track event highlights banner.
+4. **About Section (`#about`)** — Innovation pillars and campus venue overview.
+5. **Events Arena (`#events`)** — Category filter pills (`All` + 7 categories), keyword search input, 14 event cards, and `EventDetailModal` trigger.
+6. **Passes & Clubs (`#passes`)** — 3 pass tiers (`₹149`, `₹29`, `₹199`) launching `PassBookingModal`, plus 5 GEC Sheikhpura student clubs.
+7. **Schedule & FAQs (`#schedule`, `#faqs`)** — Day 1 / Day 2 timeline toggle and expandable FAQ accordion.
+8. **Footer (`TechyFooter`)** — Social links, coordinators contact block, and outlined `GEC SHEIKHPURA` backdrop typography.
 
 ---
 
 ## 4. Performance & Bundle Metrics
 
-| Metric | Target | Measured Result |
-|---|---|---|
-| **Production Build Time** | `< 2.5s` | **1.61s** (`tsc -b && vite build`) |
-| **Gzip JS Bundle Size** | `< 120 kB` | **109.63 kB** (`358.31 kB` raw) |
-| **Gzip CSS Bundle Size** | `< 12 kB` | **7.02 kB** (`37.33 kB` raw) |
-| **Linter Diagnostic Output** | `0 Warnings` | **0 Warnings, 0 Errors (`oxlint`)** |
-| **TypeScript Strict Mode** | `0 Errors` | **Strict + VerbatimModuleSyntax Passing** |
+| Metric                       | Target         | Measured Result                                                                                      |
+| ---------------------------- | -------------- | ---------------------------------------------------------------------------------------------------- |
+| **Production Build Time**    | `< 2.5s`       | **1.45s** (`tsc -b && vite build`)                                                                   |
+| **Gzip JS Bundle Size**      | `< 120 kB`     | **109.67 kB** (`358.44 kB` raw)                                                                      |
+| **Gzip CSS Bundle Size**     | `< 12 kB`      | **7.02 kB** (`37.33 kB` raw)                                                                         |
+| **Linter Diagnostic Output** | `0 Warnings`   | **0 Warnings, 0 Errors** (`oxlint` default: 116 rules; strict suspicious/perf: 155 rules)            |
+| **TypeScript Strict Mode**   | `0 Errors`     | **`strict`, `verbatimModuleSyntax`, `erasableSyntaxOnly`, `noUnusedLocals`, `noUnusedParameters`**   |
+| **GitHub Actions CI**        | `Green Checks` | **`CI Build & Lint` passing on Node 24; Datadog Synthetics guarded when API/APP secrets are absent** |
