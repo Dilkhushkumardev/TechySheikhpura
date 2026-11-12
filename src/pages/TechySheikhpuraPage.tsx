@@ -319,9 +319,9 @@ export const TechySheikhpuraPage: React.FC = () => {
 
           {/* Quick Stats Grid (Centered) */}
           <div className="pt-4 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto w-full">
-            {FEST_INFO.stats.map((stat, idx) => (
+            {FEST_INFO.stats.map((stat) => (
               <div 
-                key={idx}
+                key={stat.label}
                 className="p-4 rounded-2xl bg-[#0b0b11]/85 backdrop-blur-2xl border border-white/10 glass-card"
               >
                 <div className="text-2xl sm:text-3xl font-black font-display text-gradient-techverse">
@@ -665,8 +665,8 @@ export const TechySheikhpuraPage: React.FC = () => {
 
                 {/* Features Checklist */}
                 <ul className="space-y-2.5 pt-2 text-xs text-slate-300">
-                  {pass.features.map((feat, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
+                  {pass.features.map((feat) => (
+                    <li key={feat} className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-fuchsia-400 shrink-0 mt-0.5" />
                       <span>{feat}</span>
                     </li>
@@ -675,6 +675,7 @@ export const TechySheikhpuraPage: React.FC = () => {
               </div>
 
               <button
+                type="button"
                 onClick={() => { playClickSound(); handleOpenPass(pass.id); }}
                 className={`w-full py-4 rounded-xl font-black text-xs uppercase font-mono tracking-wider transition-all flex items-center justify-center gap-2 ${
                   pass.isPopular
@@ -710,9 +711,9 @@ export const TechySheikhpuraPage: React.FC = () => {
             { name: "AeroX Flight Wing", role: "AeroStrike Drone Derby", icon: Plane, color: "text-pink-400" },
             { name: "E-Cell Sheikhpura", role: "Pro-To-Pitch Startups", icon: Sparkles, color: "text-amber-400" },
             { name: "GECS Esports Guild", role: "BGMI & Free Fire", icon: Gamepad2, color: "text-emerald-400" },
-          ].map((club, idx) => (
+          ].map((club) => (
             <div 
-              key={idx}
+              key={club.name}
               className="p-4 rounded-2xl bg-[#0b0b11]/85 border border-white/10 glass-card text-center space-y-2 hover:border-white/30 transition-colors"
             >
               <div className="w-10 h-10 mx-auto rounded-xl bg-black/60 flex items-center justify-center border border-white/10">
@@ -745,6 +746,7 @@ export const TechySheikhpuraPage: React.FC = () => {
         <div className="flex justify-center">
           <div className="flex p-1.5 rounded-xl bg-[#0b0b11] border border-white/15 font-mono text-xs">
             <button
+              type="button"
               onClick={() => { playClickSound(); setSelectedDay('Day 1'); }}
               className={`px-6 py-2.5 rounded-lg font-bold transition-all ${
                 selectedDay === 'Day 1'
@@ -755,6 +757,7 @@ export const TechySheikhpuraPage: React.FC = () => {
               Day 1 • Nov 28, 2026
             </button>
             <button
+              type="button"
               onClick={() => { playClickSound(); setSelectedDay('Day 2'); }}
               className={`px-6 py-2.5 rounded-lg font-bold transition-all ${
                 selectedDay === 'Day 2'
@@ -769,9 +772,9 @@ export const TechySheikhpuraPage: React.FC = () => {
 
         {/* Schedule List */}
         <div className="space-y-4">
-          {filteredSchedule.map((slot, idx) => (
+          {filteredSchedule.map((slot) => (
             <div
-              key={idx}
+              key={`${slot.day}-${slot.time}-${slot.title}`}
               className="p-5 sm:p-6 rounded-2xl bg-[#0b0b11]/85 border border-white/10 hover:border-white/30 glass-card flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors"
             >
               <div className="space-y-1">
@@ -816,10 +819,11 @@ export const TechySheikhpuraPage: React.FC = () => {
             const isOpen = openFaqIndex === idx;
             return (
               <div
-                key={idx}
+                key={faq.q}
                 className="rounded-2xl bg-[#0b0b11]/85 border border-white/10 glass-card overflow-hidden"
               >
                 <button
+                  type="button"
                   onClick={() => { playClickSound(); setOpenFaqIndex(isOpen ? null : idx); }}
                   className="w-full p-5 text-left flex items-center justify-between text-sm font-bold text-white hover:text-fuchsia-300 transition-colors"
                 >

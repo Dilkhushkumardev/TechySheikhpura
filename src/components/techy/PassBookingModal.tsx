@@ -265,7 +265,7 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                       {qrCells.map((filled, idx) =>
                         filled ? (
                           <rect
-                            key={idx}
+                            key={`qr-${Math.floor(idx / 13)}-${idx % 13}`}
                             x={idx % 13}
                             y={Math.floor(idx / 13)}
                             width="1"

@@ -101,8 +101,8 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClo
           <div className="space-y-2">
             <h4 className="text-sm font-bold text-white font-display">Rules &amp; Guidelines</h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              {event.rules.map((rule, idx) => (
-                <li key={idx} className="flex items-start gap-2">
+              {event.rules.map((rule) => (
+                <li key={rule} className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-fuchsia-400 shrink-0 mt-0.5" />
                   <span>{rule}</span>
                 </li>
@@ -116,8 +116,8 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClo
               Event Student Coordinators
             </span>
             <div className="flex flex-wrap gap-4 text-slate-300 font-mono">
-              {event.coordinators.map((c, idx) => (
-                <div key={idx} className="flex items-center gap-1.5">
+              {event.coordinators.map((c) => (
+                <div key={`${c.name}-${c.contact}`} className="flex items-center gap-1.5">
                   <Phone className="w-3.5 h-3.5 text-fuchsia-400" />
                   <span>{c.name}: {c.contact}</span>
                 </div>
