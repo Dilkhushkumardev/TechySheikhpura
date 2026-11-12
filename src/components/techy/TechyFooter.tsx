@@ -19,7 +19,7 @@ export const TechyFooter: React.FC = () => {
       <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#020003] to-transparent pointer-events-none" />
 
       {/* Main Content Inner Container (Exact TechVerse section-inner) */}
-      <div className="wh-[32rem] section-inner relative pt-16 text-center sm:pt-20 pb-10">
+      <div className="section-inner relative pt-16 text-center sm:pt-20 pb-10">
         
         {/* Main Title: Syne Font, wide letter-spacing, centered */}
         <h2 className="font-display text-3xl font-semibold tracking-widest text-white sm:text-6xl md:text-7xl lg:text-8xl select-none">

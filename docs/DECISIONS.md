@@ -1,16 +1,9 @@
-# 💡 Architecture Decision Records (ADR)
+# Architecture Decision Records (ADR)
 
-<div align="center">
+> **TechySheikhpura '26** — Permanent Technical Decisions & Design Rationale.
 
-# ⚡ TechySheikhpura '26 — Technical Decisions
-**Permanent Architecture & Design Choices**
-
----
-
-[![Decisions: 6 ADRs](https://img.shields.io/badge/ADRs-6_Recorded-3178C6?style=for-the-badge)](docs/DECISIONS.md)
-[![Architecture: SPA](https://img.shields.io/badge/Type-Single_Page_App-61DAFB?style=for-the-badge)](docs/ARCHITECTURE.md)
-
-</div>
+[![Decisions: 6 ADRs](https://img.shields.io/badge/ADRs-6_Recorded-3178C6?style=for-the-badge)](DECISIONS.md)
+[![Architecture: SPA](https://img.shields.io/badge/Type-Single_Page_App-61DAFB?style=for-the-badge)](ARCHITECTURE.md)
 
 ---
 
@@ -21,7 +14,7 @@
 | **ADR-001** | Vite + React 19 Client SPA over Server Framework | `ACCEPTED` | 2026-11-10 |
 | **ADR-002** | Adoption of TechVerse 1:1 Aesthetic Identity (`#020003`, Syne, Inter) | `ACCEPTED` | 2026-11-10 |
 | **ADR-003** | Authentic Administrative Block Photography as Hero Backdrop | `ACCEPTED` | 2026-11-10 |
-| **ADR-004** | Client-Side Holographic Ticket & Dynamic Confetti Engine | `ACCEPTED` | 2026-11-10 |
+| **ADR-004** | Client-Side Holographic QR Badge & Dynamic Confetti Engine | `ACCEPTED` | 2026-11-10 |
 | **ADR-005** | Elimination of Google Maps & Complex Contact Form | `ACCEPTED` | 2026-11-10 |
 | **ADR-006** | In-Memory Data Model with LocalStorage Ticket Persistence | `ACCEPTED` | 2026-11-10 |
 
@@ -29,58 +22,58 @@
 
 ### ADR-001: Vite + React 19 Client SPA over Server Framework
 
-- **Context:** The college fest requires an ultra-responsive, visually stunning website that loads instantly on mobile 4G networks without cold starts or server latency.
-- **Decision:** Build as a single-page application using Vite 8, React 19, and TypeScript.
+- **Context:** The college fest requires an ultra-responsive website that loads rapidly on mobile 4G networks without cold starts or server latency.
+- **Decision:** Build as a single-page application using Vite 8, React 19, and strict TypeScript.
 - **Consequences:**
-  - *Pros:* Near-instant page loads (~0.4s FCP), zero backend server hosting overhead, sub-second HMR during development.
-  - *Cons:* Dynamic ticket generation relies on client-side state rather than server databases (resolved via LocalStorage).
+  - *Pros:* Rapid initial load, zero backend hosting overhead, instant HMR during development.
+  - *Cons:* Dynamic ticket generation relies on client-side state rather than remote databases (mitigated via LocalStorage persistence).
 
 ---
 
 ### ADR-002: Adoption of TechVerse 1:1 Aesthetic Identity
 
-- **Context:** The user specifically requested a website modeled after `https://techverse-dce.me/` under the identity of GEC Sheikhpura.
-- **Decision:** Use `#020003` deep midnight void, Google Fonts `Syne` and `Inter`, obsidian glass cards, fuchsia/magenta ambient radiance, and clean crowd artwork in the footer.
+- **Context:** The fest identity targets a seamless 1:1 aesthetic alignment with `https://techverse-dce.me/` customized for GEC Sheikhpura.
+- **Decision:** Use `#020003` deep midnight void, Google Fonts `Syne` and `Inter`, obsidian glass cards, fuchsia/magenta ambient radiance, and clean crowd artwork in the footer across every view, modal, and 404 route.
 - **Consequences:**
-  - *Pros:* Delivers the exact premium, futuristic techno-cultural atmosphere desired by the student community.
-  - *Cons:* Requires disciplined styling adherence to prevent accidental theme drift into generic cyan or corporate blue.
+  - *Pros:* Unified visual language with zero jarring cyan/navy remnants.
+  - *Cons:* Requires disciplined token usage across dialogs and utility routes.
 
 ---
 
 ### ADR-003: Authentic Administrative Block Photography as Hero Backdrop
 
-- **Context:** To ensure students and visitors recognize the institution immediately, authentic imagery was essential.
-- **Decision:** Use the real photograph of GEC Sheikhpura Administrative Block (`/gecs-campus.jpg`) as the hero backdrop layered with a midnight gradient overlay.
+- **Context:** Students and visitors should immediately recognize Government Engineering College, Sheikhpura upon landing.
+- **Decision:** Use the authentic photograph of GEC Sheikhpura Administrative Block (`/gecs-campus.jpg`) as the hero backdrop layered with dark radial gradient overlays.
 - **Consequences:**
-  - *Pros:* High institutional pride and authenticity.
-  - *Cons:* Needs careful dark gradient overlay tuning (`brightness-[0.32]` and `contrast-125`) so white text remains perfectly legible.
+  - *Pros:* Strong institutional pride and authenticity.
+  - *Cons:* Requires `brightness-[0.32]` and `contrast-125` filtering so white foreground typography retains high contrast.
 
 ---
 
-### ADR-004: Client-Side Holographic Ticket & Dynamic Confetti Engine
+### ADR-004: Client-Side Holographic QR Badge & Dynamic Confetti Engine
 
-- **Context:** Students booking their fest delegate pass need immediate, celebratory confirmation.
-- **Decision:** Implement `PassBookingModal.tsx` using `canvas-confetti` and generate an animated holographic delegate pass card with a scannable QR code.
+- **Context:** Students booking fest passes expect immediate visual confirmation that works offline without depending on external QR APIs.
+- **Decision:** Implement `PassBookingModal.tsx` with `canvas-confetti` and a deterministic inline SVG QR code matrix rendered from each registration payload.
 - **Consequences:**
-  - *Pros:* Delightful user experience that encourages students to share screenshots on WhatsApp and Instagram.
-  - *Cons:* Requires inclusion of the lightweight `canvas-confetti` package (~12kB).
+  - *Pros:* Instant offline QR rendering and celebratory UX without external network failures.
+  - *Cons:* Lightweight QR matrix visual representation rather than a server-signed cryptographic token.
 
 ---
 
 ### ADR-005: Elimination of Google Maps & Complex Contact Form
 
-- **Context:** The user explicitly instructed to remove the map section and keep the footer clean and identical to the reference image.
-- **Decision:** Remove the Google Maps iframe, secretariat contact box, and replace with the TechVerse panoramic crowd footer with direct student coordinator tel links.
+- **Context:** User directive requested removing the embedded map section and replacing the footer cleanly with the TechVerse crowd banner.
+- **Decision:** Omit Google Maps iframe and complex contact forms in favor of the panoramic crowd footer with direct coordinator `tel:` links.
 - **Consequences:**
-  - *Pros:* Eliminates heavy third-party Google Maps iframe load (~800kB savings) and simplifies the layout.
-  - *Cons:* Users must rely on address text and coordinator phone numbers instead of an interactive map.
+  - *Pros:* Eliminates heavy third-party map embeds and maintains exact visual parity.
+  - *Cons:* Visitors use campus coordinates/address text or direct phone links.
 
 ---
 
 ### ADR-006: In-Memory Data Model with LocalStorage Ticket Persistence
 
-- **Context:** The fest features 14+ events, 3 pass tiers, Day 1 & Day 2 itinerary, and FAQs that do not change frequently during the event.
-- **Decision:** Store all festival domain structures in `src/data/techySheikhpuraData.ts` as strongly-typed TypeScript constants, and persist user-booked passes in `localStorage`.
+- **Context:** Events, pass tiers, schedule slots, and FAQs are static for the duration of the annual festival.
+- **Decision:** Store strongly-typed fest models in `src/data/techySheikhpuraData.ts` and safely serialize booked delegate passes in `localStorage` inside `try/catch` guards.
 - **Consequences:**
-  - *Pros:* Zero latency queries, instant filtering, fully functional offline.
-  - *Cons:* Event schedule edits require code updates rather than an external CMS (appropriate for an annual fest).
+  - *Pros:* Zero query latency, instant search/filter, resilient offline access.
+  - *Cons:* Schedule updates require code deployments.

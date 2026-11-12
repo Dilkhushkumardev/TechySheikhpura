@@ -227,7 +227,7 @@ export const FEST_EVENTS: FestEvent[] = [
     date: "Day 2 (Nov 29)",
     time: "11:30 AM - 02:30 PM",
     venue: "Civil Concrete Testing Bay",
-    image: "https://images.unsplash.com/photo-1541888946425-d0fbb186c5f7?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=800&q=80",
     description: "Construct a lightweight bridge using only standard popsicle sticks and craft glue, and watch it withstand hydraulic tensile and compressive loads till destruction!",
     teamSize: "2 - 3 Members",
     entryFee: "Included in Fest Pass",
@@ -252,7 +252,7 @@ export const FEST_EVENTS: FestEvent[] = [
     description: "Drop onto Erangel! 25 squads clash in competitive custom rooms with official tournament points table (Kill points + Placement points). Live shoutcasting on the big screen.",
     teamSize: "4 Players Squad",
     entryFee: "₹29 / Pass",
-    prizes: "₹8,000 Cash + Winner Chicken Winner Trophies",
+    prizes: "₹8,000 Cash + Winner Trophies",
     rules: [
       "Mobile phones only; strictly no emulators, iPads, or triggers allowed.",
       "Anti-cheat screencasting checks before and during matches.",
@@ -326,6 +326,49 @@ export const FEST_EVENTS: FestEvent[] = [
       { name: "Priya Ranjan (ECE)", contact: "+91 98765 43223" }
     ],
   },
+  {
+    id: "webcraft",
+    title: "WebCraft Studio",
+    tagline: "Rapid Responsive UI/UX & Full-Stack Web Sprint",
+    category: "Coding",
+    date: "Day 1 (Nov 28)",
+    time: "01:00 PM - 04:00 PM",
+    venue: "Lab-2, CSE Department",
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",
+    description: "Build and deploy a responsive, accessible modern web experience from a live problem prompt within 3 hours using React, Tailwind, or vanilla Web APIs.",
+    teamSize: "1 - 2 Members",
+    entryFee: "Included in Fest Pass",
+    prizes: "₹6,000 + Dev Swag Kits",
+    rules: [
+      "Themes and Figma wireframes revealed live at the start of the round.",
+      "AI boilerplate generators restricted; clean custom code is evaluated.",
+      "Judging covers responsive layout, performance, accessibility, and polish.",
+    ],
+    coordinators: [
+      { name: "Dilkhush Kumar (CSE)", contact: "+91 98765 43224" }
+    ],
+  },
+  {
+    id: "technocross",
+    title: "TechnoCross",
+    tagline: "Engineering Crossword & Rapid Logic Puzzle",
+    category: "Fun & Brain",
+    date: "Day 2 (Nov 29)",
+    time: "12:00 PM - 01:30 PM",
+    venue: "Academic Hall A-204",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+    description: "Decode technical crossword grids, algorithmic riddles, and core engineering trivia under a ticking countdown clock.",
+    teamSize: "Solo (Individual)",
+    entryFee: "Included in Fest Pass",
+    prizes: "₹4,000 + Certificates & Trophies",
+    rules: [
+      "Printed grid round followed by rapid-fire tie-breaker puzzles.",
+      "No phones or external search tools allowed inside the hall.",
+    ],
+    coordinators: [
+      { name: "Ankit Raj (EE)", contact: "+91 98765 43225" }
+    ],
+  },
 ];
 
 export const FEST_PASSES: FestPass[] = [
@@ -336,7 +379,7 @@ export const FEST_PASSES: FestPass[] = [
     originalPrice: 299,
     tagline: "The Definitive Access Pass to TechySheikhpura '26",
     isPopular: true,
-    accessScope: "Full access across all 12+ technical, coding, robotics, and design events",
+    accessScope: "Full access across all 14+ technical, coding, robotics, and design events",
     features: [
       "Unlimited participation in HackArena, Track-O-Bot, AeroStrike, Speed Stroke, Pro-To-Pitch & Decode GECS",
       "Official TechySheikhpura delegate lanyard and physical fest kit",

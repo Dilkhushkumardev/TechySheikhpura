@@ -121,8 +121,8 @@
 
 .animate-marquee {
   display: flex;
-  width: 200%;
-  animation: marquee 25s linear infinite;
+  width: max-content;
+  animation: marquee 28s linear infinite;
 }
 .animate-marquee:hover {
   animation-play-state: paused;

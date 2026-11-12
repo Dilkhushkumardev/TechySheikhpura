@@ -1,30 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Sparkles, 
-  MapPin, 
-  Award, 
-  Clock, 
-  Ticket, 
-  CheckCircle2, 
-  Code2, 
-  Bot, 
-  Plane, 
-  Gamepad2, 
-  ChevronDown, 
-  Volume2, 
-  VolumeX, 
-  Flame, 
-  Radio, 
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Sparkles,
+  MapPin,
+  Award,
+  Clock,
+  Ticket,
+  CheckCircle2,
+  Code2,
+  Bot,
+  Plane,
+  Gamepad2,
+  ChevronDown,
+  Volume2,
+  VolumeX,
+  Flame,
+  Radio,
   Search
 } from 'lucide-react';
-import { 
-  FEST_INFO, 
-  FEST_EVENTS, 
-  FEST_PASSES, 
-  FEST_SCHEDULE, 
-  FEST_FAQS, 
-  FestEvent 
+import {
+  FEST_INFO,
+  FEST_EVENTS,
+  FEST_PASSES,
+  FEST_SCHEDULE,
+  FEST_FAQS,
+  type FestEvent
 } from '../data/techySheikhpuraData';
+
+interface AudioContextWindow extends Window {
+  webkitAudioContext?: typeof AudioContext;
+}
 import { CountdownTimer } from '../components/techy/CountdownTimer';
 import { TechyNavbar } from '../components/techy/TechyNavbar';
 import { TechyFooter } from '../components/techy/TechyFooter';
@@ -42,6 +46,7 @@ export const TechySheikhpuraPage: React.FC = () => {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [activeTickerIndex, setActiveTickerIndex] = useState(0);
+  const audioCtxRef = useRef<AudioContext | null>(null);
 
   // Live registration activity stream ticker
   const activityStream = [
@@ -69,6 +74,26 @@ export const TechySheikhpuraPage: React.FC = () => {
     }, 4500);
     return () => clearInterval(interval);
   }, [activityStream.length]);
+
+  // Cleanup audio context on unmount
+  useEffect(() => {
+    return () => {
+      if (audioCtxRef.current) {
+        audioCtxRef.current.close().catch(() => {});
+        audioCtxRef.current = null;
+      }
+    };
+  }, []);
+
+  // Support scrolling to hash sections when routed from 404 or direct anchor links
+  useEffect(() => {
+    if (window.location.hash) {
+      const targetEl = document.querySelector(window.location.hash);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, []);
 
   const eventCategories = [
     'All',
@@ -101,10 +126,21 @@ export const TechySheikhpuraPage: React.FC = () => {
     setPassModalOpen(true);
   };
 
-  const playClickSound = () => {
-    if (!soundEnabled) return;
+  const playClickSound = (forceEnable?: boolean) => {
+    if (!forceEnable && !soundEnabled) return;
     try {
-      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const audioWindow = window as AudioContextWindow;
+      const AudioCtor = window.AudioContext || audioWindow.webkitAudioContext;
+      if (!AudioCtor) return;
+
+      if (!audioCtxRef.current || audioCtxRef.current.state === 'closed') {
+        audioCtxRef.current = new AudioCtor();
+      }
+      const audioCtx = audioCtxRef.current;
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'sine';
@@ -116,7 +152,9 @@ export const TechySheikhpuraPage: React.FC = () => {
       gain.connect(audioCtx.destination);
       osc.start();
       osc.stop(audioCtx.currentTime + 0.08);
-    } catch {}
+    } catch {
+      // Audio playback blocked by browser autoplay policy
+    }
   };
 
   return (
@@ -132,12 +170,15 @@ export const TechySheikhpuraPage: React.FC = () => {
 
       {/* Floating Sound FX Toggle Button */}
       <button
+        type="button"
         onClick={() => {
-          setSoundEnabled(!soundEnabled);
-          playClickSound();
+          const nextState = !soundEnabled;
+          setSoundEnabled(nextState);
+          if (nextState) playClickSound(true);
         }}
         className="fixed bottom-6 right-6 z-40 p-3 rounded-2xl bg-black/70 border border-white/20 text-white hover:text-fuchsia-300 shadow-xl backdrop-blur-xl transition-all hover:scale-110 flex items-center gap-2 text-xs font-mono"
         title="Toggle Audio Effects"
+        aria-label={soundEnabled ? 'Mute sound effects' : 'Enable sound effects'}
       >
         {soundEnabled ? (
           <>
@@ -180,7 +221,7 @@ export const TechySheikhpuraPage: React.FC = () => {
         </div>
 
         {/* Ambient Subtle Glow Orbs */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-fuchsia-600/10 blur-[170px] rounded-full pointer-events-none z-1"></div>
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-fuchsia-600/10 blur-[170px] rounded-full pointer-events-none z-[1]"></div>
         <div className="absolute top-10 left-10 w-72 h-72 bg-purple-600/15 blur-[130px] rounded-full pointer-events-none"></div>
         <div className="absolute bottom-20 right-10 w-80 h-80 bg-pink-600/15 blur-[140px] rounded-full pointer-events-none"></div>
 
@@ -239,7 +280,7 @@ export const TechySheikhpuraPage: React.FC = () => {
           <div className="pt-2 flex flex-wrap items-center justify-center gap-4 font-mono">
             <a
               href="#events"
-              onClick={playClickSound}
+              onClick={() => playClickSound()}
               className="px-8 py-4 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-black text-xs uppercase tracking-wider hover:opacity-95 shadow-glow-fuchsia flex items-center gap-2.5 transition-all hover:scale-105"
             >
               <Sparkles className="w-4 h-4 animate-pulse" />
@@ -247,6 +288,7 @@ export const TechySheikhpuraPage: React.FC = () => {
             </a>
 
             <button
+              type="button"
               onClick={() => { playClickSound(); handleOpenPass('all-events-pass'); }}
               className="px-8 py-4 rounded-xl bg-black/60 hover:bg-black/90 text-white border border-white/30 hover:border-white/60 font-black text-xs uppercase tracking-wider transition-all hover:scale-105 flex items-center gap-2.5 backdrop-blur-md shadow-2xl"
             >
@@ -256,7 +298,7 @@ export const TechySheikhpuraPage: React.FC = () => {
 
             <a
               href="#schedule"
-              onClick={playClickSound}
+              onClick={() => playClickSound()}
               className="px-6 py-4 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 font-bold text-xs uppercase tracking-wider transition-colors flex items-center gap-2"
             >
               <Clock className="w-4 h-4 text-fuchsia-400" />
@@ -300,33 +342,38 @@ export const TechySheikhpuraPage: React.FC = () => {
       <div className="relative py-3.5 bg-[#050308] border-y border-white/10 overflow-hidden shadow-2xl">
         <div className="absolute inset-0 bg-gradient-to-r from-[#020003] via-transparent to-[#020003] z-10 pointer-events-none"></div>
         <div className="flex whitespace-nowrap animate-marquee font-mono text-xs font-bold text-white/90 tracking-wider">
-          <span className="mx-4 flex items-center gap-2">
-            <Flame className="w-4 h-4 text-amber-400" /> HACKARENA: 24-HOUR CODE SPRINT
-          </span>
-          <span className="mx-4 text-slate-600">•</span>
-          <span className="mx-4 flex items-center gap-2">
-            <Bot className="w-4 h-4 text-fuchsia-400" /> TRACK-O-BOT: AUTONOMOUS LINE FOLLOWING
-          </span>
-          <span className="mx-4 text-slate-600">•</span>
-          <span className="mx-4 flex items-center gap-2">
-            <Plane className="w-4 h-4 text-blue-400" /> AEROSTRIKE: DRONE OBSTACLE DERBY
-          </span>
-          <span className="mx-4 text-slate-600">•</span>
-          <span className="mx-4 flex items-center gap-2">
-            <Gamepad2 className="w-4 h-4 text-emerald-400" /> ESPORTS: BGMI & FREE FIRE SQUAD BATTLE
-          </span>
-          <span className="mx-4 text-slate-600">•</span>
-          <span className="mx-4 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-purple-400" /> PRO-TO-PITCH: STARTUP ARENA
-          </span>
-          <span className="mx-4 text-slate-600">•</span>
-          <span className="mx-4 flex items-center gap-2">
-            <Award className="w-4 h-4 text-amber-400" /> ₹75,000+ CASH REWARDS POOL
-          </span>
-          <span className="mx-4 text-slate-600">•</span>
-          <span className="mx-4 text-white">
-            GOVERNMENT ENGINEERING COLLEGE, SHEIKHPURA
-          </span>
+          {[0, 1].map((dupIdx) => (
+            <div key={dupIdx} aria-hidden={dupIdx === 1} className="flex items-center shrink-0">
+              <span className="mx-4 flex items-center gap-2">
+                <Flame className="w-4 h-4 text-amber-400" /> HACKARENA: 24-HOUR CODE SPRINT
+              </span>
+              <span className="mx-4 text-slate-600">•</span>
+              <span className="mx-4 flex items-center gap-2">
+                <Bot className="w-4 h-4 text-fuchsia-400" /> TRACK-O-BOT: AUTONOMOUS LINE FOLLOWING
+              </span>
+              <span className="mx-4 text-slate-600">•</span>
+              <span className="mx-4 flex items-center gap-2">
+                <Plane className="w-4 h-4 text-blue-400" /> AEROSTRIKE: DRONE OBSTACLE DERBY
+              </span>
+              <span className="mx-4 text-slate-600">•</span>
+              <span className="mx-4 flex items-center gap-2">
+                <Gamepad2 className="w-4 h-4 text-emerald-400" /> ESPORTS: BGMI &amp; FREE FIRE SQUAD BATTLE
+              </span>
+              <span className="mx-4 text-slate-600">•</span>
+              <span className="mx-4 flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-purple-400" /> PRO-TO-PITCH: STARTUP ARENA
+              </span>
+              <span className="mx-4 text-slate-600">•</span>
+              <span className="mx-4 flex items-center gap-2">
+                <Award className="w-4 h-4 text-amber-400" /> ₹75,000+ CASH REWARDS POOL
+              </span>
+              <span className="mx-4 text-slate-600">•</span>
+              <span className="mx-4 text-white">
+                GOVERNMENT ENGINEERING COLLEGE, SHEIKHPURA
+              </span>
+              <span className="mx-4 text-slate-600">•</span>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -546,7 +593,11 @@ export const TechySheikhpuraPage: React.FC = () => {
                     View Rules
                   </button>
                   <button
-                    onClick={() => { playClickSound(); handleOpenPass('all-events-pass'); }}
+                    type="button"
+                    onClick={() => {
+                      playClickSound();
+                      handleOpenPass(ev.id.startsWith('esports-') ? 'esports-pass' : 'all-events-pass');
+                    }}
                     className="py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-bold uppercase tracking-wider hover:opacity-95"
                   >
                     Register
@@ -790,17 +841,21 @@ export const TechySheikhpuraPage: React.FC = () => {
       <TechyFooter />
 
       {/* Pass Booking Modal */}
-      <PassBookingModal
-        isOpen={passModalOpen}
-        onClose={() => setPassModalOpen(false)}
-        selectedPassId={selectedPassId}
-      />
+      {passModalOpen && (
+        <PassBookingModal
+          isOpen={passModalOpen}
+          onClose={() => setPassModalOpen(false)}
+          selectedPassId={selectedPassId}
+        />
+      )}
 
       {/* Event Details Modal */}
       <EventDetailModal
         event={activeEventForModal}
         onClose={() => setActiveEventForModal(null)}
-        onRegister={() => handleOpenPass('all-events-pass')}
+        onRegister={(eventId) =>
+          handleOpenPass(eventId.startsWith('esports-') ? 'esports-pass' : 'all-events-pass')
+        }
       />
     </div>
   );

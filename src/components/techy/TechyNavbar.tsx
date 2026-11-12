@@ -109,7 +109,10 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
               Passes
             </button>
             <button
+              type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen}
               className="p-2 text-slate-300 hover:text-white rounded-lg bg-white/5 border border-white/10"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -120,7 +123,7 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#020003]/98 border-b border-white/10 px-4 py-6 space-y-3 font-mono text-xs animate-in slide-in-from-top duration-200">
+        <div className="lg:hidden bg-[#020003]/95 backdrop-blur-xl border-b border-white/10 px-4 py-6 space-y-3 font-mono text-xs transition-all duration-200">
           {navItems.map((item) => (
             <a
               key={item.name}

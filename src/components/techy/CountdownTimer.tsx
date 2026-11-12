@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-export const CountdownTimer: React.FC = () => {
-  // Target: Nov 28, 2026, 09:00:00 AM IST
-  const targetDate = new Date('2026-11-28T09:00:00+05:30').getTime();
+// Target: Nov 28, 2026, 09:00:00 AM IST
+const TARGET_TIMESTAMP = new Date('2026-11-28T09:00:00+05:30').getTime();
 
+export const CountdownTimer: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -13,8 +13,8 @@ export const CountdownTimer: React.FC = () => {
 
   useEffect(() => {
     const calculateTime = () => {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
+      const now = Date.now();
+      const difference = TARGET_TIMESTAMP - now;
 
       if (difference <= 0) {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -32,7 +32,7 @@ export const CountdownTimer: React.FC = () => {
     calculateTime();
     const timer = setInterval(calculateTime, 1000);
     return () => clearInterval(timer);
-  }, [targetDate]);
+  }, []);
 
   const units = [
     { label: 'DAYS', value: String(timeLeft.days).padStart(2, '0') },
@@ -49,7 +49,7 @@ export const CountdownTimer: React.FC = () => {
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-fuchsia-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2 w-2 bg-fuchsia-500"></span>
         </span>
-        <span>HACKATHON & ARENAS COUNTDOWN</span>
+        <span>HACKATHON &amp; ARENAS COUNTDOWN</span>
       </div>
 
       <div className="flex items-center justify-center gap-2 sm:gap-4 font-mono">
