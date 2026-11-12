@@ -42,7 +42,7 @@ Build Verification : Built in 1.61s (JS: 358.31 kB / gzip 109.63 kB, CSS: 37.33 
 
 ## 3. Active Architecture Constraints & User Preferences
 
-1. **Exact TechVerse 1:1 Match:**
+1. **Midnight Cyber Identity:**
    - Dark void `#020003` background across main view, modals, and 404 route.
    - Google Fonts `Oxanium` (`500–800`), `Space Grotesk` (`500–700`), `Plus Jakarta Sans` (`400–800`), and `Barlow Condensed` (`500–700`).
    - Footer maintains the exact clean crowd illustration with giant outlined `GEC SHEIKHPURA` typography.

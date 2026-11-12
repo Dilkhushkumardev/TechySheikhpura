@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320" role="img" aria-label="TechySheikhpura '26 — GEC Sheikhpura Flagship Technical Festival">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020003" />
+      <stop offset="50%" stop-color="#11041b" />
+      <stop offset="100%" stop-color="#050714" />
+    </linearGradient>
+    <radialGradient id="glowLeft" cx="18%" cy="22%" r="48%">
+      <stop offset="0%" stop-color="#d946ef" stop-opacity="0.34" />
+      <stop offset="100%" stop-color="#d946ef" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glowRight" cx="84%" cy="78%" r="48%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.28" />
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="55%" stop-color="#f5d0fe" />
+      <stop offset="100%" stop-color="#67e8f9" />
+    </linearGradient>
+    <linearGradient id="strokeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d946ef" stop-opacity="0.65" />
+      <stop offset="50%" stop-color="#a855f7" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.65" />
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="320" rx="20" fill="url(#bg)" />
+  <rect width="1200" height="320" rx="20" fill="url(#grid)" />
+  <rect width="1200" height="320" rx="20" fill="url(#glowLeft)" />
+  <rect width="1200" height="320" rx="20" fill="url(#glowRight)" />
+  <rect x="1.5" y="1.5" width="1197" height="317" rx="19" fill="none" stroke="url(#strokeGrad)" stroke-width="2" />
+
+  <!-- Top Pill Badge -->
+  <rect x="415" y="42" width="370" height="34" rx="17" fill="#1b0a2a" stroke="#d946ef" stroke-opacity="0.55" stroke-width="1.2" />
+  <circle cx="437" cy="59" r="4.5" fill="#10b981" />
+  <text x="608" y="64" text-anchor="middle" fill="#f5d0fe" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="2">
+    GEC SHEIKHPURA  •  NOV 28–29, 2026
+  </text>
+
+  <!-- Main Display Title -->
+  <text x="600" y="152" text-anchor="middle" fill="url(#titleGrad)" font-family="'Segoe UI', Arial, sans-serif" font-size="68" font-weight="800" letter-spacing="3">
+    TECHYSHEIKHPURA '26
+  </text>
+
+  <!-- Tagline -->
+  <text x="600" y="198" text-anchor="middle" fill="#e2e8f0" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="500" letter-spacing="1">
+    Where Ideas Meet Innovation  •  Flagship Technical &amp; Esports Fest
+  </text>
+
+  <!-- Bottom Feature Pills -->
+  <g font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" text-anchor="middle">
+    <rect x="200" y="238" width="175" height="36" rx="10" fill="#12091c" stroke="#d946ef" stroke-opacity="0.45" />
+    <text x="287.5" y="261" fill="#f0abfc">14+ TECH EVENTS</text>
+
+    <rect x="395" y="238" width="190" height="36" rx="10" fill="#12091c" stroke="#a855f7" stroke-opacity="0.45" />
+    <text x="490" y="261" fill="#d8b4fe">₹75,000+ PRIZES</text>
+
+    <rect x="605" y="238" width="190" height="36" rx="10" fill="#12091c" stroke="#06b6d4" stroke-opacity="0.45" />
+    <text x="700" y="261" fill="#67e8f9">NODE 24 + SQLITE</text>
+
+    <rect x="815" y="238" width="185" height="36" rx="10" fill="#12091c" stroke="#10b981" stroke-opacity="0.45" />
+    <text x="907.5" y="261" fill="#6ee7b7">QR PASS PORTAL</text>
+  </g>
+</svg>

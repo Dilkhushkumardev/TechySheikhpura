@@ -3,7 +3,7 @@
 > **TechySheikhpura '26** — *Where Ideas Meet Innovation* | Government Engineering College, Sheikhpura (GEC Sheikhpura), Bihar.
 
 [![Status: Production Ready](https://img.shields.io/badge/Status-Production_Ready-10B981?style=for-the-badge)](TASKS.md)
-[![Design: TechVerse Style](https://img.shields.io/badge/Design-TechVerse_Aesthetic-d45d8c?style=for-the-badge)](DESIGN.md)
+[![Design: Midnight Cyber](https://img.shields.io/badge/Design-Midnight_Cyber_UI-d45d8c?style=for-the-badge)](DESIGN.md)
 [![Architecture: SPA](https://img.shields.io/badge/Platform-Responsive_Web_SPA-61DAFB?style=for-the-badge)](ARCHITECTURE.md)
 
 ---
@@ -12,7 +12,7 @@
 
 **TechySheikhpura '26** is the official flagship annual intra-college techno-cultural and innovation festival web platform for **Government Engineering College, Sheikhpura (GEC Sheikhpura)**.
 
-Designed with an aesthetic inspired by `techverse-dce.me`, the platform serves as the central digital hub for **1,200+ engineering students** across all departments to explore competitions, inspect rulebooks, book subsidized delegate passes, generate holographic QR delegate passes, and track the two-day festival schedule.
+Designed with a custom dark pitch-midnight cyber aesthetic, the platform serves as the central digital hub for **1,200+ engineering students** across all departments to explore competitions, inspect rulebooks, book subsidized delegate passes, generate holographic QR delegate passes, and track the two-day festival schedule.
 
 ---
 
@@ -36,7 +36,7 @@ flowchart TD
 
     B --> M["Day 1 vs Day 2 Schedule Switcher"]
     B --> N["FAQs Clarifications Accordion"]
-    B --> O["TechVerse Crowd Footer with GEC SHEIKHPURA"]
+    B --> O["Twilight Crowd Footer with GEC SHEIKHPURA"]
 ```
 
 ---
@@ -96,6 +96,6 @@ flowchart TD
 ## 6. Key Success Metrics (KPIs)
 
 - **Page Load Time:** Under 1.5s on 4G mobile connections.
-- **Visual Satisfaction:** 100% adherence to the dark futuristic TechVerse theme (`#020003`).
+- **Visual Satisfaction:** 100% adherence to the dark futuristic midnight theme (`#020003`).
 - **Pass Generation:** Instant client-side holographic QR pass generation with zero server delay.
 - **Accessibility:** High-contrast text compliance and Escape/keyboard-navigable dialogs.

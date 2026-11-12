@@ -12,7 +12,7 @@
 | ADR ID | Decision Title | Status | Date |
 |---|---|---|---|
 | **ADR-001** | Vite + React 19 Client SPA over Server Framework | `ACCEPTED` | 2026-11-10 |
-| **ADR-002** | Adoption of TechVerse Dark Void & Futuristic Font System (`#020003`, Oxanium, Plus Jakarta Sans) | `ACCEPTED` | 2026-11-10 |
+| **ADR-002** | Adoption of Midnight Dark Void & Futuristic Font System (`#020003`, Oxanium, Plus Jakarta Sans) | `ACCEPTED` | 2026-11-10 |
 | **ADR-003** | Authentic Administrative Block Photography as Hero Backdrop | `ACCEPTED` | 2026-11-10 |
 | **ADR-004** | Client-Side Holographic QR Badge & Dynamic Confetti Engine | `ACCEPTED` | 2026-11-10 |
 | **ADR-005** | Elimination of Google Maps & Complex Contact Form | `ACCEPTED` | 2026-11-10 |
@@ -30,9 +30,9 @@
 
 ---
 
-### ADR-002: Adoption of TechVerse 1:1 Aesthetic Identity
+### ADR-002: Adoption of Midnight Cyber Aesthetic Identity
 
-- **Context:** The fest identity targets a seamless 1:1 aesthetic alignment with `https://techverse-dce.me/` customized for GEC Sheikhpura.
+- **Context:** The fest identity targets a cohesive futuristic midnight aesthetic customized for GEC Sheikhpura.
 - **Decision:** Use `#020003` deep midnight void, Google Fonts `Oxanium`, `Space Grotesk`, `Plus Jakarta Sans`, and `Barlow Condensed`, obsidian glass cards, fuchsia/magenta ambient radiance, and custom AI twilight artwork in the footer across every view, modal, and 404 route.
 - **Consequences:**
   - *Pros:* Unified visual language with zero jarring cyan/navy remnants.
@@ -62,7 +62,7 @@
 
 ### ADR-005: Elimination of Google Maps & Complex Contact Form
 
-- **Context:** User directive requested removing the embedded map section and replacing the footer cleanly with the TechVerse crowd banner.
+- **Context:** User directive requested removing the embedded map section and replacing the footer cleanly with the custom twilight banner.
 - **Decision:** Omit Google Maps iframe and complex contact forms in favor of the panoramic crowd footer with direct coordinator `tel:` links.
 - **Consequences:**
   - *Pros:* Eliminates heavy third-party map embeds and maintains exact visual parity.

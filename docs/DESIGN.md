@@ -1,6 +1,6 @@
 # Design System & Visual Guidelines
 
-> **TechVerse Aesthetic Specifications** — Visual Design Identity for TechySheikhpura '26 at Government Engineering College, Sheikhpura.
+> **Visual Aesthetic Specifications** — Midnight Cyber Design Identity for TechySheikhpura '26 at Government Engineering College, Sheikhpura.
 
 [![Theme: Void #020003](https://img.shields.io/badge/Base_Theme-%23020003-black?style=for-the-badge)](DESIGN.md)
 [![Typography: Oxanium](https://img.shields.io/badge/Heading_Font-Oxanium-d45d8c?style=for-the-badge)](https://fonts.google.com/specimen/Oxanium)
@@ -10,7 +10,7 @@
 
 ## 1. Design Philosophy
 
-The design system for **TechySheikhpura '26** is modeled directly after the `https://techverse-dce.me/` intra-college fest experience:
+The design system for **TechySheikhpura '26** establishes a cohesive pitch-midnight engineering festival experience for GEC Sheikhpura:
 
 - **Pitch Midnight Void:** A deep `#020003` canvas with minimal visual noise.
 - **Glassmorphic Obsidian Cards:** Translucent dark cards (`#0b0b11`) with subtle crisp borders.
@@ -33,9 +33,9 @@ The design system for **TechySheikhpura '26** is modeled directly after the `htt
 |---|---|---|---|---|
 | Void | `bg-void` | `#020003` | `rgb(2, 0, 3)` | Primary body canvas & page background |
 | Obsidian | `bg-card` | `#0b0b11` | `rgb(11, 11, 17)` | Surface background for cards and modals |
-| Fuchsia | `techverse-fuchsia` | `#d45d8c` | `rgb(212, 93, 140)` | Accent borders, countdown accents, CTAs |
-| Pink | `techverse-pink` | `#ff8cb8` | `rgb(255, 140, 184)` | Gradient text highlights |
-| Violet | `techverse-violet` | `#e293e0` | `rgb(226, 147, 224)` | Shimmer text transitions & glows |
+| Fuchsia | `accent-fuchsia` | `#d45d8c` | `rgb(212, 93, 140)` | Accent borders, countdown accents, CTAs |
+| Pink | `accent-pink` | `#ff8cb8` | `rgb(255, 140, 184)` | Gradient text highlights |
+| Violet | `accent-violet` | `#e293e0` | `rgb(226, 147, 224)` | Shimmer text transitions & glows |
 | White | `text-pure-white` | `#ffffff` | `rgb(255, 255, 255)` | Primary titles & high-contrast headings |
 | Slate | `text-slate-muted` | `#94a3b8` | `rgb(148, 163, 184)` | Body copy & secondary metadata |
 
