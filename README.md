@@ -1,12 +1,20 @@
-<h1 align="center">⚡ TechySheikhpura '26</h1>
+<div align="center">
 
-<p align="center">
+<a href="https://dilkhushkumardev.github.io/TechySheikhpura/">
+  <img src="public/footer-bg.jpg" alt="TechySheikhpura '26 — GEC Sheikhpura Flagship Technical Festival" width="100%" />
+</a>
+
+<br />
+
+<h1>⚡ TechySheikhpura '26</h1>
+
+<p>
   <strong>"Where Ideas Meet Innovation"</strong><br />
   Official Annual Intra-College Technical, Robotics, Coding &amp; Esports Festival Portal<br />
   <strong>Government Engineering College, Sheikhpura (GEC Sheikhpura), Bihar</strong>
 </p>
 
-<p align="center">
+<p>
   <a href="https://dilkhushkumardev.github.io/TechySheikhpura/">
     <img src="https://img.shields.io/badge/LIVE_DEMO-GitHub_Pages-D946EF?style=for-the-badge&amp;logo=githubpages&amp;logoColor=white" alt="Live Demo" />
   </a>
@@ -21,7 +29,7 @@
   </a>
 </p>
 
-<p align="center">
+<p>
   <img src="https://img.shields.io/badge/React-19.3-61DAFB?style=flat-square&amp;logo=react&amp;logoColor=black" alt="React 19.3" />
   <img src="https://img.shields.io/badge/TypeScript-7.0-3178C6?style=flat-square&amp;logo=typescript&amp;logoColor=white" alt="TypeScript 7.0" />
   <img src="https://img.shields.io/badge/Vite-8.3-646CFF?style=flat-square&amp;logo=vite&amp;logoColor=white" alt="Vite 8.3" />
@@ -31,32 +39,34 @@
   <img src="https://img.shields.io/badge/Oxlint-0_Errors-10B981?style=flat-square" alt="Oxlint Zero Errors" />
 </p>
 
-<div align="center">
-
-[**🌐 Live Site**](https://dilkhushkumardev.github.io/TechySheikhpura/) • [**✨ Highlights**](#highlights) • [**🎟️ Passes &amp; Events**](#passes-and-events) • [**🏗️ Architecture**](#system-architecture) • [**🗄️ Database &amp; API**](#database-and-rest-api) • [**🚀 Quick Start**](#quick-start) • [**📚 Docs**](#documentation-hub)
-
-[![TechySheikhpura '26 Twilight Banner](public/footer-bg.jpg)](https://dilkhushkumardev.github.io/TechySheikhpura/)
+[**🌐 Live Site**](https://dilkhushkumardev.github.io/TechySheikhpura/) &nbsp;•&nbsp; [**✨ Highlights**](#highlights) &nbsp;•&nbsp; [**🎟️ Passes &amp; Events**](#passes-and-events) &nbsp;•&nbsp; [**🏗️ Architecture**](#system-architecture) &nbsp;•&nbsp; [**🗄️ Database &amp; API**](#database-and-rest-api) &nbsp;•&nbsp; [**🚀 Quick Start**](#quick-start) &nbsp;•&nbsp; [**📚 Docs**](#documentation-hub)
 
 </div>
 
 ---
 
+<div align="center">
+
 > **🌐 Live Public Portal:** **[dilkhushkumardev.github.io/TechySheikhpura](https://dilkhushkumardev.github.io/TechySheikhpura/)**
 >
-> GitHub Pages serves the full responsive frontend, **14 events**, **HUD countdown**, **Dilkhush | Amrita | Ashish** organizer contacts, and offline/localStorage QR pass generation. Run `npm run dev` locally to unlock the **shared 17-table SQLite database, `/api/*` endpoints, and Organizer Admin Desk (`/admin`)**.
+> GitHub Pages serves the full responsive frontend, **14 events**, **live HUD countdown**, **Dilkhush | Amrita | Ashish** organizer contacts, and offline/localStorage QR pass generation. Run `npm run dev` locally to unlock the **shared 17-table SQLite database, `/api/*` endpoints, and Organizer Admin Desk (`/admin`)**.
+
+</div>
 
 ---
 
+<div align="center">
+
 ## Highlights
 
-<table>
+<table width="100%">
   <tr>
-    <td width="45%" valign="top">
+    <td width="46%" valign="top" align="center">
       <img src="public/gecs-campus.jpg" alt="GEC Sheikhpura Administrative Block" width="100%" />
       <p align="center"><sub><strong>GEC Sheikhpura Administrative Block</strong> • NH-333A, Mehus, Bihar</sub></p>
     </td>
-    <td width="55%" valign="top">
-      <h3>🌌 Pitch-Midnight Cyber Fest Experience</h3>
+    <td width="54%" valign="top" align="left">
+      <h3 align="center">🌌 Pitch-Midnight Cyber Fest Experience</h3>
       <ul>
         <li><strong>TechVerse Aesthetic (<code>#020003</code>):</strong> High-contrast obsidian cards (<code>#0b0b11</code>), neon fuchsia/cyan accents, ambient <code>ParticleCanvas</code>, and <code>Oxanium</code> + <code>Space Grotesk</code> display typography.</li>
         <li><strong>Live HUD Countdown:</strong> Real-time Days : Hours : Minutes : Seconds ticker locked to <strong>November 28–29, 2026</strong>.</li>
@@ -68,10 +78,8 @@
   </tr>
 </table>
 
-<div align="center">
-
 | Key Metric | Value | Scope |
-| :--- | :---: | :--- |
+| :---: | :---: | :---: |
 | **Competitive Events** | `14` | Coding, Robotics, Aero &amp; Drone, Startup, Mechanical/Civil, Esports &amp; Brain |
 | **Prize Pool &amp; Reach** | `₹75,000+` | 1,200+ Expected Innovators across 2 Days |
 | **Delegate Pass Tiers** | `3` | E-Sports (`₹29`), All-Events (`₹149`), VIP Innovator (`₹199`) |
@@ -82,12 +90,14 @@
 
 ---
 
+<div align="center">
+
 ## Passes and Events
 
 ### Subsidized Delegate Pass Tiers
 
 | Pass Tier | Fee | Original | Access Scope &amp; Included Perks |
-| :--- | :---: | :---: | :--- |
+| :---: | :---: | :---: | :---: |
 | **E-Sports Arena Pass** | **₹29** | ~~₹79~~ | Dedicated slot for BGMI Battle Royale &amp; Free Fire Clash + verified digital QR pass |
 | **All-Events Fest Pass** ⭐ | **₹149** | ~~₹299~~ | Full access to technical, coding, robotics, drone &amp; pitch events + food coupons &amp; digital certificates |
 | **VIP Innovator Pass** | **₹199** | ~~₹499~~ | Priority all-event entry + HackArena mentor lounge, hardware toolkit access &amp; commemorative merch |
@@ -98,7 +108,7 @@
 <br />
 
 | Event | Category | Day &amp; Venue | Highlights |
-| :--- | :--- | :--- | :--- |
+| :---: | :---: | :---: | :---: |
 | **HackArena** | Coding | Day 1 • Central Computing Center | 24-hour code sprint (`₹18,000` + trophies) |
 | **Track-O-Bot** | Robotics | Day 1 • Central Robotic Arena | Autonomous line follower &amp; obstacle bot (`₹12,000`) |
 | **AeroStrike** | Aero &amp; Drone | Day 2 • Main Sports Grounds | Precision quadcopter &amp; RC obstacle derby (`₹10,000`) |
@@ -116,7 +126,11 @@
 
 </details>
 
+</div>
+
 ---
+
+<div align="center">
 
 ## System Architecture
 
@@ -147,7 +161,11 @@ flowchart LR
     Schema --> Tx
 ```
 
+</div>
+
 ---
+
+<div align="center">
 
 ## Database and REST API
 
@@ -158,10 +176,14 @@ Built strictly on **Node.js 24 standard modules** (`node:http`, `node:sqlite`, `
 
 <br />
 
+<div align="left">
+
 - **Core Catalog &amp; CMS (8 tables):** `fest_info`, `events`, `event_rules`, `event_coordinators`, `passes`, `pass_features`, `schedule_items`, `faqs`
 - **Campus Community &amp; Live Notices (4 tables):** `campus_clubs`, `organizers`, `announcements`, `event_results`
 - **Operations, Verification &amp; Audit (5 tables):** `registrations` (with HMAC `?sig=` verification), `inquiries`, `activity_feed`, `audit_logs`, `schema_migrations` (`schemaVersion: 3`)
 - **Database Views &amp; Triggers:** `v_pass_tier_summary`, `v_event_registration_summary`, `v_branch_distribution`, and `trg_fest_info_touch`
+
+</div>
 
 </details>
 
@@ -171,7 +193,7 @@ Built strictly on **Node.js 24 standard modules** (`node:http`, `node:sqlite`, `
 <br />
 
 | Access | Method &amp; Endpoint | Purpose |
-| :--- | :--- | :--- |
+| :---: | :---: | :---: |
 | Public | `GET /api/health` | Runtime health check, DB readiness &amp; live table counts |
 | Public | `GET /api/fest` | Hydrates events, passes, schedule, FAQs, clubs, organizers &amp; notices |
 | Public | `GET /api/events` • `/api/events/:id/stats` | Event catalog + real-time participant telemetry |
@@ -186,16 +208,21 @@ Built strictly on **Node.js 24 standard modules** (`node:http`, `node:sqlite`, `
 
 </details>
 
+</div>
+
 ---
+
+<div align="center">
 
 ## Quick Start
 
 ### Prerequisites
 
-- **Node.js `v24.0.0+`** (required for built-in `node:sqlite`)
-- **npm**
+**Node.js `v24.0.0+`** (required for built-in `node:sqlite`) &nbsp;•&nbsp; **npm**
 
 ### 1. Clone and Install
+
+<div align="left">
 
 ```bash
 git clone https://github.com/Dilkhushkumardev/TechySheikhpura.git
@@ -203,20 +230,28 @@ cd TechySheikhpura
 npm install
 ```
 
+</div>
+
 ### 2. Start Full-Stack Development
+
+<div align="left">
 
 ```bash
 npm run dev
 ```
 
+</div>
+
 | Service | Local URL | Notes |
-| :--- | :--- | :--- |
+| :---: | :---: | :---: |
 | **Fest Landing Portal** | `http://localhost:5173/` | Vite HMR + `/api` proxy to `:5000` |
 | **Pass Verification Desk** | `http://localhost:5173/verify` | QR code &amp; Pass ID verification |
 | **Organizer Admin Console** | `http://localhost:5173/admin` | Default dev PIN: `GECS2026` (`ORGANIZER_PIN` in `.env`) |
 | **Backend API &amp; Health** | `http://localhost:5000/api/health` | SQLite stored in `server/data/techysheikhpura.db` |
 
 ### 3. Verify, Build and Serve Production
+
+<div align="left">
 
 ```bash
 # Static analysis across frontend & backend (0 warnings/errors)
@@ -232,13 +267,15 @@ npm run build
 npm start
 ```
 
+</div>
+
 <details>
 <summary><strong>⚙️ Environment Variables (.env.example) &amp; Project Structure</strong></summary>
 
 <br />
 
 | Variable | Default | Description |
-| :--- | :--- | :--- |
+| :---: | :---: | :---: |
 | `PORT` / `HOST` | `5000` / `0.0.0.0` | Backend HTTP listener address |
 | `DB_PATH` | `./server/data/techysheikhpura.db` | SQLite database file path |
 | `ORGANIZER_PIN` | `GECS2026` | PIN used by `/api/admin/auth` |
@@ -246,6 +283,8 @@ npm start
 | `ADMIN_TOKEN_TTL_HOURS` | `12` | Admin Bearer token expiration window |
 | `VITE_API_URL` | Empty string | External Node API origin when deploying frontend separately |
 | `VITE_BASE_PATH` | `/` | Subpath base (`/TechySheikhpura/` automatically set in GitHub Pages CI) |
+
+<div align="left">
 
 ```text
 TechySheikhpura/
@@ -272,14 +311,20 @@ TechySheikhpura/
 └── vite.config.ts                  # Vite 8 bundler with VITE_BASE_PATH & /api proxy
 ```
 
+</div>
+
 </details>
 
+</div>
+
 ---
+
+<div align="center">
 
 ## Documentation Hub
 
 | Document | Focus Area |
-| :--- | :--- |
+| :---: | :---: |
 | [**Backend &amp; Database Design**](docs/BACKEND_DESIGN.md) | 17-table SQLite ERD, request pipeline, HMAC signing &amp; backup model |
 | [**System Architecture**](docs/ARCHITECTURE.md) | Component structure, state hydration &amp; routing overview |
 | [**Product Requirements (PRD)**](docs/PRD.md) | User flows, fest modules &amp; functional specifications |
@@ -287,12 +332,16 @@ TechySheikhpura/
 | [**Security Model**](docs/SECURITY.md) | Token verification, constant-time PIN checks &amp; rate limiting |
 | [**Test Plan**](docs/TEST_PLAN.md) | Verification strategy &amp; SQLite API integration coverage |
 
+</div>
+
 ---
+
+<div align="center">
 
 ## Clubs and Contacts
 
 | Campus Chapter | Focus Domain | Student Lead |
-| :--- | :--- | :--- |
+| :---: | :---: | :---: |
 | **CodeGECS Club** | Coding &amp; HackArena | Aryan Raj |
 | **RoboGEC Society** | Robotics &amp; Track-O-Bot | Aditya Prakash |
 | **AeroX Flight Wing** | AeroStrike Drone Derby | Rohan Patel |
@@ -302,6 +351,8 @@ TechySheikhpura/
 > **Core Student Contacts:** **Dilkhush** • **Amrita** • **Ashish**
 >
 > **Chief Patron:** Dr. Alok Kumar Singh (Principal, GEC Sheikhpura) • **Engineering By:** Team Hunter
+
+</div>
 
 ---
 
