@@ -11,7 +11,8 @@
     "test": "node --no-warnings --test server/tests/api.test.ts",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "assets:generate": "python scripts/generate_brand_assets.py"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",

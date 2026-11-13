@@ -166,3 +166,4 @@ export const TechyLogo: React.FC<TechyLogoProps> = ({
     </div>
   );
 };
+

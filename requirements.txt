@@ -1,0 +1,2 @@
+# Python dependencies for Techy Sheikhpura automation & brand asset generation
+pillow>=10.0.0

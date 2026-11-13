@@ -479,3 +479,4 @@ with open(os.path.join(OUTPUT_DIR, 'site.webmanifest'), 'w', encoding='utf-8') a
     f.write(MANIFEST_JSON.strip())
 
 print("Saved public/site.webmanifest")
+
