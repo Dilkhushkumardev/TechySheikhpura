@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-// Target: Nov 28, 2026, 09:00:00 AM IST
-const TARGET_TIMESTAMP = new Date('2026-11-28T09:00:00+05:30').getTime();
+// Target: Sep 28, 2026, 09:00:00 AM IST (Event Concluded)
+const TARGET_TIMESTAMP = new Date('2026-09-28T09:00:00+05:30').getTime();
 
 export const CountdownTimer: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState({
@@ -49,7 +49,7 @@ export const CountdownTimer: React.FC = () => {
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-fuchsia-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2 w-2 bg-fuchsia-500"></span>
         </span>
-        <span>HACKATHON &amp; ARENAS COUNTDOWN</span>
+        <span>HACKATHON &amp; ARENAS • EVENT CONCLUDED (SEP 2026)</span>
       </div>
 
       <div className="flex items-center justify-center gap-2 sm:gap-4 font-mono">

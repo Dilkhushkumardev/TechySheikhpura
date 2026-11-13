@@ -147,7 +147,7 @@ TechySheikhpura/
 Rendered sections inside `TechySheikhpuraPage.tsx`:
 
 1. **Navigation (`TechyNavbar`)** — Sticky header with brand mark, anchor links (`#hero`, `#about`, `#events`, `#passes`, `#schedule`), `Verify Pass`, `Desk`, and `Get Fest Pass` action.
-2. **Hero & HUD (`#hero`, `CountdownTimer`)** — GEC Sheikhpura campus backdrop, quick stats grid, live DB-fed activity ticker, fest action triggers, and countdown timer to `Nov 28, 2026`.
+2. **Hero & HUD (`#hero`, `CountdownTimer`)** — GEC Sheikhpura campus backdrop, quick stats grid, live DB-fed activity ticker, fest action triggers, and countdown timer to `Sep 28, 2026`.
 3. **Marquee Ticker** — Continuous seamless double-track event highlights banner.
 4. **About Section (`#about`)** — Innovation pillars and campus venue overview.
 5. **Events Arena (`#events`)** — Category filter pills (`All` + 7 categories), keyword search input, SQLite-backed event cards, and `EventDetailModal` trigger.

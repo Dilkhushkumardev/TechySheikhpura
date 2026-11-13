@@ -345,8 +345,8 @@ export const TechySheikhpuraPage: React.FC = () => {
               <span className="px-3 py-1 rounded-full bg-black/60 border border-white/15">
                 LOC: 25.1322° N, 85.8488° E • MEHUS, SHEIKHPURA
               </span>
-              <span className="px-3 py-1 rounded-full bg-black/60 border border-white/15 text-emerald-400 font-bold">
-                SYSTEM STATUS: REGISTRATIONS OPEN
+              <span className="px-3 py-1 rounded-full bg-black/60 border border-white/15 text-fuchsia-400 font-bold">
+                SYSTEM STATUS: EVENT CONCLUDED (SEP 2026)
               </span>
             </div>
           </div>
@@ -659,8 +659,8 @@ export const TechySheikhpuraPage: React.FC = () => {
                         <Award className="w-4 h-4 text-amber-400 shrink-0" />
                         <span>{ev.prizes}</span>
                       </div>
-                      <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
-                        REGISTRATION LIVE
+                      <span className="text-[10px] text-fuchsia-300 font-bold bg-fuchsia-500/15 px-2 py-0.5 rounded border border-fuchsia-500/30">
+                        EVENT CONCLUDED
                       </span>
                     </div>
                   </div>
@@ -908,7 +908,7 @@ export const TechySheikhpuraPage: React.FC = () => {
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              Day 1 • Nov 28, 2026
+              Day 1 • Sep 28, 2026
             </button>
             <button
               type="button"
@@ -919,7 +919,7 @@ export const TechySheikhpuraPage: React.FC = () => {
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              Day 2 • Nov 29, 2026
+              Day 2 • Sep 29, 2026
             </button>
           </div>
         </div>

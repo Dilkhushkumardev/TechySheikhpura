@@ -47,9 +47,9 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
           <div className="flex items-center gap-3">
             <span className="text-white/80 font-mono">Dates: {FEST_INFO.dates}</span>
             <span className="text-slate-600">|</span>
-            <span className="text-emerald-400 font-semibold flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-              Passes Live
+            <span className="text-fuchsia-400 font-semibold flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400"></span>
+              Event Concluded (Sep 2026)
             </span>
           </div>
         </div>

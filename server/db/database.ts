@@ -515,6 +515,33 @@ function runMigrations(db: DatabaseSync): void {
       'Updated Chief Patron & Principal name to Dr. Anil Singh Yadav'
     );
   }
+
+  const hasV5 = asNumber(
+    (db.prepare('SELECT COUNT(*) AS c FROM schema_migrations WHERE version = 5').get() as SqlRow | undefined)?.c
+  );
+  if (hasV5 === 0) {
+    db.prepare(`
+      UPDATE fest_info
+      SET dates = 'September 28 - 29, 2026',
+          updated_at = datetime('now')
+      WHERE id = 1
+    `).run();
+
+    const eventsCount = asNumber(
+      (db.prepare('SELECT COUNT(*) AS count FROM events').get() as SqlRow | undefined)?.count
+    );
+    if (eventsCount > 0) {
+      db.prepare(`
+        UPDATE events
+        SET date = REPLACE(REPLACE(date, 'Nov 28', 'Sep 28'), 'Nov 29', 'Sep 29')
+      `).run();
+    }
+
+    db.prepare('INSERT OR IGNORE INTO schema_migrations (version, description) VALUES (?, ?)').run(
+      5,
+      'Updated fest dates to September 28-29, 2026'
+    );
+  }
 }
 
 export function initDatabase(customPath?: string): DatabaseSync {

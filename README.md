@@ -97,7 +97,7 @@
       <h4 align="center">🎨 Cinematic Hero, Countdown &amp; Discovery</h4>
       <ul>
         <li><strong>Pitch-Midnight Design Language:</strong> Obsidian cards (<code>#0b0b11</code>), ambient cursor glow spotlight, <code>ParticleCanvas</code> network background, and crisp typography (<code>Oxanium</code>, <code>Space Grotesk</code>, <code>Plus Jakarta Sans</code>, <code>Barlow Condensed</code>).</li>
-        <li><strong>Live HUD Countdown Ticker:</strong> Real-time Days : Hours : Minutes : Seconds clock synchronized to <strong>November 28–29, 2026 (09:00 IST)</strong>.</li>
+        <li><strong>Live HUD Countdown Ticker:</strong> Real-time Days : Hours : Minutes : Seconds clock synchronized to <strong>September 28–29, 2026 (09:00 IST)</strong>.</li>
         <li><strong>Instant Arena Search &amp; Rule Modals:</strong> Substring search across titles, categories, venues &amp; descriptions, paired with modal rulebooks and student coordinator contacts.</li>
         <li><strong>Interactive Schedule &amp; Announcements:</strong> Tabbed <strong>Day 1 / Day 2</strong> itinerary switcher plus live organizer notices and winner podium banners.</li>
       </ul>
@@ -219,7 +219,7 @@
 
 ## Festival Schedule
 
-<p>Two action-packed days hosted inside the permanent campus of <strong>Government Engineering College, Sheikhpura</strong> (<code>November 28 – 29, 2026</code>).</p>
+<p>Two action-packed days hosted inside the permanent campus of <strong>Government Engineering College, Sheikhpura</strong> (<code>September 28 – 29, 2026</code>).</p>
 
 <table width="100%">
   <thead>
