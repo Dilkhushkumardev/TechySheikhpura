@@ -55,8 +55,8 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
               Dates: <strong className="text-white">{FEST_INFO.dates}</strong>
             </span>
             <span className="text-slate-600 font-bold">•</span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-fuchsia-500/15 border border-fuchsia-500/35 text-fuchsia-300 font-bold text-[10px] uppercase tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400 animate-pulse"></span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/35 text-emerald-400 font-bold text-[10px] uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
               Event Concluded (Sep 2026)
             </span>
           </div>
@@ -108,7 +108,7 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
           <div className="hidden lg:flex items-center gap-2.5 shrink-0">
             <Link
               to="/verify"
-              className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 hover:text-white font-semibold text-xs font-mono flex items-center gap-1.5 transition-all shadow-sm"
+              className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-emerald-500/30 hover:border-emerald-400/60 text-slate-200 hover:text-white font-semibold text-xs font-mono flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(16,185,129,0.08)]"
               title="Verify Delegate Pass Certificate"
             >
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
@@ -182,7 +182,7 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
             <Link
               to="/verify"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-emerald-300 font-semibold"
+              className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/35 text-emerald-300 font-semibold"
             >
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Verify Pass</span>

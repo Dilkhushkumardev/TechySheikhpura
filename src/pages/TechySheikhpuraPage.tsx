@@ -348,7 +348,8 @@ export const TechySheikhpuraPage: React.FC = () => {
               <span className="px-3 py-1 rounded-full bg-black/60 border border-white/15">
                 LOC: 25.1322° N, 85.8488° E • MEHUS, SHEIKHPURA
               </span>
-              <span className="px-3 py-1 rounded-full bg-black/60 border border-white/15 text-fuchsia-400 font-bold">
+              <span className="px-3 py-1 rounded-full bg-black/60 border border-emerald-500/35 text-emerald-400 font-bold shadow-[0_0_15px_rgba(16,185,129,0.1)] flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 SYSTEM STATUS: EVENT CONCLUDED (SEP 2026)
               </span>
             </div>
@@ -478,9 +479,9 @@ export const TechySheikhpuraPage: React.FC = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#020003] via-[#020003]/30 to-transparent"></div>
 
-              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-black/80 backdrop-blur-xl border border-white/20 shadow-2xl">
-                <span className="text-[10px] font-mono text-fuchsia-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400 animate-pulse"></span>
+              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-black/80 backdrop-blur-xl border border-emerald-500/35 shadow-2xl">
+                <span className="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                   FEST HEADQUARTERS
                 </span>
                 <h4 className="text-sm font-bold text-white font-display mt-0.5">
@@ -495,7 +496,7 @@ export const TechySheikhpuraPage: React.FC = () => {
 
           {/* Right Content */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-white/10 text-fuchsia-400 font-mono text-xs font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
               About The Fest
             </div>
 
@@ -513,25 +514,25 @@ export const TechySheikhpuraPage: React.FC = () => {
 
             {/* 4 Core Pillars */}
             <div className="grid grid-cols-2 gap-4 pt-2 font-mono">
-              <div className="p-4 rounded-2xl bg-[#0b0b11]/85 border border-white/10 hover:border-fuchsia-400/40 transition-colors">
+              <div className="p-4 rounded-2xl bg-[#0b0b11]/85 border border-white/10 hover:border-emerald-400/40 hover:shadow-[0_0_20px_rgba(16,185,129,0.08)] transition-all">
                 <Code2 className="w-5 h-5 text-fuchsia-400 mb-1" />
                 <h4 className="text-xs font-bold text-white uppercase">Code & Deploy</h4>
                 <p className="text-[11px] text-slate-400 font-sans mt-0.5">24-Hour hackathon and keyboard speed typing.</p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[#0b0b11]/85 border border-white/10 hover:border-purple-400/40 transition-colors">
+              <div className="p-4 rounded-2xl bg-[#0b0b11]/85 border border-white/10 hover:border-emerald-400/40 hover:shadow-[0_0_20px_rgba(16,185,129,0.08)] transition-all">
                 <Bot className="w-5 h-5 text-purple-400 mb-1" />
                 <h4 className="text-xs font-bold text-white uppercase">Robotics & Hardware</h4>
                 <p className="text-[11px] text-slate-400 font-sans mt-0.5">Autonomous line tracking and drone obstacles.</p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[#0b0b11]/85 border border-white/10 hover:border-pink-400/40 transition-colors">
+              <div className="p-4 rounded-2xl bg-[#0b0b11]/85 border border-white/10 hover:border-emerald-400/40 hover:shadow-[0_0_20px_rgba(16,185,129,0.08)] transition-all">
                 <Sparkles className="w-5 h-5 text-pink-400 mb-1" />
                 <h4 className="text-xs font-bold text-white uppercase">Startup Pitch</h4>
                 <p className="text-[11px] text-slate-400 font-sans mt-0.5">Present prototypes to incubator mentors.</p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[#0b0b11]/85 border border-white/10 hover:border-emerald-400/40 transition-colors">
+              <div className="p-4 rounded-2xl bg-[#0b0b11]/85 border border-emerald-500/25 hover:border-emerald-400/50 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)] transition-all">
                 <Gamepad2 className="w-5 h-5 text-emerald-400 mb-1" />
                 <h4 className="text-xs font-bold text-white uppercase">Esports Arenas</h4>
                 <p className="text-[11px] text-slate-400 font-sans mt-0.5">BGMI & Free Fire MAX squad championships.</p>
@@ -547,7 +548,7 @@ export const TechySheikhpuraPage: React.FC = () => {
       <section id="events" className="scroll-mt-28 py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-white/10 text-fuchsia-400 font-mono text-xs font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
               Compete &amp; Conquer • September 28 - 29, 2026
             </div>
             <h2 className="text-3xl sm:text-5xl font-black font-display text-white">
@@ -571,13 +572,13 @@ export const TechySheikhpuraPage: React.FC = () => {
 
         {/* Interactive Instant Search Bar */}
         <div className="relative max-w-xl">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-fuchsia-400" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-400" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search 14+ events by keyword (e.g. Hackathon, BGMI, Drone, Robot, CAD)..."
-            className="w-full pl-11 pr-4 py-3 rounded-xl bg-black/60 border border-white/20 text-white text-xs font-mono placeholder:text-slate-500 focus:outline-none focus:border-fuchsia-400 transition-all shadow-inner"
+            className="w-full pl-11 pr-4 py-3 rounded-xl bg-black/60 border border-white/20 text-white text-xs font-mono placeholder:text-slate-500 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 transition-all shadow-inner"
           />
           {searchQuery && (
             <button
@@ -599,7 +600,7 @@ export const TechySheikhpuraPage: React.FC = () => {
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all ${
                   selectedCategory === cat
                     ? 'bg-white text-black font-bold shadow-lg'
-                    : 'bg-[#0b0b11] text-slate-300 hover:text-white border border-white/10'
+                    : 'bg-[#0b0b11] text-slate-300 hover:text-white border border-white/10 hover:border-emerald-500/30'
                 }`}
               >
                 {cat}
@@ -607,7 +608,7 @@ export const TechySheikhpuraPage: React.FC = () => {
             ))}
           </div>
 
-          <span className="text-xs font-mono text-fuchsia-400 font-bold">
+          <span className="text-xs font-mono text-emerald-400 font-bold">
             Showing {filteredEvents.length} of {events.length} Events
           </span>
         </div>
@@ -623,7 +624,7 @@ export const TechySheikhpuraPage: React.FC = () => {
             {filteredEvents.map((ev) => (
               <div
                 key={ev.id}
-                className="rounded-3xl overflow-hidden bg-[#0b0b11]/85 border border-white/10 hover:border-white/30 shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group glass-card"
+                className="rounded-3xl overflow-hidden bg-[#0b0b11]/85 border border-white/10 hover:border-emerald-500/40 shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(16,185,129,0.12)] flex flex-col justify-between group glass-card"
               >
                 <div>
                   {/* Image Banner */}
@@ -664,7 +665,7 @@ export const TechySheikhpuraPage: React.FC = () => {
                         <Award className="w-4 h-4 text-amber-400 shrink-0" />
                         <span>{ev.prizes}</span>
                       </div>
-                      <span className="text-[10px] text-fuchsia-300 font-bold bg-fuchsia-500/15 px-2 py-0.5 rounded border border-fuchsia-500/30">
+                      <span className="text-[10px] text-emerald-300 font-bold bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/35">
                         EVENT CONCLUDED
                       </span>
                     </div>
@@ -675,7 +676,7 @@ export const TechySheikhpuraPage: React.FC = () => {
                 <div className="p-6 pt-0 grid grid-cols-2 gap-3 font-mono text-xs">
                   <button
                     onClick={() => { playClickSound(); setActiveEventForModal(ev); }}
-                    className="py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 font-semibold border border-white/10 transition-colors"
+                    className="py-2.5 rounded-xl bg-white/5 hover:bg-white/10 hover:border-emerald-500/30 text-slate-200 font-semibold border border-white/10 transition-colors"
                   >
                     View Rules
                   </button>
@@ -701,7 +702,7 @@ export const TechySheikhpuraPage: React.FC = () => {
           ========================================================================= */}
       <section id="passes" className="scroll-mt-28 py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-14">
         <div className="text-center space-y-3 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-white/10 text-fuchsia-400 font-mono text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
             Official Fest Passes • September 2026 Edition
           </div>
           <h2 className="text-3xl sm:text-5xl font-black font-display text-white">
@@ -719,7 +720,7 @@ export const TechySheikhpuraPage: React.FC = () => {
               className={`p-8 rounded-3xl relative flex flex-col justify-between space-y-8 transition-all duration-300 hover:-translate-y-2 ${
                 pass.isPopular
                   ? 'techverse-border-glow bg-[#0b0b11] border border-fuchsia-500/50 shadow-glow-fuchsia scale-105'
-                  : 'bg-[#0b0b11]/85 border border-white/10 glass-card'
+                  : 'bg-[#0b0b11]/85 border border-white/10 hover:border-emerald-500/40 hover:shadow-[0_0_20px_rgba(16,185,129,0.08)] glass-card'
               }`}
             >
               {pass.isPopular && (
@@ -754,7 +755,7 @@ export const TechySheikhpuraPage: React.FC = () => {
                 <ul className="space-y-2.5 pt-2 text-xs text-slate-300">
                   {pass.features.map((feat) => (
                     <li key={feat} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-fuchsia-400 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                       <span>{feat}</span>
                     </li>
                   ))}
@@ -767,7 +768,7 @@ export const TechySheikhpuraPage: React.FC = () => {
                 className={`w-full py-4 rounded-xl font-black text-xs uppercase font-mono tracking-wider transition-all flex items-center justify-center gap-2 ${
                   pass.isPopular
                     ? 'bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white hover:opacity-95 shadow-glow-fuchsia'
-                    : 'bg-white/10 hover:bg-white/20 text-white border border-white/25'
+                    : 'bg-white/10 hover:bg-white/20 text-white border border-white/25 hover:border-emerald-500/40'
                 }`}
               >
                 <Ticket className="w-4 h-4" />
@@ -795,7 +796,7 @@ export const TechySheikhpuraPage: React.FC = () => {
           {clubs.map((club) => (
             <div
               key={club.id}
-              className="p-4 rounded-2xl bg-[#0b0b11]/85 border border-white/10 glass-card text-center space-y-2 hover:border-white/30 transition-colors"
+              className="p-4 rounded-2xl bg-[#0b0b11]/85 border border-white/10 glass-card text-center space-y-2 hover:border-emerald-500/35 hover:shadow-[0_0_15px_rgba(16,185,129,0.06)] transition-all"
             >
               <div className="w-10 h-10 mx-auto rounded-xl bg-black/60 flex items-center justify-center border border-white/10">
                 {renderClubIcon(club.icon, club.colorClass)}
@@ -872,7 +873,7 @@ export const TechySheikhpuraPage: React.FC = () => {
             {results.map((item) => (
               <div
                 key={item.id}
-                className="p-6 rounded-3xl bg-[#0b0b11]/85 border border-amber-400/30 hover:border-amber-400/60 shadow-2xl glass-card flex flex-col justify-between space-y-4 transition-all duration-300 hover:-translate-y-1 group"
+                className="p-6 rounded-3xl bg-[#0b0b11]/85 border border-amber-400/30 hover:border-emerald-400/60 shadow-2xl glass-card flex flex-col justify-between space-y-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(16,185,129,0.12)] group"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-3">
@@ -923,7 +924,7 @@ export const TechySheikhpuraPage: React.FC = () => {
           ========================================================================= */}
       <section id="schedule" className="scroll-mt-28 py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-12">
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-white/10 text-fuchsia-400 font-mono text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
             Fest Itinerary
           </div>
           <h2 className="text-3xl sm:text-5xl font-black font-display text-white">
@@ -967,7 +968,7 @@ export const TechySheikhpuraPage: React.FC = () => {
           {filteredSchedule.map((slot) => (
             <div
               key={`${slot.day}-${slot.time}-${slot.title}`}
-              className="p-5 sm:p-6 rounded-2xl bg-[#0b0b11]/85 border border-white/10 hover:border-white/30 glass-card flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors"
+              className="p-5 sm:p-6 rounded-2xl bg-[#0b0b11]/85 border border-white/10 hover:border-emerald-500/35 hover:shadow-[0_0_15px_rgba(16,185,129,0.06)] glass-card flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all"
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2 font-mono">
@@ -981,8 +982,8 @@ export const TechySheikhpuraPage: React.FC = () => {
                 <p className="text-xs text-slate-400 leading-relaxed">{slot.description}</p>
               </div>
 
-              <div className="flex items-center gap-1.5 text-xs text-slate-300 font-mono shrink-0 bg-black/60 px-3 py-2 rounded-xl border border-white/10">
-                <MapPin className="w-3.5 h-3.5 text-fuchsia-400" />
+              <div className="flex items-center gap-1.5 text-xs text-slate-300 font-mono shrink-0 bg-black/60 px-3 py-2 rounded-xl border border-emerald-500/30">
+                <MapPin className="w-3.5 h-3.5 text-emerald-400" />
                 <span>{slot.venue}</span>
               </div>
             </div>
@@ -995,7 +996,7 @@ export const TechySheikhpuraPage: React.FC = () => {
           ========================================================================= */}
       <section id="faqs" className="scroll-mt-28 py-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-10">
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-white/10 text-fuchsia-400 font-mono text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
             Clarifications
           </div>
           <h2 className="text-3xl sm:text-5xl font-black font-display text-white">
@@ -1012,15 +1013,21 @@ export const TechySheikhpuraPage: React.FC = () => {
             return (
               <div
                 key={faq.q}
-                className="rounded-2xl bg-[#0b0b11]/85 border border-white/10 glass-card overflow-hidden"
+                className={`rounded-2xl bg-[#0b0b11]/85 glass-card overflow-hidden transition-all duration-200 ${
+                  isOpen
+                    ? 'border border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.08)]'
+                    : 'border border-white/10 hover:border-emerald-500/25'
+                }`}
               >
                 <button
                   type="button"
                   onClick={() => { playClickSound(); setOpenFaqIndex(isOpen ? null : idx); }}
-                  className="w-full p-5 text-left flex items-center justify-between text-sm font-bold text-white hover:text-fuchsia-300 transition-colors"
+                  className={`w-full p-5 text-left flex items-center justify-between text-sm font-bold transition-colors ${
+                    isOpen ? 'text-emerald-300' : 'text-white hover:text-emerald-300'
+                  }`}
                 >
                   <span>{faq.q}</span>
-                  <ChevronDown className={`w-4 h-4 text-fuchsia-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-4 h-4 text-emerald-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {isOpen && (
                   <div className="px-5 pb-5 text-xs text-slate-300 leading-relaxed border-t border-white/5 pt-3">

@@ -264,7 +264,7 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
               </div>
 
               {/* Holographic Delegate Badge with Deterministic QR */}
-              <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0b0b11] via-[#1a0b24] to-[#020003] border-2 border-fuchsia-500/50 text-left relative overflow-hidden shadow-2xl space-y-4">
+              <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0b0b11] via-[#091515] to-[#020003] border-2 border-emerald-500/40 text-left relative overflow-hidden shadow-[0_0_30px_rgba(16,185,129,0.12)] space-y-4">
                 <div className="absolute top-0 right-0 w-40 h-40 bg-fuchsia-500/15 rounded-full blur-2xl pointer-events-none"></div>
 
                 <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-3 relative">
@@ -454,7 +454,7 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="e.g. Aryan Raj"
-                    className="w-full px-3 py-2 rounded-xl bg-[#020003]/80 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
+                    className="w-full px-3 py-2 rounded-xl bg-[#020003]/80 border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none transition-all"
                   />
                 </div>
 
@@ -470,7 +470,7 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                       value={rollNo}
                       onChange={(e) => setRollNo(e.target.value)}
                       placeholder="e.g. 23105147042"
-                      className="w-full px-3 py-2 rounded-xl bg-[#020003]/80 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none font-mono"
+                      className="w-full px-3 py-2 rounded-xl bg-[#020003]/80 border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none font-mono transition-all"
                     />
                   </div>
 
@@ -482,7 +482,7 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                       id="pass-year"
                       value={year}
                       onChange={(e) => setYear(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
+                      className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none transition-all"
                     >
                       <option>1st Year (2026-30)</option>
                       <option>2nd Year (2025-29)</option>
@@ -501,7 +501,7 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                       id="pass-branch"
                       value={branch}
                       onChange={(e) => setBranch(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
+                      className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none transition-all"
                     >
                       <option>Computer Science &amp; Engineering (CSE)</option>
                       <option>Electronics &amp; Communication Engineering (ECE)</option>
@@ -522,7 +522,7 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                       value={teamName}
                       onChange={(e) => setTeamName(e.target.value)}
                       placeholder="e.g. CyberKnights"
-                      className="w-full px-3 py-2 rounded-xl bg-[#020003]/80 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
+                      className="w-full px-3 py-2 rounded-xl bg-[#020003]/80 border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none transition-all"
                     />
                   </div>
                 </div>
@@ -539,7 +539,7 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="+91 98765 43210"
-                      className="w-full px-3 py-2 rounded-xl bg-[#020003]/80 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none font-mono"
+                      className="w-full px-3 py-2 rounded-xl bg-[#020003]/80 border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none font-mono transition-all"
                     />
                   </div>
 
@@ -554,7 +554,7 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="aryan@gecsheikhpura.ac.in"
-                      className="w-full px-3 py-2 rounded-xl bg-[#020003]/80 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
+                      className="w-full px-3 py-2 rounded-xl bg-[#020003]/80 border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none transition-all"
                     />
                   </div>
                 </div>

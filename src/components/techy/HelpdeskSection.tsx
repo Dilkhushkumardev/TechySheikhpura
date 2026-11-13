@@ -67,11 +67,11 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
       id="contact"
       className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative z-10 scroll-mt-28"
     >
-      <div className="rounded-3xl bg-[#0b0b11]/90 border border-fuchsia-500/25 glass-card p-6 sm:p-10 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="rounded-3xl bg-[#0b0b11]/90 border border-emerald-500/30 hover:border-emerald-500/40 glass-card p-6 sm:p-10 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-start transition-all">
         {/* Left Copy */}
         <div className="lg:col-span-5 space-y-5">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-300 font-mono text-[11px] font-bold uppercase tracking-wider">
-            <HelpCircle className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/35 text-emerald-300 font-mono text-[11px] font-bold uppercase tracking-wider">
+            <HelpCircle className="w-3.5 h-3.5 text-emerald-400" />
             <span>Student Helpdesk &amp; Desk Support</span>
           </div>
 
@@ -84,11 +84,11 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
           </p>
 
           <div className="space-y-3 pt-2 text-xs font-mono">
-            <div className="p-3.5 rounded-2xl bg-[#050308] border border-white/10">
+            <div className="p-3.5 rounded-2xl bg-[#050308] border border-white/10 hover:border-emerald-500/35 transition-colors">
               <span className="text-[10px] text-slate-400 uppercase block">Official Support Email</span>
               <a
                 href={`mailto:${contactEmail}`}
-                className="text-fuchsia-300 hover:text-white font-bold transition-colors"
+                className="text-emerald-400 hover:text-white font-bold transition-colors"
               >
                 {contactEmail}
               </a>
@@ -154,7 +154,7 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Aditya Raj"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none transition-all"
                   />
                 </div>
                 <div>
@@ -167,7 +167,7 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
                     value={rollNo}
                     onChange={(e) => setRollNo(e.target.value)}
                     placeholder="e.g. 23105147042"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none font-mono"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none font-mono transition-all"
                   />
                 </div>
               </div>
@@ -184,7 +184,7 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="student@gecsheikhpura.ac.in"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none transition-all"
                   />
                 </div>
                 <div>
@@ -195,7 +195,7 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
                     id="inq-subject"
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none transition-all"
                   >
                     {SUBJECT_PRESETS.map((opt) => (
                       <option key={opt} value={opt}>
@@ -218,7 +218,7 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Describe your question or team update clearly..."
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none resize-none transition-all"
                 />
               </div>
 
