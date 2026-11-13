@@ -23,6 +23,7 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
     { name: 'Home', href: '#hero' },
     { name: 'About', href: '#about' },
     { name: 'Events', href: '#events' },
+    { name: 'Results', href: '#results' },
     { name: 'Passes', href: '#passes' },
     { name: 'Schedule', href: '#schedule' },
     { name: 'FAQs', href: '#faqs' },
@@ -48,8 +49,8 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
             <span className="text-white/80 font-mono">Dates: {FEST_INFO.dates}</span>
             <span className="text-slate-600">|</span>
             <span className="text-emerald-400 font-semibold flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-              Passes Live
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              Event Concluded (Sep 2026)
             </span>
           </div>
         </div>

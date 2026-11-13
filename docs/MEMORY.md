@@ -31,7 +31,7 @@ Build Verification : Built in 1.61s (JS: 358.31 kB / gzip 109.63 kB, CSS: 37.33 
 - **College Name:** Government Engineering College, Sheikhpura (GEC Sheikhpura), Bihar
 - **Fest Name:** TechySheikhpura '26
 - **Tagline:** Where Ideas Meet Innovation
-- **Dates:** November 28 - 29, 2026
+- **Dates:** September 28 - 29, 2026 (Concluded)
 - **Venue:** GEC Sheikhpura Main Campus, NH-333A, Mehus, Sheikhpura, Bihar — 811105
 - **Official Helpline:** `+91 6341 223010`
 - **Student Convenors:** Aryan (`+91 98765 43210`), Aditya (`+91 98765 43212`), Vikash (`+91 98765 43213`)

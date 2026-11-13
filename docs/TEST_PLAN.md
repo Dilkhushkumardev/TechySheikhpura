@@ -15,7 +15,7 @@
 | **TC-001** | Sticky Navigation | Scroll down page past 20px | Navbar transforms to `bg-[#020003]/90` with blur & border. | `PASS` |
 | **TC-002** | Smooth Scrolling | Click any nav anchor (`#events`, `#passes`, `#faqs`) | Page smoothly scrolls to target section. | `PASS` |
 | **TC-003** | Hero Display | Load page on 375px, 768px, 1440px | `Techy Sheikhpura '26` is centered and legible. | `PASS` |
-| **TC-004** | Countdown Timer | Inspect countdown units | Days, Hours, Minutes, Seconds count down to Nov 28, 2026. | `PASS` |
+| **TC-004** | Countdown Timer | Inspect countdown units & status | Days, Hours, Minutes, Seconds display concluded state (Sep 28–29, 2026). | `PASS` |
 | **TC-005** | Category Filtering | Click "Robotics" filter pill | Only Robotics events display (`Track-O-Bot`, `Circuitrix`). | `PASS` |
 | **TC-006** | Instant Event Search | Type "BGMI" or "Drone" in search bar | Matching event cards render dynamically with live count. | `PASS` |
 | **TC-007** | Search Clear Button | Click "Clear" button in search bar | Query clears and all 14 events re-render immediately. | `PASS` |

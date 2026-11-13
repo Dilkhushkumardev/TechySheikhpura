@@ -375,6 +375,26 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
           ) : (
             /* Booking Form */
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Event Concluded Notice */}
+              <div className="p-3.5 rounded-2xl bg-amber-500/15 border border-amber-400/35 text-amber-200 text-xs font-mono space-y-1.5">
+                <div className="flex items-center gap-1.5 font-bold uppercase tracking-wider text-amber-300">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span>Event Concluded in September 2026</span>
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed">
+                  TechySheikhpura '26 wrapped up on September 28–29, 2026. Online pass registrations are now closed. Already registered delegates can view, print, or verify passes anytime.
+                </p>
+                <div className="pt-1">
+                  <Link
+                    to="/verify"
+                    onClick={onClose}
+                    className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-bold underline underline-offset-2"
+                  >
+                    <span>Check / Verify Existing Pass Online →</span>
+                  </Link>
+                </div>
+              </div>
+
               {formError && (
                 <div
                   role="alert"

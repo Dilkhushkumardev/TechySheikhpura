@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import { X, CheckCircle2, Ticket, Phone } from 'lucide-react';
+import { X, CheckCircle2, Phone } from 'lucide-react';
 import type { FestEvent } from '../../data/techySheikhpuraData';
 
 interface EventDetailModalProps {
   event: FestEvent | null;
   onClose: () => void;
-  onRegister: (eventId: string) => void;
+  onRegister?: (eventId: string) => void;
 }
 
-export const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClose, onRegister }) => {
+export const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClose, onRegister: _onRegister }) => {
   useEffect(() => {
     if (!event) return;
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -129,20 +129,23 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClo
         {/* Footer Actions */}
         <div className="px-6 py-4 bg-[#050308] border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
           <span className="text-xs font-mono text-slate-400">
-            Entry: <strong className="text-fuchsia-300">{event.entryFee}</strong>
+            Schedule: <strong className="text-fuchsia-300">{event.date}</strong> ({event.time})
           </span>
 
-          <button
-            type="button"
-            onClick={() => {
-              onClose();
-              onRegister(event.id);
-            }}
-            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold text-xs uppercase font-mono tracking-wider hover:opacity-95 shadow-glow-fuchsia flex items-center gap-2 transition-transform hover:scale-[1.02]"
-          >
-            <Ticket className="w-4 h-4" />
-            <span>Register for {event.title}</span>
-          </button>
+          <div className="flex items-center gap-3">
+            <span className="px-3.5 py-1.5 rounded-xl bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-mono text-xs font-bold flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <span>Event Concluded (Sep 2026)</span>
+            </span>
+
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-5 py-2.5 rounded-xl bg-white/10 text-white font-bold text-xs uppercase font-mono tracking-wider hover:bg-white/20 border border-white/15 transition-colors"
+            >
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -29,6 +29,7 @@ import {
   FEST_PASSES,
   FEST_SCHEDULE,
   FEST_FAQS,
+  FEST_RESULTS,
   type CampusClub,
   type FestEvent,
   type FestPass,
@@ -72,12 +73,39 @@ import { PassBookingModal } from '../components/techy/PassBookingModal';
 import { EventDetailModal } from '../components/techy/EventDetailModal';
 
 const INITIAL_ACTIVITY_STREAM: ActivityItem[] = [
-  { id: 1, name: "Aman Kumar", branch: "CSE 3rd Yr", action: "booked All-Events Pass (₹149)", time: "2m ago", createdAt: "" },
-  { id: 2, name: "Team CyberKnights", branch: "CSE 2nd Yr", action: "registered for HackArena (24H)", time: "4m ago", createdAt: "" },
-  { id: 3, name: "Rohan Patel", branch: "Mechanical", action: "registered for AeroStrike Drone Derby", time: "7m ago", createdAt: "" },
-  { id: 4, name: "Priya Sharma", branch: "EE 3rd Yr", action: "registered for Track-O-Bot", time: "11m ago", createdAt: "" },
-  { id: 5, name: "Squad AlphaX", branch: "Civil & CSE", action: "booked BGMI Esports Battle (₹29)", time: "15m ago", createdAt: "" },
-  { id: 6, name: "Vikash Gupta", branch: "ECE 4th Yr", action: "booked VIP All-Access Pass (₹199)", time: "18m ago", createdAt: "" },
+  { id: 1, name: "Team CyberKnights", branch: "CSE 3rd Yr", action: "crowned Champions in HackArena 24H Sprint", time: "Sep 29", createdAt: "" },
+  { id: 2, name: "Aditya & Team BotMasters", branch: "ECE & ME", action: "secured 1st Prize in Track-O-Bot Challenge", time: "Sep 28", createdAt: "" },
+  { id: 3, name: "SkyRaiders", branch: "Mechanical", action: "won Gold in AeroStrike Drone Derby", time: "Sep 29", createdAt: "" },
+  { id: 4, name: "AgroTech Innovators", branch: "CSE & Civil", action: "awarded Best Prototype in Pro-To-Pitch", time: "Sep 29", createdAt: "" },
+  { id: 5, name: "Squad AlphaX", branch: "ECE & CSE", action: "won BGMI Esports Championship (₹8,000)", time: "Sep 28", createdAt: "" },
+  { id: 6, name: "1,200+ Innovators", branch: "GEC Sheikhpura", action: "awarded official digital certificates", time: "Sep 29", createdAt: "" },
+];
+
+const INITIAL_ANNOUNCEMENTS: AnnouncementRecord[] = [
+  {
+    id: 1,
+    title: "TechySheikhpura '26 Concluded in September",
+    message: "The annual intra-college technical fest concluded successfully on September 28–29, 2026. Official results & certificates are published.",
+    priority: "important",
+    isActive: true,
+    createdAt: "2026-09-29",
+  },
+  {
+    id: 2,
+    title: "Official Winners Declared",
+    message: "Congratulations to CyberKnights (HackArena), BotMasters (Track-O-Bot), and all category winners!",
+    priority: "info",
+    isActive: true,
+    createdAt: "2026-09-29",
+  },
+  {
+    id: 3,
+    title: "Digital Certificate Verification",
+    message: "Delegates and winners can verify their digital credentials using the Verify Pass portal anytime.",
+    priority: "info",
+    isActive: true,
+    createdAt: "2026-09-30",
+  },
 ];
 
 export const TechySheikhpuraPage: React.FC = () => {
@@ -89,8 +117,8 @@ export const TechySheikhpuraPage: React.FC = () => {
   const [faqs, setFaqs] = useState<FaqItem[]>(FEST_FAQS);
   const [clubs, setClubs] = useState<CampusClub[]>(FEST_CLUBS);
   const [organizers, setOrganizers] = useState<OrganizerMember[]>(FEST_ORGANIZERS);
-  const [announcements, setAnnouncements] = useState<AnnouncementRecord[]>([]);
-  const [results, setResults] = useState<EventResultRecord[]>([]);
+  const [announcements, setAnnouncements] = useState<AnnouncementRecord[]>(INITIAL_ANNOUNCEMENTS);
+  const [results, setResults] = useState<EventResultRecord[]>(FEST_RESULTS as unknown as EventResultRecord[]);
   const [activityStream, setActivityStream] = useState<ActivityItem[]>(INITIAL_ACTIVITY_STREAM);
 
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -119,8 +147,8 @@ export const TechySheikhpuraPage: React.FC = () => {
         if (bundle.faqs.length > 0) setFaqs(bundle.faqs);
         if (bundle.clubs.length > 0) setClubs(bundle.clubs);
         if (bundle.organizers.length > 0) setOrganizers(bundle.organizers);
-        setAnnouncements(bundle.announcements);
-        setResults(bundle.results);
+        if (bundle.announcements.length > 0) setAnnouncements(bundle.announcements);
+        if (bundle.results.length > 0) setResults(bundle.results);
         if (bundle.activityStream.length > 0) setActivityStream(bundle.activityStream);
       })
       .catch(() => {
@@ -345,8 +373,9 @@ export const TechySheikhpuraPage: React.FC = () => {
               <span className="px-3 py-1 rounded-full bg-black/60 border border-white/15">
                 LOC: 25.1322° N, 85.8488° E • MEHUS, SHEIKHPURA
               </span>
-              <span className="px-3 py-1 rounded-full bg-black/60 border border-white/15 text-emerald-400 font-bold">
-                SYSTEM STATUS: REGISTRATIONS OPEN
+              <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold flex items-center gap-1.5">
+                <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                SYSTEM STATUS: EVENT CONCLUDED (SEP 28–29, 2026)
               </span>
             </div>
           </div>
@@ -367,14 +396,14 @@ export const TechySheikhpuraPage: React.FC = () => {
               <span>Explore 14+ Events</span>
             </a>
 
-            <button
-              type="button"
-              onClick={() => { playClickSound(); handleOpenPass('all-events-pass'); }}
-              className="px-8 py-4 rounded-xl bg-black/60 hover:bg-black/90 text-white border border-white/30 hover:border-white/60 font-black text-xs uppercase tracking-wider transition-all hover:scale-105 flex items-center gap-2.5 backdrop-blur-md shadow-2xl"
+            <a
+              href="#results"
+              onClick={() => playClickSound()}
+              className="px-8 py-4 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40 font-black text-xs uppercase tracking-wider transition-all hover:scale-105 flex items-center gap-2.5 backdrop-blur-md shadow-2xl"
             >
-              <Ticket className="w-4 h-4 text-fuchsia-400" />
-              <span>Get Fest Pass (₹149 / ₹29)</span>
-            </button>
+              <Trophy className="w-4 h-4 text-amber-400" />
+              <span>View Winners &amp; Results</span>
+            </a>
 
             <a
               href="#schedule"
@@ -389,8 +418,8 @@ export const TechySheikhpuraPage: React.FC = () => {
           {/* Live Activity Toast Banner (Centered) */}
           <div className="pt-1">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 border border-white/20 text-xs font-mono backdrop-blur-xl shadow-lg">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span className="text-slate-400 font-bold uppercase text-[10px]">LIVE REGISTRATION:</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span className="text-slate-400 font-bold uppercase text-[10px]">FEST HIGHLIGHT:</span>
               {activityStream[activeTickerIndex] && (
                 <span className="text-fuchsia-300 font-semibold text-[11px]">
                   {activityStream[activeTickerIndex].name} ({activityStream[activeTickerIndex].branch}) {activityStream[activeTickerIndex].action}
@@ -556,12 +585,14 @@ export const TechySheikhpuraPage: React.FC = () => {
             </p>
           </div>
 
-          <button
-            onClick={() => { playClickSound(); handleOpenPass('all-events-pass'); }}
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold text-xs uppercase font-mono tracking-wider shadow-glow-fuchsia shrink-0 hover:opacity-95"
+          <a
+            href="#results"
+            onClick={() => playClickSound()}
+            className="px-6 py-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40 font-bold text-xs uppercase font-mono tracking-wider shadow-lg shrink-0 flex items-center gap-2"
           >
-            Get All-Events Pass (₹149)
-          </button>
+            <Trophy className="w-4 h-4 text-amber-400" />
+            <span>View Hall of Fame</span>
+          </a>
         </div>
 
         {/* Interactive Instant Search Bar */}
@@ -659,8 +690,8 @@ export const TechySheikhpuraPage: React.FC = () => {
                         <Award className="w-4 h-4 text-amber-400 shrink-0" />
                         <span>{ev.prizes}</span>
                       </div>
-                      <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
-                        REGISTRATION LIVE
+                      <span className="text-[10px] text-amber-300 font-bold bg-amber-500/15 px-2 py-0.5 rounded border border-amber-500/30">
+                        CONCLUDED
                       </span>
                     </div>
                   </div>
@@ -678,11 +709,11 @@ export const TechySheikhpuraPage: React.FC = () => {
                     type="button"
                     onClick={() => {
                       playClickSound();
-                      handleOpenPass(ev.id.startsWith('esports-') ? 'esports-pass' : 'all-events-pass');
+                      setActiveEventForModal(ev);
                     }}
-                    className="py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-bold uppercase tracking-wider hover:opacity-95"
+                    className="py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white border border-white/20 font-bold uppercase tracking-wider"
                   >
-                    Register
+                    Details
                   </button>
                 </div>
               </div>
@@ -696,14 +727,14 @@ export const TechySheikhpuraPage: React.FC = () => {
           ========================================================================= */}
       <section id="passes" className="scroll-mt-28 py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-14">
         <div className="text-center space-y-3 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-white/10 text-fuchsia-400 font-mono text-xs font-bold uppercase tracking-wider">
-            Official Fest Passes
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-amber-500/15 border border-amber-400/35 text-amber-300 font-mono text-xs font-bold uppercase tracking-wider">
+            Registration Window Closed
           </div>
           <h2 className="text-3xl sm:text-5xl font-black font-display text-white">
-            Choose Your Delegate Pass
+            Official Fest Passes
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-mono">
-            Direct intra-college access pass for students of Government Engineering College, Sheikhpura.
+            TechySheikhpura '26 concluded in September 2026. Online and offline pass bookings are closed. Delegates can verify their existing pass anytime.
           </p>
         </div>
 
@@ -736,8 +767,8 @@ export const TechySheikhpuraPage: React.FC = () => {
                   <span className="text-sm text-slate-500 line-through">
                     ₹{pass.originalPrice}
                   </span>
-                  <span className="text-[10px] text-emerald-400 font-bold ml-1 uppercase bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
-                    GECS RATE
+                  <span className="text-[10px] text-amber-300 font-bold ml-1 uppercase bg-amber-500/15 px-2 py-0.5 rounded border border-amber-500/30">
+                    CLOSED
                   </span>
                 </div>
 
@@ -759,14 +790,10 @@ export const TechySheikhpuraPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => { playClickSound(); handleOpenPass(pass.id); }}
-                className={`w-full py-4 rounded-xl font-black text-xs uppercase font-mono tracking-wider transition-all flex items-center justify-center gap-2 ${
-                  pass.isPopular
-                    ? 'bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white hover:opacity-95 shadow-glow-fuchsia'
-                    : 'bg-white/10 hover:bg-white/20 text-white border border-white/25'
-                }`}
+                className="w-full py-4 rounded-xl font-black text-xs uppercase font-mono tracking-wider transition-all flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 text-slate-200 border border-white/20"
               >
-                <Ticket className="w-4 h-4" />
-                <span>Book {pass.name.split(' ')[0]} Pass (₹{pass.price})</span>
+                <Ticket className="w-4 h-4 text-slate-400" />
+                <span>Pass Details (Ended Sep 2026)</span>
               </button>
             </div>
           ))}
@@ -845,15 +872,18 @@ export const TechySheikhpuraPage: React.FC = () => {
       </section>
 
       {results.length > 0 && (
-        <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-6">
+        <section id="results" className="scroll-mt-28 py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-6">
           <div className="text-center space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-amber-500/15 border border-amber-400/35 text-amber-300 font-mono text-xs font-bold uppercase tracking-wider">
               <Trophy className="w-3.5 h-3.5" />
-              <span>Hall of Fame</span>
+              <span>Hall of Fame • September 2026</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-black font-display text-white">
               Official Winners &amp; Results
             </h3>
+            <p className="text-xs sm:text-sm text-slate-400 font-mono">
+              Celebrating the champion teams and innovators of TechySheikhpura '26 (September 28–29, 2026).
+            </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {results.map((item) => (
@@ -892,7 +922,7 @@ export const TechySheikhpuraPage: React.FC = () => {
             Schedule & Timeline
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 font-mono">
-            Two days of relentless engineering action across GEC Sheikhpura campus.
+            Two days of relentless engineering action across GEC Sheikhpura campus (Concluded).
           </p>
         </div>
 
@@ -908,7 +938,7 @@ export const TechySheikhpuraPage: React.FC = () => {
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              Day 1 • Nov 28, 2026
+              Day 1 • Sep 28, 2026
             </button>
             <button
               type="button"
@@ -919,7 +949,7 @@ export const TechySheikhpuraPage: React.FC = () => {
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              Day 2 • Nov 29, 2026
+              Day 2 • Sep 29, 2026
             </button>
           </div>
         </div>
