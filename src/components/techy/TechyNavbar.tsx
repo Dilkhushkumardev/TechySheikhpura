@@ -23,6 +23,7 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
     { name: 'Home', href: '#hero' },
     { name: 'About', href: '#about' },
     { name: 'Events', href: '#events' },
+    { name: 'Results', href: '#results' },
     { name: 'Passes', href: '#passes' },
     { name: 'Schedule', href: '#schedule' },
     { name: 'FAQs', href: '#faqs' },

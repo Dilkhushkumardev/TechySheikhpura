@@ -646,3 +646,91 @@ export const FEST_ORGANIZERS: OrganizerMember[] = [
   },
 ];
 
+export interface FestResultItem {
+  id: number;
+  eventId: string;
+  eventTitle: string;
+  position: string;
+  winnerName: string;
+  teamName: string | null;
+  branch: string;
+  rollNo: string | null;
+  prize: string;
+  announcedAt: string;
+}
+
+export const FEST_RESULTS: FestResultItem[] = [
+  {
+    id: 1,
+    eventId: 'hackarena',
+    eventTitle: 'HackArena (24H Code Sprint)',
+    position: '1st Place (Winner)',
+    winnerName: 'Aman Kumar & Team',
+    teamName: 'CyberKnights',
+    branch: 'CSE 3rd Year',
+    rollNo: '230101',
+    prize: '₹18,000 + Trophies',
+    announcedAt: '2026-09-29',
+  },
+  {
+    id: 2,
+    eventId: 'track-o-bot',
+    eventTitle: 'Track-O-Bot (Autonomous Line Follower)',
+    position: '1st Place (Winner)',
+    winnerName: 'Aditya Prakash & Team',
+    teamName: 'BotMasters',
+    branch: 'ECE / Mechatronics',
+    rollNo: '230214',
+    prize: '₹12,000 + Hardware Kits',
+    announcedAt: '2026-09-28',
+  },
+  {
+    id: 3,
+    eventId: 'aerostrike',
+    eventTitle: 'AeroStrike (Drone Derby)',
+    position: '1st Place (Winner)',
+    winnerName: 'Rohan Patel & Co-Pilot',
+    teamName: 'SkyRaiders',
+    branch: 'Mechanical 3rd Yr',
+    rollNo: '230308',
+    prize: '₹10,000 + Flight Kits',
+    announcedAt: '2026-09-29',
+  },
+  {
+    id: 4,
+    eventId: 'pro-to-pitch',
+    eventTitle: 'Pro-To-Pitch (Startup Innovation)',
+    position: '1st Place (Winner)',
+    winnerName: 'Pooja Sharma & Team',
+    teamName: 'AgroTech Innovators',
+    branch: 'CSE & Civil',
+    rollNo: '230142',
+    prize: '₹10,000 + Incubation Support',
+    announcedAt: '2026-09-29',
+  },
+  {
+    id: 5,
+    eventId: 'esports-bgmi',
+    eventTitle: 'Esports Arena: BGMI Battle Royale',
+    position: '1st Place (Winner)',
+    winnerName: 'Vikash Gupta & Squad',
+    teamName: 'AlphaX Esports',
+    branch: 'ECE & CSE',
+    rollNo: '230288',
+    prize: '₹8,000 Cash + Trophies',
+    announcedAt: '2026-09-28',
+  },
+  {
+    id: 6,
+    eventId: 'nirman-ignite',
+    eventTitle: 'Nirman: Bridge Crafter Challenge',
+    position: '1st Place (Winner)',
+    winnerName: 'Suman Kumari & Team',
+    teamName: 'TrussBuilders',
+    branch: 'Civil Engineering',
+    rollNo: '230412',
+    prize: '₹8,000 + Certificates',
+    announcedAt: '2026-09-29',
+  },
+];
+

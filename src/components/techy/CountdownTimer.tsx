@@ -81,6 +81,12 @@ export const CountdownTimer: React.FC = () => {
           </React.Fragment>
         ))}
       </div>
+
+      {/* Concluded Edition Badge */}
+      <div className="mt-3.5 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/25 text-fuchsia-300 font-mono text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+        <span>14+ Arenas Completed • Results Declared</span>
+      </div>
     </div>
   );
 };
