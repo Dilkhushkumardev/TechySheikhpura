@@ -1,16 +1,6 @@
 # This workflow will trigger Datadog Synthetic tests within your Datadog organisation
 # For more information on running Synthetic tests within your GitHub workflows see: https://docs.datadoghq.com/synthetics/cicd_integrations/github_actions/
 
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# To get started:
-
-# 1. Add your Datadog API (DD_API_KEY) and Application Key (DD_APP_KEY) as secrets to your GitHub repository. For more information, see: https://docs.datadoghq.com/account_management/api-app-keys/.
-# 2. Start using the action within your workflow
-
 name: Run Datadog Synthetic tests
 
 on:
@@ -21,32 +11,31 @@ on:
 
 jobs:
   build:
+    name: Datadog Synthetic Tests
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v7
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Check Datadog secrets
-      id: dd-check
-      env:
-        DD_API_KEY: ${{ secrets.DD_API_KEY }}
-        DD_APP_KEY: ${{ secrets.DD_APP_KEY }}
-      run: |
-        if [ -n "$DD_API_KEY" ] && [ -n "$DD_APP_KEY" ]; then
-          echo "configured=true" >> "$GITHUB_OUTPUT"
-        else
-          echo "configured=false" >> "$GITHUB_OUTPUT"
-          echo "::notice::Skipping Datadog Synthetic tests because DD_API_KEY / DD_APP_KEY secrets are not configured."
-        fi
+      - name: Check Datadog credentials
+        id: dd-check
+        env:
+          DD_API_KEY: ${{ secrets.DD_API_KEY }}
+          DD_APP_KEY: ${{ secrets.DD_APP_KEY }}
+        run: |
+          if [ -n "$DD_API_KEY" ] && [ -n "$DD_APP_KEY" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+            echo "Datadog credentials detected. Preparing to run synthetic tests."
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Datadog Synthetics::Skipping Datadog tests because DD_API_KEY / DD_APP_KEY secrets are not configured in GitHub repository secrets (Settings -> Secrets and variables -> Actions)."
+          fi
 
-    # Run Synthetic tests within your GitHub workflow when secrets are configured.
-    # For additional configuration options visit: https://github.com/marketplace/actions/datadog-synthetics-ci
-    - name: Run Datadog Synthetic tests
-      if: steps.dd-check.outputs.configured == 'true'
-      uses: DataDog/synthetics-ci-github-action@7039855343386c30068a97ca381e68ea405e8539 # v4.1.1
-      with:
-        api-key: ${{ secrets.DD_API_KEY }}
-        app-key: ${{ secrets.DD_APP_KEY }}
-        test-search-query: 'tag:e2e-tests' #Modify this tag to suit your tagging strategy
-
-
+      - name: Run Datadog Synthetic tests
+        if: steps.dd-check.outputs.configured == 'true'
+        uses: DataDog/synthetics-ci-github-action@v4.1.1
+        with:
+          api-key: ${{ secrets.DD_API_KEY }}
+          app-key: ${{ secrets.DD_APP_KEY }}
+          test-search-query: 'tag:e2e-tests'
