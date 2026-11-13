@@ -71,6 +71,7 @@ import { TechyFooter } from '../components/techy/TechyFooter';
 import { HelpdeskSection } from '../components/techy/HelpdeskSection';
 import { PassBookingModal } from '../components/techy/PassBookingModal';
 import { EventDetailModal } from '../components/techy/EventDetailModal';
+import { TechyLogo } from '../components/techy/TechyLogo';
 
 const INITIAL_ACTIVITY_STREAM: ActivityItem[] = [
   { id: 1, name: "Team CyberKnights", branch: "CSE 3rd Yr", action: "crowned Champions of HackArena (24H Sprint)", time: "Sep 29", createdAt: "" },
@@ -308,8 +309,9 @@ export const TechySheikhpuraPage: React.FC = () => {
 
         <div className="max-w-5xl mx-auto w-full relative z-10 text-center flex flex-col items-center justify-center space-y-6">
           
-          {/* Institution Presenter Pill */}
-          <div>
+          {/* Official Emblem & Institution Presenter Pill */}
+          <div className="flex flex-col items-center gap-3">
+            <TechyLogo size={68} glow={true} className="hover:scale-105 transition-transform" />
             <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-black/60 backdrop-blur-2xl border border-white/25 text-white/90 font-mono text-xs font-bold uppercase tracking-widest">
               <Radio className="w-3.5 h-3.5 text-fuchsia-400 animate-spin" />
               <span>{festInfo.collegeName.toUpperCase()} PRESENTS</span>

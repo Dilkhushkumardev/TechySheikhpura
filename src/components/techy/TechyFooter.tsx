@@ -1,5 +1,6 @@
 import React from 'react';
 import { FEST_INFO, FEST_ORGANIZERS, type OrganizerMember } from '../../data/techySheikhpuraData';
+import { TechyLogo } from './TechyLogo';
 
 interface TechyFooterProps {
   telegramUrl?: string;
@@ -34,6 +35,11 @@ export const TechyFooter: React.FC<TechyFooterProps> = ({
       {/* Main Content Inner Container (Exact TechVerse section-inner) */}
       <div className="section-inner relative pt-16 text-center sm:pt-20 pb-10">
         
+        {/* Official Brand Logo */}
+        <div className="flex justify-center mb-5">
+          <TechyLogo size={64} glow={true} />
+        </div>
+
         {/* Main Title: Oxanium Display Font, wide tracking, centered */}
         <h2 className="font-display text-3xl font-bold tracking-wider text-white sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl select-none drop-shadow-[0_4px_24px_rgba(217,70,239,0.28)]">
           Techy Sheikhpura &apos;26

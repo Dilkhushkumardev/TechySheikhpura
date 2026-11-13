@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Sparkles, Ticket, ShieldCheck, Lock } from 'lucide-react';
+import { Menu, X, Ticket, ShieldCheck, Lock } from 'lucide-react';
 import { FEST_INFO } from '../../data/techySheikhpuraData';
+import { TechyLogo } from './TechyLogo';
 
 interface TechyNavbarProps {
   onOpenPassModal: () => void;
@@ -30,26 +31,32 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
   ];
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${
-      isScrolled
-        ? 'bg-[#020003]/90 backdrop-blur-xl border-b border-white/10 shadow-2xl'
-        : 'bg-[#020003]/60 backdrop-blur-md border-b border-white/5'
-    }`}>
-      {/* Top Banner */}
-      <div className="bg-[#050308] border-b border-white/5 px-4 py-1.5 text-[11px] font-mono text-slate-400 hidden sm:block">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-[#020003]/95 backdrop-blur-2xl border-b border-fuchsia-500/20 shadow-[0_10px_35px_rgba(0,0,0,0.85)]'
+          : 'bg-[#020003]/80 backdrop-blur-xl border-b border-white/10'
+      }`}
+    >
+      {/* Top Announcements & Dates Banner */}
+      <div className="bg-gradient-to-r from-[#05020c] via-[#0d041a] to-[#05020c] border-b border-white/10 px-4 sm:px-6 lg:px-8 py-2 text-[11px] font-mono text-slate-300 hidden sm:block">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
+          {/* Institution Tag */}
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse"></span>
-            <span className="text-white font-bold uppercase tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="text-white font-bold uppercase tracking-wider text-[11px]">
               {FEST_INFO.collegeName} (GEC Sheikhpura)
             </span>
           </div>
 
+          {/* Edition & Concluded Status */}
           <div className="flex items-center gap-3">
-            <span className="text-white/80 font-mono">Dates: {FEST_INFO.dates}</span>
-            <span className="text-slate-600">|</span>
-            <span className="text-fuchsia-400 font-semibold flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400"></span>
+            <span className="text-slate-300 font-mono">
+              Dates: <strong className="text-white">{FEST_INFO.dates}</strong>
+            </span>
+            <span className="text-slate-600 font-bold">•</span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-fuchsia-500/15 border border-fuchsia-500/35 text-fuchsia-300 font-bold text-[10px] uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400 animate-pulse"></span>
               Event Concluded (Sep 2026)
             </span>
           </div>
@@ -58,67 +65,76 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
 
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between min-h-[4.75rem] py-2.5 gap-4">
           
-          {/* Logo & Brand Name (Exact TechVerse Style) */}
-          <a href="#hero" className="flex items-center gap-3 group text-left">
-            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600 p-[2px]">
-              <div className="w-full h-full bg-[#020003] rounded-[10px] flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-fuchsia-400 animate-pulse" />
-              </div>
-            </div>
+          {/* Official Custom Brand Logo & Title */}
+          <a
+            href="#hero"
+            className="flex items-center gap-3 group text-left shrink-0 py-1"
+            title="Techy Sheikhpura '26 - Government Engineering College, Sheikhpura"
+          >
+            {/* Custom Brand Logo */}
+            <TechyLogo size={46} glow={true} className="transition-transform group-hover:scale-105" />
 
-            <div className="flex flex-col">
-              <span className="text-xl sm:text-2xl lg:text-3xl font-display font-bold tracking-wider text-white group-hover:text-fuchsia-300 transition-colors">
-                Techy Sheikhpura<span className="text-fuchsia-400 ml-1.5">'26</span>
-              </span>
-              <span className="text-[10px] font-mono text-slate-400 leading-tight">
+            <div className="flex flex-col justify-center">
+              <div className="flex items-center">
+                <span className="text-xl sm:text-2xl font-display font-black tracking-tight text-white group-hover:text-fuchsia-300 transition-colors leading-tight">
+                  Techy <span className="text-gradient-techverse">Sheikhpura</span>
+                </span>
+                <span className="text-fuchsia-400 font-display font-black text-xl sm:text-2xl ml-1">
+                  '26
+                </span>
+              </div>
+              <span className="text-[10px] font-mono text-slate-400 tracking-wider font-semibold uppercase leading-tight mt-0.5">
                 GEC Sheikhpura • Intra College Fest
               </span>
             </div>
           </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1 font-mono text-xs font-semibold">
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5 font-mono text-xs font-semibold">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="px-3.5 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200"
+                className="px-3 xl:px-3.5 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200"
               >
                 {item.name}
               </a>
             ))}
           </nav>
 
-          {/* Action CTA Button */}
-          <div className="hidden lg:flex items-center gap-2.5">
+          {/* Right Action CTA Buttons */}
+          <div className="hidden lg:flex items-center gap-2.5 shrink-0">
             <Link
               to="/verify"
-              className="px-3.5 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-200 hover:text-white font-semibold text-xs font-mono flex items-center gap-1.5 transition-all"
+              className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 hover:text-white font-semibold text-xs font-mono flex items-center gap-1.5 transition-all shadow-sm"
+              title="Verify Delegate Pass Certificate"
             >
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               <span>Verify Pass</span>
             </Link>
+
             <Link
               to="/admin"
-              className="px-3 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-fuchsia-300 font-semibold text-xs font-mono flex items-center gap-1 transition-all"
-              title="Organizer Console"
+              className="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-300 hover:text-fuchsia-300 font-semibold text-xs font-mono flex items-center gap-1.5 transition-all shadow-sm"
+              title="Organizer Administration Console"
             >
               <Lock className="w-3.5 h-3.5" />
               <span>Desk</span>
             </Link>
+
             <button
               type="button"
               onClick={onOpenPassModal}
-              className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold text-xs font-mono uppercase tracking-wider hover:opacity-95 shadow-glow-fuchsia flex items-center gap-2 transition-all hover:scale-105"
+              className="px-4 xl:px-5 py-2 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold text-xs font-mono uppercase tracking-wider hover:opacity-95 shadow-glow-fuchsia flex items-center gap-2 transition-all hover:scale-105"
             >
               <Ticket className="w-4 h-4" />
-              <span>Get Fest Pass</span>
+              <span>Fest Passes</span>
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Action & Toggle */}
           <div className="flex items-center gap-2 lg:hidden">
             <button
               type="button"
@@ -140,24 +156,33 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
         </div>
       </div>
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#020003]/95 backdrop-blur-xl border-b border-white/10 px-4 py-6 space-y-3 font-mono text-xs transition-all duration-200">
+        <div className="lg:hidden bg-[#05020c]/98 backdrop-blur-2xl border-b border-fuchsia-500/25 px-5 py-6 space-y-3 font-mono text-xs transition-all duration-200">
+          <div className="flex items-center gap-3 pb-3 border-b border-white/10">
+            <TechyLogo size={36} glow={false} />
+            <div>
+              <strong className="text-white text-sm font-display block">Techy Sheikhpura '26</strong>
+              <span className="text-[10px] text-slate-400 block">GEC Sheikhpura</span>
+            </div>
+          </div>
+
           {navItems.map((item) => (
             <a
               key={item.name}
               href={item.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-2.5 rounded-lg text-slate-200 hover:bg-white/10"
+              className="block px-4 py-2.5 rounded-xl text-slate-200 hover:bg-white/10 hover:text-white transition-colors"
             >
               {item.name}
             </a>
           ))}
-          <div className="grid grid-cols-2 gap-2 pt-1">
+
+          <div className="grid grid-cols-2 gap-2 pt-2">
             <Link
               to="/verify"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg bg-white/5 border border-white/10 text-emerald-300 font-semibold"
+              className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-emerald-300 font-semibold"
             >
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Verify Pass</span>
@@ -165,12 +190,13 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
             <Link
               to="/admin"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg bg-white/5 border border-white/10 text-fuchsia-300 font-semibold"
+              className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-fuchsia-300 font-semibold"
             >
               <Lock className="w-3.5 h-3.5" />
               <span>Organizer Desk</span>
             </Link>
           </div>
+
           <div className="pt-2">
             <button
               type="button"
@@ -178,9 +204,9 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
                 setMobileMenuOpen(false);
                 onOpenPassModal();
               }}
-              className="w-full py-3 rounded-lg bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-bold uppercase tracking-wider text-center"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-bold uppercase tracking-wider text-center shadow-glow-fuchsia"
             >
-              Get Fest Pass
+              View Fest Passes
             </button>
           </div>
         </div>
