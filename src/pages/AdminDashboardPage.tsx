@@ -269,7 +269,7 @@ const FestInfoEditorForm: React.FC<FestInfoFormProps> = ({ festInfo, token, onSa
           required
           value={dates}
           onChange={(e) => setDates(e.target.value)}
-          placeholder="Dates (e.g. Sep 28 - Sep 29, 2026)"
+          placeholder="Dates (e.g. Nov 28 - Nov 29, 2026)"
           className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
         />
         <input
@@ -916,7 +916,7 @@ export const AdminDashboardPage: React.FC = () => {
   const [evTitle, setEvTitle] = useState('');
   const [evTagline, setEvTagline] = useState('');
   const [evCategory, setEvCategory] = useState<FestEvent['category']>('Coding');
-  const [evDate, setEvDate] = useState('Day 1 (Sep 28)');
+  const [evDate, setEvDate] = useState('Day 1 (Nov 28)');
   const [evTime, setEvTime] = useState('11:00 AM');
   const [evVenue, setEvVenue] = useState('Seminar Hall A');
   const [evTeamSize, setEvTeamSize] = useState('1 - 3 Members');
@@ -1591,7 +1591,7 @@ export const AdminDashboardPage: React.FC = () => {
                       required
                       value={evDate}
                       onChange={(e) => setEvDate(e.target.value)}
-                      placeholder="Day 1 (Sep 28)"
+                      placeholder="Day 1 (Nov 28)"
                       className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
                     />
                   </div>

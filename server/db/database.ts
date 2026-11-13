@@ -422,34 +422,20 @@ function seedFestData(db: DatabaseSync): void {
         VALUES (?, ?, ?, 1)
       `);
       insertNotice.run(
-        'TechySheikhpura \'26 Concluded in September',
-        'The annual intra-college technical fest concluded successfully on September 28–29, 2026. Official results & certificates are published.',
+        'Delegate Pass Window Live',
+        'All-Events Tech Passes (₹149) and Esports Arena slots (₹29) are open with instant HMAC-sealed QR verification.',
         'important'
       );
       insertNotice.run(
-        'Official Winners & Results Declared',
-        'Congratulations to CyberKnights (HackArena), BotMasters (Track-O-Bot), and all category winners!',
+        'HackArena 24H Problem Statement Briefing',
+        'Opening track release begins Day 1 at 10:30 AM sharp in the Central Computing Center, Admin Block.',
         'info'
       );
       insertNotice.run(
-        'Digital Certificate Verification Live',
-        'Delegates and winners can verify their digital credentials using the Verify Pass portal anytime.',
+        'Carry College ID Card at Entry Gate',
+        'Keep both your GEC Sheikhpura Student ID and digital QR Delegate Pass ready for rapid gate check-in.',
         'info'
       );
-    }
-
-    const resultsCount = asNumber((db.prepare('SELECT COUNT(*) AS count FROM event_results').get() as SqlRow | undefined)?.count);
-    if (resultsCount === 0 && process.env.NODE_ENV !== 'test') {
-      const insertResult = db.prepare(`
-        INSERT INTO event_results (event_id, position, winner_name, team_name, branch, roll_no, prize)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-      `);
-      insertResult.run('hackarena', '1st Place (Winner)', 'Aman Kumar & Team', 'CyberKnights', 'CSE 3rd Year', '230101', '₹18,000 + Trophies');
-      insertResult.run('track-o-bot', '1st Place (Winner)', 'Aditya Prakash & Team', 'BotMasters', 'ECE / ME', '230214', '₹12,000 + Hardware Kits');
-      insertResult.run('aerostrike', '1st Place (Winner)', 'Rohan Patel & Co-Pilot', 'SkyRaiders', 'Mechanical 3rd Yr', '230308', '₹10,000 + Flight Kits');
-      insertResult.run('pro-to-pitch', '1st Place (Winner)', 'Pooja Sharma & Team', 'AgroTech Innovators', 'CSE & Civil', '230142', '₹10,000 + Incubation Support');
-      insertResult.run('esports-bgmi', '1st Place (Winner)', 'Vikash Gupta & Squad', 'AlphaX Esports', 'ECE & CSE', '230288', '₹8,000 Cash + Trophies');
-      insertResult.run('nirman-ignite', '1st Place (Winner)', 'Suman Kumari & Team', 'TrussBuilders', 'Civil Engineering', '230412', '₹8,000 + Certificates');
     }
   });
 }
@@ -527,59 +513,6 @@ function runMigrations(db: DatabaseSync): void {
     db.prepare('INSERT OR IGNORE INTO schema_migrations (version, description) VALUES (?, ?)').run(
       4,
       'Updated Chief Patron & Principal name to Dr. Anil Singh Yadav'
-    );
-  }
-
-  const hasV5 = asNumber(
-    (db.prepare('SELECT COUNT(*) AS c FROM schema_migrations WHERE version = 5').get() as SqlRow | undefined)?.c
-  );
-  if (hasV5 === 0) {
-    db.prepare(`
-      UPDATE fest_info
-      SET dates = 'September 28 - 29, 2026',
-          updated_at = datetime('now')
-      WHERE id = 1
-    `).run();
-
-    const eventsCount = asNumber(
-      (db.prepare('SELECT COUNT(*) AS count FROM events').get() as SqlRow | undefined)?.count
-    );
-    if (eventsCount > 0) {
-      db.prepare(`
-        UPDATE events
-        SET date = REPLACE(REPLACE(date, 'Nov 28', 'Sep 28'), 'Nov 29', 'Sep 29')
-      `).run();
-
-      const resultsCount = asNumber(
-        (db.prepare('SELECT COUNT(*) AS count FROM event_results').get() as SqlRow | undefined)?.count
-      );
-      if (resultsCount === 0 && process.env.NODE_ENV !== 'test') {
-        const insertResult = db.prepare(`
-          INSERT INTO event_results (event_id, position, winner_name, team_name, branch, roll_no, prize)
-          VALUES (?, ?, ?, ?, ?, ?, ?)
-        `);
-        insertResult.run('hackarena', '1st Place (Winner)', 'Aman Kumar & Team', 'CyberKnights', 'CSE 3rd Year', '230101', '₹18,000 + Trophies');
-        insertResult.run('track-o-bot', '1st Place (Winner)', 'Aditya Prakash & Team', 'BotMasters', 'ECE / ME', '230214', '₹12,000 + Hardware Kits');
-        insertResult.run('aerostrike', '1st Place (Winner)', 'Rohan Patel & Co-Pilot', 'SkyRaiders', 'Mechanical 3rd Yr', '230308', '₹10,000 + Flight Kits');
-        insertResult.run('pro-to-pitch', '1st Place (Winner)', 'Pooja Sharma & Team', 'AgroTech Innovators', 'CSE & Civil', '230142', '₹10,000 + Incubation Support');
-        insertResult.run('esports-bgmi', '1st Place (Winner)', 'Vikash Gupta & Squad', 'AlphaX Esports', 'ECE & CSE', '230288', '₹8,000 Cash + Trophies');
-        insertResult.run('nirman-ignite', '1st Place (Winner)', 'Suman Kumari & Team', 'TrussBuilders', 'Civil Engineering', '230412', '₹8,000 + Certificates');
-      }
-    }
-
-    db.prepare(`
-      INSERT INTO announcements (title, message, priority, is_active)
-      VALUES (
-        'TechySheikhpura ''26 Concluded in September',
-        'The flagship annual festival concluded successfully on September 28–29, 2026. Official results & certificates are published.',
-        'important',
-        1
-      )
-    `).run();
-
-    db.prepare('INSERT OR IGNORE INTO schema_migrations (version, description) VALUES (?, ?)').run(
-      5,
-      'Updated fest dates to September 28-29, 2026 (Event Concluded) and seeded official results'
     );
   }
 }

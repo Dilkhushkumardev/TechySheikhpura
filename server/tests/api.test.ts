@@ -216,7 +216,7 @@ describe('TechySheikhpura Backend API & SQLite Integration', () => {
         title: 'AI Kernel Quest',
         tagline: 'Automated systems challenge',
         category: 'Coding',
-        date: 'Day 2 (Sep 29)',
+        date: 'Day 2 (Nov 29)',
         time: '01:00 PM',
         venue: 'Computing Lab 2',
         description: 'Optimize algorithmic pipelines cleanly.',
@@ -393,7 +393,7 @@ describe('TechySheikhpura Backend API & SQLite Integration', () => {
     }>('/api/admin/db/stats', { headers: bearerHeaders });
     assert.equal(dbStats.status, 200);
     assert.equal(dbStats.data.dbStats.integrityCheck, 'ok');
-    assert.equal(dbStats.data.dbStats.schemaVersion, 5);
+    assert.equal(dbStats.data.dbStats.schemaVersion, 4);
     assert.equal(Object.keys(dbStats.data.dbStats.tableCounts).length, 17);
 
     const facultyRes = await apiJson<{ organizers: { id: string; name: string }[] }>(
