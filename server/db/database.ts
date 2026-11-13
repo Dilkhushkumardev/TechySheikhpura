@@ -542,6 +542,23 @@ function runMigrations(db: DatabaseSync): void {
       'Updated fest dates to September 28-29, 2026'
     );
   }
+
+  const hasV6 = asNumber(
+    (db.prepare('SELECT COUNT(*) AS c FROM schema_migrations WHERE version = 6').get() as SqlRow | undefined)?.c
+  );
+  if (hasV6 === 0) {
+    db.prepare(`
+      UPDATE fest_info
+      SET stats_json = ?,
+          updated_at = datetime('now')
+      WHERE id = 1
+    `).run(JSON.stringify(FEST_INFO.stats));
+
+    db.prepare('INSERT OR IGNORE INTO schema_migrations (version, description) VALUES (?, ?)').run(
+      6,
+      'Updated stats to 100+ Innovators and ₹10,000+ Prize Pool'
+    );
+  }
 }
 
 export function initDatabase(customPath?: string): DatabaseSync {

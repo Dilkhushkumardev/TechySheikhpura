@@ -393,7 +393,7 @@ describe('TechySheikhpura Backend API & SQLite Integration', () => {
     }>('/api/admin/db/stats', { headers: bearerHeaders });
     assert.equal(dbStats.status, 200);
     assert.equal(dbStats.data.dbStats.integrityCheck, 'ok');
-    assert.equal(dbStats.data.dbStats.schemaVersion, 5);
+    assert.equal(dbStats.data.dbStats.schemaVersion, 6);
     assert.equal(Object.keys(dbStats.data.dbStats.tableCounts).length, 17);
 
     const facultyRes = await apiJson<{ organizers: { id: string; name: string }[] }>(

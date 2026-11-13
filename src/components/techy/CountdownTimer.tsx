@@ -42,12 +42,12 @@ export const CountdownTimer: React.FC = () => {
   ];
 
   return (
-    <div className="relative inline-flex flex-col items-center p-3 sm:p-5 rounded-2xl bg-[#0b0b11]/85 backdrop-blur-2xl border border-white/15 shadow-2xl">
+    <div className="relative inline-flex flex-col items-center p-3 sm:p-5 rounded-2xl bg-[#0b0b11]/90 backdrop-blur-2xl border border-emerald-500/40 shadow-[0_0_35px_rgba(16,185,129,0.18)]">
       {/* Top Status Header */}
-      <div className="flex items-center gap-2 mb-3 text-[11px] font-mono text-fuchsia-400 font-bold uppercase tracking-wider">
+      <div className="flex items-center gap-2 mb-3 text-[11px] font-mono text-emerald-400 font-bold uppercase tracking-wider">
         <span className="flex h-2 w-2 relative">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-fuchsia-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-fuchsia-500"></span>
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
         </span>
         <span>HACKATHON &amp; ARENAS • EVENT CONCLUDED (SEP 2026)</span>
       </div>
@@ -56,25 +56,25 @@ export const CountdownTimer: React.FC = () => {
         {units.map((u, idx) => (
           <React.Fragment key={u.label}>
             <div className="flex flex-col items-center">
-              <div className="w-16 h-20 sm:w-24 sm:h-24 rounded-2xl bg-black/70 border border-white/20 flex items-center justify-center relative overflow-hidden group">
-                <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-fuchsia-400 to-transparent"></div>
+              <div className="w-16 h-20 sm:w-24 sm:h-24 rounded-2xl bg-black/75 border border-emerald-500/35 group-hover:border-emerald-400/70 flex items-center justify-center relative overflow-hidden group shadow-[0_0_20px_rgba(16,185,129,0.12)] transition-all">
+                <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-emerald-400 to-transparent"></div>
 
                 <span className="text-3xl sm:text-4xl font-black text-white font-display tracking-widest drop-shadow-md">
                   {u.value}
                 </span>
 
-                <div className="absolute bottom-1 text-[9px] text-slate-500 font-mono">
+                <div className="absolute bottom-1 text-[9px] text-emerald-400/80 font-mono font-semibold">
                   0{idx + 1}
                 </div>
               </div>
 
-              <span className="text-[10px] sm:text-xs text-white/80 font-bold uppercase tracking-widest mt-2 font-mono">
+              <span className="text-[10px] sm:text-xs text-white/90 font-bold uppercase tracking-widest mt-2 font-mono">
                 {u.label}
               </span>
             </div>
 
             {idx < units.length - 1 && (
-              <span className="text-2xl sm:text-3xl text-fuchsia-400/70 font-bold -mt-6 animate-pulse">
+              <span className="text-2xl sm:text-3xl text-emerald-400/80 font-bold -mt-6 animate-pulse">
                 :
               </span>
             )}
@@ -83,7 +83,7 @@ export const CountdownTimer: React.FC = () => {
       </div>
 
       {/* Concluded Edition Badge */}
-      <div className="mt-3.5 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/25 text-fuchsia-300 font-mono text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">
+      <div className="mt-3.5 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono text-[10px] sm:text-[11px] font-bold tracking-wider uppercase shadow-sm">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
         <span>14+ Arenas Completed • Results Declared</span>
       </div>

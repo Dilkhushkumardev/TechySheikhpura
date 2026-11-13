@@ -373,7 +373,7 @@ export const TechySheikhpuraPage: React.FC = () => {
             <a
               href="#results"
               onClick={() => playClickSound()}
-              className="px-8 py-4 rounded-xl bg-black/60 hover:bg-black/90 text-white border border-white/30 hover:border-white/60 font-black text-xs uppercase tracking-wider transition-all hover:scale-105 flex items-center gap-2.5 backdrop-blur-md shadow-2xl"
+              className="px-8 py-4 rounded-xl bg-black/60 hover:bg-black/90 text-white border border-emerald-500/40 hover:border-emerald-400 font-black text-xs uppercase tracking-wider transition-all hover:scale-105 flex items-center gap-2.5 backdrop-blur-md shadow-[0_0_20px_rgba(16,185,129,0.12)]"
             >
               <Trophy className="w-4 h-4 text-amber-400" />
               <span>Hall of Fame &amp; Winners</span>
@@ -382,20 +382,20 @@ export const TechySheikhpuraPage: React.FC = () => {
             <a
               href="#schedule"
               onClick={() => playClickSound()}
-              className="px-6 py-4 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 font-bold text-xs uppercase tracking-wider transition-colors flex items-center gap-2"
+              className="px-6 py-4 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-emerald-500/30 hover:border-emerald-400 font-bold text-xs uppercase tracking-wider transition-colors flex items-center gap-2"
             >
-              <Clock className="w-4 h-4 text-fuchsia-400" />
+              <Clock className="w-4 h-4 text-emerald-400" />
               <span>Schedule</span>
             </a>
           </div>
 
           {/* Live Activity Toast Banner (Centered) */}
           <div className="pt-1">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 border border-white/20 text-xs font-mono backdrop-blur-xl shadow-lg">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 border border-emerald-500/35 text-xs font-mono backdrop-blur-xl shadow-lg">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span className="text-slate-400 font-bold uppercase text-[10px]">FEST HIGHLIGHTS:</span>
+              <span className="text-emerald-400 font-bold uppercase text-[10px]">FEST HIGHLIGHTS:</span>
               {activityStream[activeTickerIndex] && (
-                <span className="text-fuchsia-300 font-semibold text-[11px]">
+                <span className="text-slate-200 font-semibold text-[11px]">
                   {activityStream[activeTickerIndex].name} ({activityStream[activeTickerIndex].branch}) {activityStream[activeTickerIndex].action}
                 </span>
               )}
@@ -407,12 +407,12 @@ export const TechySheikhpuraPage: React.FC = () => {
             {festInfo.stats.map((stat) => (
               <div 
                 key={stat.label}
-                className="p-4 rounded-2xl bg-[#0b0b11]/85 backdrop-blur-2xl border border-white/10 glass-card"
+                className="p-4 rounded-2xl bg-[#0b0b11]/85 backdrop-blur-2xl border border-emerald-500/35 hover:border-emerald-400/70 transition-all shadow-[0_0_25px_rgba(16,185,129,0.1)] glass-card group"
               >
-                <div className="text-2xl sm:text-3xl font-black font-display text-gradient-techverse">
+                <div className="text-2xl sm:text-3xl font-black font-display text-emerald-400 drop-shadow-[0_0_15px_rgba(16,185,129,0.35)] group-hover:scale-105 transition-transform">
                   {stat.value}
                 </div>
-                <span className="text-[11px] font-mono uppercase text-slate-400 font-bold tracking-wider">
+                <span className="text-[11px] font-mono uppercase text-slate-300 font-bold tracking-wider">
                   {stat.label}
                 </span>
               </div>
@@ -450,7 +450,7 @@ export const TechySheikhpuraPage: React.FC = () => {
               </span>
               <span className="mx-4 text-slate-600">•</span>
               <span className="mx-4 flex items-center gap-2">
-                <Award className="w-4 h-4 text-amber-400" /> ₹75,000+ CASH REWARDS POOL
+                <Award className="w-4 h-4 text-emerald-400" /> ₹10,000+ CASH REWARDS POOL
               </span>
               <span className="mx-4 text-slate-600">•</span>
               <span className="mx-4 text-white">

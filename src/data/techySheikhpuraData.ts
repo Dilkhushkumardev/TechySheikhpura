@@ -66,8 +66,8 @@ export const FEST_INFO = {
   venue: "GEC Sheikhpura Main Campus, NH-333A, Mehus, Sheikhpura, Bihar — 811105",
   stats: [
     { label: "Engineering Events", value: "14+" },
-    { label: "Cash Prize Pool", value: "₹75,000+" },
-    { label: "Expected Innovators", value: "1,200+" },
+    { label: "Cash Prize Pool", value: "₹10,000+" },
+    { label: "Expected Innovators", value: "100+" },
     { label: "Days of Innovation", value: "2 Days" },
   ],
   contacts: {
@@ -528,7 +528,7 @@ export const FEST_SCHEDULE: ScheduleItem[] = [
     title: "Grand Valedictory & Prize Distribution",
     category: "Ceremony",
     venue: "Main Auditorium",
-    description: "Distribution of ₹75,000 cash prizes, trophies, certificates, and celebration DJ night.",
+    description: "Distribution of ₹10,000 cash prizes, trophies, certificates, and celebration DJ night.",
   },
 ];
 

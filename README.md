@@ -84,8 +84,8 @@
 <table width="100%">
   <tr>
     <td width="20%" align="center"><h3>⚡ 14+</h3><sub>Engineering &amp; Gaming Arenas</sub></td>
-    <td width="20%" align="center"><h3>🏆 ₹75,000+</h3><sub>Cash Prize Pool &amp; Trophies</sub></td>
-    <td width="20%" align="center"><h3>👥 1,200+</h3><sub>Expected Student Innovators</sub></td>
+    <td width="20%" align="center"><h3>🏆 ₹10,000+</h3><sub>Cash Prize Pool &amp; Trophies</sub></td>
+    <td width="20%" align="center"><h3>👥 100+</h3><sub>Expected Student Innovators</sub></td>
     <td width="20%" align="center"><h3>🎟️ 3 Tiers</h3><sub>HMAC-Sealed SVG QR Passes</sub></td>
     <td width="20%" align="center"><h3>🗄️ 17 Tables</h3><sub>SQLite WAL + 3 Analytics Views</sub></td>
   </tr>

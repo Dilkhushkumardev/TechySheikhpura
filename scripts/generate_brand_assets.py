@@ -419,7 +419,7 @@ def generate_og_image():
     # Event Stats Badges
     badges = [
         ("14+ Tech Arenas", (255, 42, 133)),
-        ("₹75,000+ Cash Pool", (16, 185, 129)),
+        ("₹10,000+ Cash Pool", (16, 185, 129)),
         ("Hackathons & Robotics", (0, 242, 254)),
     ]
     cur_x = 495
