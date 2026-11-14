@@ -9,7 +9,6 @@ import {
   ArrowUpRight,
   Users,
   Sparkles,
-  Phone,
   Mail,
   MapPin,
   Clock,
@@ -306,28 +305,22 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
                 </div>
               </div>
 
-              {/* Direct Actions: Call & LinkedIn */}
-              <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-xs">
-                <a
-                  href={`tel:${featuredLead.phone.replace(/\s+/g, '')}`}
-                  className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-fuchsia-600/25 hover:bg-fuchsia-600/40 border border-fuchsia-400/40 hover:border-fuchsia-400/70 text-white font-bold transition-all shadow-sm group-hover:shadow-glow-fuchsia"
-                >
-                  <Phone className="w-3.5 h-3.5 text-fuchsia-400" />
-                  <span>Call {featuredLead.phone}</span>
-                </a>
+              {/* Direct Action: LinkedIn Connection Only */}
+              <div className="pt-1 font-mono text-xs">
                 <a
                   href={featuredLead.linkedin || 'https://www.linkedin.com/in/supriya-singh-6ba07a370/'}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 py-2 px-3.5 rounded-xl bg-[#0077b5]/20 hover:bg-[#0077b5]/35 border border-[#0077b5]/45 hover:border-[#0077b5]/75 text-sky-200 hover:text-white font-bold transition-all shadow-[0_0_15px_rgba(0,119,181,0.25)]"
+                  className="w-full inline-flex items-center justify-center gap-2.5 py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#0077b5]/30 via-sky-600/25 to-[#0077b5]/30 hover:from-[#0077b5]/45 hover:to-sky-500/40 border border-sky-400/50 hover:border-sky-300 text-white font-bold transition-all shadow-[0_0_20px_rgba(0,119,181,0.25)] hover:scale-[1.01]"
                   title="Connect with Supriya Singh on LinkedIn"
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-sky-400">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-sky-400">
                     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
                     <rect width="4" height="12" x="2" y="9" />
                     <circle cx="4" cy="4" r="2" />
                   </svg>
-                  <span>LinkedIn Profile</span>
+                  <span>Connect on LinkedIn (Supriya Singh)</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-sky-300" />
                 </a>
               </div>
             </div>
