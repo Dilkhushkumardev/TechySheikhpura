@@ -264,8 +264,8 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
               </div>
 
               {/* Holographic Delegate Badge with Deterministic QR */}
-              <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0b0b11] via-[#091515] to-[#020003] border-2 border-emerald-500/40 text-left relative overflow-hidden shadow-[0_0_30px_rgba(16,185,129,0.12)] space-y-4">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-fuchsia-500/15 rounded-full blur-2xl pointer-events-none"></div>
+              <div className="p-6 rounded-3xl bg-gradient-to-br from-[#160722] via-[#0e0417] to-[#040108] border-2 border-fuchsia-500/50 text-left relative overflow-hidden shadow-[0_0_35px_rgba(217,70,239,0.2)] space-y-4">
+                <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-fuchsia-500/20 via-pink-500/15 to-transparent rounded-full blur-2xl pointer-events-none"></div>
 
                 <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-3 relative">
                   <div>
@@ -403,8 +403,9 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
 
               {/* Select Pass Tabs */}
               <div>
-                <label className="block text-xs font-mono text-slate-300 mb-2 font-bold uppercase">
-                  Select Your Fest Pass:
+                <label className="block text-xs font-mono text-slate-300 mb-2 font-bold uppercase flex items-center justify-between">
+                  <span>Select Your Fest Pass:</span>
+                  <span className="text-[10px] text-fuchsia-300 font-normal font-mono">100% Free Access</span>
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   {availablePasses.map((p) => (
@@ -412,13 +413,15 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                       key={p.id}
                       type="button"
                       onClick={() => setOverridePassId(p.id)}
-                      className={`p-3 rounded-2xl border text-left transition-all ${
+                      className={`p-3 rounded-2xl border text-left transition-all relative overflow-hidden ${
                         passId === p.id
-                          ? 'bg-fuchsia-500/15 border-fuchsia-400 shadow-glow-fuchsia'
-                          : 'bg-[#020003]/70 border-white/10 hover:border-white/25'
+                          ? 'bg-gradient-to-br from-fuchsia-500/30 via-pink-500/25 to-purple-500/30 border-2 border-fuchsia-400 shadow-[0_0_20px_rgba(217,70,239,0.4)] text-white scale-[1.02]'
+                          : 'bg-gradient-to-br from-[#160822]/90 to-[#0b0413]/90 border border-fuchsia-500/25 hover:border-fuchsia-400/60 hover:bg-fuchsia-500/15 text-slate-300'
                       }`}
                     >
-                      <span className="text-[10px] font-mono uppercase text-slate-400 block truncate">
+                      <span className={`text-[10px] font-mono uppercase block truncate font-bold ${
+                        passId === p.id ? 'text-white' : 'text-fuchsia-300/80'
+                      }`}>
                         {p.name.split(' ')[0]}
                       </span>
                       <strong className="text-lg font-bold text-emerald-400 font-mono block">
@@ -433,15 +436,21 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
               </div>
 
               {/* Pass Selected Highlight */}
-              <div className="p-3.5 rounded-xl bg-[#050308] border border-emerald-500/30 text-xs text-slate-300 space-y-1.5">
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-[#180924] via-[#0e0417] to-[#06020a] border-2 border-fuchsia-500/40 shadow-[0_0_25px_rgba(217,70,239,0.18)] text-xs text-slate-300 space-y-2">
                 <div className="flex items-center justify-between font-bold text-white">
-                  <span className="text-fuchsia-300">{currentPass.name}</span>
-                  <span className="font-mono text-emerald-400 font-black">100% FREE (₹0)</span>
+                  <span className="text-fuchsia-300 text-sm font-display flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-pink-400 animate-pulse" />
+                    {currentPass.name}
+                  </span>
+                  <span className="font-mono text-emerald-400 font-black px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30">100% FREE (₹0)</span>
                 </div>
-                <p className="text-[11px] text-slate-400">{currentPass.tagline}</p>
-                <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-emerald-300">
-                  <span>✓ Intra-College GECS Free Pass</span>
-                  <Link to="/team-register" onClick={onClose} className="text-fuchsia-400 hover:text-white underline">
+                <p className="text-[11px] text-slate-300 leading-relaxed">{currentPass.tagline}</p>
+                <div className="pt-2 border-t border-fuchsia-500/20 flex items-center justify-between text-[10px] font-mono text-emerald-300">
+                  <span className="flex items-center gap-1">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                    Intra-College GECS Free Pass
+                  </span>
+                  <Link to="/team-register" onClick={onClose} className="text-fuchsia-400 hover:text-white underline font-bold">
                     Have a Squad? Register Team →
                   </Link>
                 </div>

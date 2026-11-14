@@ -747,66 +747,81 @@ export const TechySheikhpuraPage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {passes.map((pass) => (
-            <div
-              key={pass.id}
-              className={`p-8 rounded-3xl relative flex flex-col justify-between space-y-8 transition-all duration-300 hover:-translate-y-2 ${
-                pass.isPopular
-                  ? 'techverse-border-glow bg-[#0b0b11] border border-fuchsia-500/50 shadow-glow-fuchsia scale-105'
-                  : 'bg-[#0b0b11]/85 border border-white/10 hover:border-emerald-500/40 hover:shadow-[0_0_20px_rgba(16,185,129,0.08)] glass-card'
-              }`}
-            >
-              {pass.isPopular && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-mono font-black text-[10px] uppercase tracking-wider shadow-lg">
-                  ⭐ 100% FREE FOR ALL STUDENTS
-                </span>
-              )}
+          {passes.map((pass) => {
+            const badgeConfig =
+              pass.id === 'esports-pass'
+                ? {
+                    label: '🎮 100% FREE • BGMI & FREE FIRE BATTLE PASS',
+                    gradient: 'from-pink-600 via-rose-600 to-fuchsia-600',
+                  }
+                : pass.id === 'vip-innovator-pass'
+                ? {
+                    label: '🚀 100% FREE • SQUAD LEADER & VIP DELEGATE',
+                    gradient: 'from-purple-600 via-fuchsia-600 to-pink-600',
+                  }
+                : {
+                    label: '⭐ 100% FREE • ALL-ACCESS STUDENT PASS',
+                    gradient: 'from-fuchsia-600 via-pink-600 to-purple-600',
+                  };
 
-              <div className="space-y-4">
-                <div className="space-y-1">
-                  <h3 className="text-xl font-bold font-display text-white">{pass.name}</h3>
-                  <p className="text-xs text-slate-400">{pass.tagline}</p>
-                </div>
-
-                <div className="flex items-center gap-2.5 font-mono">
-                  <span className="text-3xl sm:text-4xl font-black text-emerald-400 drop-shadow-[0_0_15px_rgba(16,185,129,0.35)]">
-                    FREE
-                  </span>
-                  <span className="text-[10px] text-emerald-300 font-bold uppercase bg-emerald-500/15 px-2.5 py-1 rounded-full border border-emerald-500/35 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    ₹0 Zero Fees
-                  </span>
-                </div>
-
-                <p className="text-[11px] font-mono text-fuchsia-300 pt-2 border-t border-white/10">
-                  {pass.accessScope}
-                </p>
-
-                {/* Features Checklist */}
-                <ul className="space-y-2.5 pt-2 text-xs text-slate-300">
-                  {pass.features.map((feat) => (
-                    <li key={feat} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => { playClickSound(); handleOpenPass(pass.id); }}
-                className={`w-full py-4 rounded-xl font-black text-xs uppercase font-mono tracking-wider transition-all flex items-center justify-center gap-2 ${
-                  pass.isPopular
-                    ? 'bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white hover:opacity-95 shadow-glow-fuchsia'
-                    : 'bg-white/10 hover:bg-white/20 text-white border border-white/25 hover:border-emerald-500/40'
-                }`}
+            return (
+              <div
+                key={pass.id}
+                className="techverse-border-glow p-8 rounded-3xl relative flex flex-col justify-between space-y-8 transition-all duration-300 hover:-translate-y-2 bg-gradient-to-b from-[#14081c]/95 via-[#0d0615]/95 to-[#06020c]/95 border-2 border-fuchsia-500/50 hover:border-pink-400 shadow-[0_0_35px_rgba(217,70,239,0.18)] hover:shadow-[0_0_50px_rgba(217,70,239,0.35)] backdrop-blur-xl group"
               >
-                <Ticket className="w-4 h-4" />
-                <span>Claim Free {pass.name.split(' ')[0]} Pass</span>
-              </button>
-            </div>
-          ))}
+                <span
+                  className={`absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r ${badgeConfig.gradient} text-white font-mono font-black text-[10px] uppercase tracking-wider shadow-[0_0_20px_rgba(217,70,239,0.4)] whitespace-nowrap`}
+                >
+                  {badgeConfig.label}
+                </span>
+
+                <div className="space-y-4">
+                  <div className="space-y-1">
+                    <h3 className="text-xl font-bold font-display text-white group-hover:text-pink-200 transition-colors">
+                      {pass.name}
+                    </h3>
+                    <p className="text-xs text-slate-300">{pass.tagline}</p>
+                  </div>
+
+                  <div className="flex items-center gap-2.5 font-mono">
+                    <span className="text-3xl sm:text-4xl font-black text-emerald-400 drop-shadow-[0_0_15px_rgba(16,185,129,0.35)]">
+                      FREE
+                    </span>
+                    <span className="text-[10px] text-emerald-300 font-bold uppercase bg-emerald-500/15 px-2.5 py-1 rounded-full border border-emerald-500/35 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      ₹0 Zero Fees
+                    </span>
+                  </div>
+
+                  <p className="text-[11px] font-mono text-fuchsia-300 pt-2 border-t border-fuchsia-500/20">
+                    {pass.accessScope}
+                  </p>
+
+                  {/* Features Checklist */}
+                  <ul className="space-y-2.5 pt-2 text-xs text-slate-300">
+                    {pass.features.map((feat) => (
+                      <li key={feat} className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    playClickSound();
+                    handleOpenPass(pass.id);
+                  }}
+                  className="w-full py-4 rounded-xl font-black text-xs uppercase font-mono tracking-wider transition-all flex items-center justify-center gap-2 bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 hover:from-fuchsia-500 hover:via-pink-500 hover:to-purple-500 text-white shadow-glow-fuchsia hover:shadow-[0_0_30px_rgba(217,70,239,0.5)] active:scale-[0.99]"
+                >
+                  <Ticket className="w-4 h-4" />
+                  <span>Claim Free {pass.name.split(' ')[0]} Pass</span>
+                </button>
+              </div>
+            );
+          })}
         </div>
       </section>
 

@@ -413,7 +413,7 @@ export const FEST_PASSES: FestPass[] = [
     price: 0,
     originalPrice: 0,
     tagline: "100% Free Entry for BGMI & Free Fire MAX Squads",
-    isPopular: false,
+    isPopular: true,
     accessScope: "Confirmed free squad slot for esports battle royale tournaments",
     features: [
       "100% Free squad entry — No tournament entry fee or pass payment needed",
@@ -429,7 +429,7 @@ export const FEST_PASSES: FestPass[] = [
     price: 0,
     originalPrice: 0,
     tagline: "Full Fest Access + Project Showcase & Incubator Mentorship",
-    isPopular: false,
+    isPopular: true,
     accessScope: "Complete unrestricted free clearance for entire festival & tech labs",
     features: [
       "Includes ALL Tech Events + BOTH Esports Tournaments (BGMI & Free Fire)",
