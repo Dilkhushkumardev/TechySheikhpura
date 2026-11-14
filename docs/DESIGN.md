@@ -47,7 +47,7 @@ The design system for **TechySheikhpura '26** establishes a cohesive pitch-midni
 DISPLAY (Oxanium)        -->  TECHY SHEIKHPURA '26  (84px+ / Bold-ExtraBold)
 SUB-TITLE (Oxanium)      -->  WHERE IDEAS MEET INNOVATION (24px / Bold / Tracking 0.14em)
 SECTION HEAD (Oxanium)   -->  FEST EVENTS ARENA (36px–48px / Bold-Black)
-CONDENSED (Barlow Cond.) -->  MADE WITH TEAM HUNTER FROM GEC SHEIKHPURA
+CONDENSED (Barlow Cond.) -->  MADE WITH SUPRIYA SINGH FROM GEC SHEIKHPURA
 BODY (Plus Jakarta Sans) -->  The flagship annual intra-college techno-cultural festival... (14px)
 HUD DATA (Mono)          -->  LOC: 25.1322° N, 85.8488° E • MEHUS, SHEIKHPURA (11px / Bold)
 ```

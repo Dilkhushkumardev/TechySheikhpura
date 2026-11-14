@@ -141,7 +141,7 @@ TechySheikhpura/
             ├── HelpdeskSection.tsx         # Student support form persisted to /api/inquiries
             ├── PassBookingModal.tsx        # SQLite-backed booking form + offline fallback
             ├── TechyNavbar.tsx             # Sticky navbar with Verify Pass, Desk & CTA links
-            └── TechyFooter.tsx             # AI twilight crowd footer with Team Hunter & Telegram
+            └── TechyFooter.tsx             # AI twilight crowd footer with Supriya Singh & Telegram
 ```
 
 Rendered sections inside `TechySheikhpuraPage.tsx`:
@@ -153,7 +153,7 @@ Rendered sections inside `TechySheikhpuraPage.tsx`:
 5. **Events Arena (`#events`)** — Category filter pills (`All` + 7 categories), keyword search input, SQLite-backed event cards, and `EventDetailModal` trigger.
 6. **Passes & Clubs (`#passes`)** — 3 pass tiers (`₹149`, `₹29`, `₹199`) launching `PassBookingModal`, plus 5 GEC Sheikhpura student clubs.
 7. **Schedule, FAQs & Helpdesk (`#schedule`, `#faqs`, `#contact`)** — Day 1 / Day 2 timeline toggle, FAQ accordion, and SQLite-backed Student Helpdesk form.
-8. **Footer (`TechyFooter`)** — AI twilight crowd backdrop, Team Hunter attribution, Telegram channel pill, coordinator `tel:` links, and outlined `GEC SHEIKHPURA` backdrop typography.
+8. **Footer (`TechyFooter`)** — AI twilight crowd backdrop, Supriya Singh attribution, Telegram channel pill, coordinator `tel:` links, and outlined `GEC SHEIKHPURA` backdrop typography.
 
 ---
 

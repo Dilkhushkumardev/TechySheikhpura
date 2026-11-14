@@ -696,6 +696,31 @@ function runMigrations(db: DatabaseSync): void {
       'Added team_registrations table and indexes for fest team registrations'
     );
   }
+
+  const hasV8 = asNumber(
+    (db.prepare('SELECT COUNT(*) AS c FROM schema_migrations WHERE version = 8').get() as SqlRow | undefined)?.c
+  );
+  if (hasV8 === 0) {
+    const orgCount = asNumber((db.prepare('SELECT COUNT(*) AS count FROM organizers').get() as SqlRow | undefined)?.count);
+    if (orgCount > 0) {
+      db.prepare(`
+        UPDATE organizers
+        SET featured_footer = 0
+      `).run();
+      db.prepare(`
+        DELETE FROM organizers
+        WHERE id IN ('org-dilkhush', 'org-amrita', 'org-ashish', 'org-aryan', 'org-aditya', 'org-vikash', 'org-team-hunter')
+      `).run();
+      db.prepare(`
+        INSERT OR REPLACE INTO organizers (id, name, role, department, phone, category, featured_footer, sort_order)
+        VALUES ('org-supriya', 'Supriya Singh', 'Student Convenor & Lead Organizer', 'GEC Sheikhpura', '+91 98765 43210', 'student', 1, 1)
+      `).run();
+    }
+    db.prepare('INSERT OR IGNORE INTO schema_migrations (version, description) VALUES (?, ?)').run(
+      8,
+      'Updated footer organizer contacts to Supriya Singh exclusively'
+    );
+  }
 }
 
 export function initDatabase(customPath?: string): DatabaseSync {

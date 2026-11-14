@@ -53,7 +53,7 @@
   <tr>
     <td align="center">
       <strong>🌐 Public Live Deployment:</strong> <a href="https://dilkhushkumardev.github.io/TechySheikhpura/"><strong>dilkhushkumardev.github.io/TechySheikhpura</strong></a><br />
-      <sub>GitHub Pages serves the full responsive frontend, <strong>14 events</strong>, <strong>HUD countdown</strong>, <strong>Dilkhush | Amrita | Ashish</strong> contacts &amp; offline/localStorage QR pass generator. Run <code>npm run dev</code> locally to unlock the shared <strong>17-table SQLite database</strong>, <code>/api/*</code> endpoints, and Organizer Admin Desk (<code>/admin</code>).</sub>
+      <sub>GitHub Pages serves the full responsive frontend, <strong>14 events</strong>, <strong>HUD countdown</strong>, <strong>Supriya Singh</strong> contact &amp; offline/localStorage QR pass generator. Run <code>npm run dev</code> locally to unlock the shared <strong>17-table SQLite database</strong>, <code>/api/*</code> endpoints, and Organizer Admin Desk (<code>/admin</code>).</sub>
     </td>
   </tr>
 </table>
@@ -531,8 +531,8 @@ TechySheikhpura/
 </table>
 
 <p>
-  <strong>Core Student Contacts:</strong> Dilkhush &nbsp;•&nbsp; Amrita &nbsp;•&nbsp; Ashish<br />
-  <strong>Chief Patron:</strong> Dr. Anil Singh Yadav (Principal, GEC Sheikhpura) &nbsp;•&nbsp; <strong>Engineered By:</strong> Team Hunter<br />
+  <strong>Core Student Contact:</strong> Supriya Singh<br />
+  <strong>Chief Patron:</strong> Dr. Anil Singh Yadav (Principal, GEC Sheikhpura) &nbsp;•&nbsp; <strong>Engineered By:</strong> Supriya Singh<br />
   <strong>Campus Venue:</strong> Government Engineering College, Sheikhpura — NH-333A, Mehus, Bihar 811105
 </p>
 

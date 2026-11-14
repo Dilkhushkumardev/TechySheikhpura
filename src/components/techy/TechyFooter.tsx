@@ -47,7 +47,7 @@ export const TechyFooter: React.FC<TechyFooterProps> = ({
 
         {/* Footer Credit */}
         <p className="font-condensed mt-4 text-lg font-semibold uppercase tracking-[0.16em] text-fuchsia-100/95 sm:text-2xl">
-          Made With Team Hunter From GEC SHEIKHPURA
+          Made With Supriya Singh From GEC SHEIKHPURA
         </p>
 
         {/* Social Link Pill: Telegram */}

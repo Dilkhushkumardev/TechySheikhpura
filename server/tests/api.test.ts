@@ -298,11 +298,12 @@ describe('TechySheikhpura Backend API & SQLite Integration', () => {
     assert.equal(clubsRes.status, 200);
     assert.equal(clubsRes.data.clubs.length, 5);
 
-    const orgsRes = await apiJson<{ organizers: { category: string }[] }>(
+    const orgsRes = await apiJson<{ organizers: { category: string; name: string }[] }>(
       '/api/organizers?category=student'
     );
     assert.equal(orgsRes.status, 200);
-    assert.ok(orgsRes.data.organizers.length >= 3);
+    assert.ok(orgsRes.data.organizers.length >= 1);
+    assert.equal(orgsRes.data.organizers[0]?.name, 'Supriya Singh');
 
     const clubCreate = await apiJson<{ club: { id: string } }>('/api/admin/clubs', {
       method: 'POST',
@@ -393,7 +394,7 @@ describe('TechySheikhpura Backend API & SQLite Integration', () => {
     }>('/api/admin/db/stats', { headers: bearerHeaders });
     assert.equal(dbStats.status, 200);
     assert.equal(dbStats.data.dbStats.integrityCheck, 'ok');
-    assert.equal(dbStats.data.dbStats.schemaVersion, 7);
+    assert.equal(dbStats.data.dbStats.schemaVersion, 8);
     assert.equal(Object.keys(dbStats.data.dbStats.tableCounts).length, 18);
 
     const facultyRes = await apiJson<{ organizers: { id: string; name: string }[] }>(
@@ -408,7 +409,7 @@ describe('TechySheikhpura Backend API & SQLite Integration', () => {
     assert.equal(footerContactsRes.status, 200);
     assert.deepEqual(
       footerContactsRes.data.organizers.filter((m) => m.featuredFooter).map((m) => m.name),
-      ['Dilkhush', 'Amrita', 'Ashish']
+      ['Supriya Singh']
     );
 
     const backupRes = await fetch(`${baseUrl}/api/admin/db/backup`, { headers: bearerHeaders });
