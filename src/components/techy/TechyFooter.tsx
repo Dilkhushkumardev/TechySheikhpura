@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { FEST_INFO, FEST_ORGANIZERS, type OrganizerMember } from '../../data/techySheikhpuraData';
 import { TechyLogo } from './TechyLogo';
 
@@ -51,7 +51,7 @@ export const TechyFooter: React.FC<TechyFooterProps> = ({
           Made With Supriya Singh From GEC SHEIKHPURA
         </p>
 
-        {/* Social Link Pill: Telegram */}
+        {/* Social Link Pills: Telegram & LinkedIn */}
         <p className="font-condensed mt-3 sm:mt-4 flex flex-wrap items-center justify-center gap-3 text-base font-semibold uppercase tracking-[0.14em] text-white/90 sm:text-2xl">
           <a
             href={telegramUrl}
@@ -66,6 +66,22 @@ export const TechyFooter: React.FC<TechyFooterProps> = ({
             </svg>
             <span>Telegram</span>
           </a>
+
+          <a
+            href="https://www.linkedin.com/in/supriya-singh-6ba07a370/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Supriya Singh LinkedIn"
+            className="font-condensed inline-flex items-center gap-2 rounded-full border border-sky-400/40 bg-[#0077b5]/25 px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.12em] text-sky-200 transition hover:border-sky-300 hover:bg-[#0077b5]/45 hover:text-white sm:text-base backdrop-blur-sm shadow-[0_0_15px_rgba(0,119,181,0.25)]"
+          >
+            {/* LinkedIn SVG */}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-sky-400">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect width="4" height="12" x="2" y="9" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+            <span>LinkedIn</span>
+          </a>
         </p>
 
         {/* Divider & Enhanced Contact Bar */}
@@ -78,12 +94,19 @@ export const TechyFooter: React.FC<TechyFooterProps> = ({
               {contactsList.map((member) => (
                 <a
                   key={member.id}
-                  href={`tel:${member.phone.replace(/\s+/g, '')}`}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-fuchsia-500/15 border border-fuchsia-400/40 text-fuchsia-300 hover:text-white hover:bg-fuchsia-500/30 hover:border-fuchsia-400/70 transition-all shadow-[0_0_15px_rgba(217,70,239,0.18)] font-bold text-xs"
+                  href={member.linkedin || 'https://www.linkedin.com/in/supriya-singh-6ba07a370/'}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-fuchsia-500/20 to-sky-500/20 border border-fuchsia-400/40 hover:border-sky-400/70 text-fuchsia-200 hover:text-white hover:bg-fuchsia-500/30 transition-all shadow-[0_0_15px_rgba(217,70,239,0.18)] font-bold text-xs"
+                  title="Connect with Supriya Singh on LinkedIn"
                 >
-                  <Phone className="w-3.5 h-3.5 text-fuchsia-400" />
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-sky-400">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                    <rect width="4" height="12" x="2" y="9" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
                   <span>{member.name}</span>
-                  <span className="text-white/60 font-normal">({member.phone})</span>
+                  <span className="text-sky-300 font-normal text-[11px]">(LinkedIn)</span>
                 </a>
               ))}
             </div>

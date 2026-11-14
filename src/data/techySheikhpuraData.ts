@@ -53,6 +53,7 @@ export interface OrganizerMember {
   phone: string;
   category: 'faculty' | 'student' | 'team';
   featuredFooter: boolean;
+  linkedin?: string;
 }
 
 export const FEST_INFO = {
@@ -75,6 +76,7 @@ export const FEST_INFO = {
     phone: "+91 6341 223010",
     studentConvenor: "+91 98765 43210",
     telegram: "https://t.me/beucsepreparation",
+    linkedin: "https://www.linkedin.com/in/supriya-singh-6ba07a370/",
   }
 };
 
@@ -616,6 +618,7 @@ export const FEST_ORGANIZERS: OrganizerMember[] = [
     phone: '+91 98765 43210',
     category: 'student',
     featuredFooter: true,
+    linkedin: 'https://www.linkedin.com/in/supriya-singh-6ba07a370/',
   },
 ];
 

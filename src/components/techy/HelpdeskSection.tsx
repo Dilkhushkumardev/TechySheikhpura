@@ -11,7 +11,6 @@ import {
   Sparkles,
   Phone,
   Mail,
-  MessageCircle,
   MapPin,
   Clock,
   Radio,
@@ -98,6 +97,7 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
       phone: '+91 98765 43210',
       category: 'student',
       featuredFooter: true,
+      linkedin: 'https://www.linkedin.com/in/supriya-singh-6ba07a370/',
     };
 
   const handleInquirySubmit = async (e: React.FormEvent) => {
@@ -306,7 +306,7 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
                 </div>
               </div>
 
-              {/* Direct Actions: Call & WhatsApp */}
+              {/* Direct Actions: Call & LinkedIn */}
               <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-xs">
                 <a
                   href={`tel:${featuredLead.phone.replace(/\s+/g, '')}`}
@@ -316,14 +316,18 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
                   <span>Call {featuredLead.phone}</span>
                 </a>
                 <a
-                  href={`https://wa.me/${featuredLead.phone.replace(/\D/g, '')}`}
+                  href={featuredLead.linkedin || 'https://www.linkedin.com/in/supriya-singh-6ba07a370/'}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-bold transition-all"
-                  title="WhatsApp Student Convenor"
+                  className="inline-flex items-center justify-center gap-2 py-2 px-3.5 rounded-xl bg-[#0077b5]/20 hover:bg-[#0077b5]/35 border border-[#0077b5]/45 hover:border-[#0077b5]/75 text-sky-200 hover:text-white font-bold transition-all shadow-[0_0_15px_rgba(0,119,181,0.25)]"
+                  title="Connect with Supriya Singh on LinkedIn"
                 >
-                  <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>WhatsApp</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-sky-400">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                    <rect width="4" height="12" x="2" y="9" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
+                  <span>LinkedIn Profile</span>
                 </a>
               </div>
             </div>
