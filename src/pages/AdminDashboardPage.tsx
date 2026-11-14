@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   Database,
   Download,
+  HelpCircle,
   History,
   IndianRupee,
   Loader2,
@@ -17,12 +18,14 @@ import {
   Save,
   Search,
   Settings,
+  ShieldAlert,
   ShieldCheck,
   Ticket,
   Trash2,
   Trophy,
   Users,
 } from 'lucide-react';
+import { TechyLogo } from '../components/techy/TechyLogo';
 import {
   FEST_EVENTS,
   FEST_INFO,
@@ -145,18 +148,18 @@ const PassEditorCard: React.FC<PassEditorCardProps> = ({ pass, token, onSaved, o
   return (
     <form
       onSubmit={handleSave}
-      className="p-4 rounded-2xl bg-[#0b0b11] border border-white/10 space-y-3 text-xs"
+      className="p-5 rounded-2xl bg-gradient-to-b from-[#0d071a]/95 via-[#080512]/95 to-[#050309]/95 border border-white/10 hover:border-fuchsia-500/35 space-y-3.5 text-xs shadow-lg transition-all"
     >
       <div className="flex items-center justify-between gap-2">
-        <span className="font-mono text-[11px] text-fuchsia-300 font-bold uppercase">
+        <span className="font-mono text-[11px] text-fuchsia-300 font-bold uppercase tracking-wider">
           Tier ID: {pass.id}
         </span>
         <button
           type="button"
           onClick={() => setIsPopular((prev) => !prev)}
-          className={`px-2.5 py-1 rounded-lg font-mono text-[10px] font-bold border transition-colors ${
+          className={`px-2.5 py-1 rounded-lg font-mono text-[10px] font-bold border transition-all ${
             isPopular
-              ? 'bg-amber-500/20 border-amber-400/40 text-amber-300'
+              ? 'bg-amber-500/20 border-amber-400/40 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
               : 'bg-white/5 border-white/10 text-slate-400'
           }`}
         >
@@ -171,7 +174,7 @@ const PassEditorCard: React.FC<PassEditorCardProps> = ({ pass, token, onSaved, o
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Pass Name"
-          className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+          className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
         />
         <input
           type="text"
@@ -179,7 +182,7 @@ const PassEditorCard: React.FC<PassEditorCardProps> = ({ pass, token, onSaved, o
           value={accessScope}
           onChange={(e) => setAccessScope(e.target.value)}
           placeholder="Access Scope"
-          className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+          className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
         />
         <input
           type="number"
@@ -188,7 +191,7 @@ const PassEditorCard: React.FC<PassEditorCardProps> = ({ pass, token, onSaved, o
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           placeholder="Price (INR)"
-          className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-emerald-300 font-mono"
+          className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-emerald-300 font-mono focus:border-fuchsia-400 focus:outline-none"
         />
         <input
           type="number"
@@ -197,7 +200,7 @@ const PassEditorCard: React.FC<PassEditorCardProps> = ({ pass, token, onSaved, o
           value={originalPrice}
           onChange={(e) => setOriginalPrice(e.target.value)}
           placeholder="Original Price (INR)"
-          className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-slate-300 font-mono"
+          className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-slate-300 font-mono focus:border-fuchsia-400 focus:outline-none"
         />
       </div>
 
@@ -207,13 +210,13 @@ const PassEditorCard: React.FC<PassEditorCardProps> = ({ pass, token, onSaved, o
         value={tagline}
         onChange={(e) => setTagline(e.target.value)}
         placeholder="Tagline"
-        className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-slate-200"
+        className="w-full px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-slate-200 focus:border-fuchsia-400 focus:outline-none"
       />
 
       <button
         type="submit"
         disabled={saving}
-        className="px-4 py-2 rounded-xl bg-fuchsia-600/25 hover:bg-fuchsia-600/40 border border-fuchsia-400/40 text-fuchsia-200 font-mono font-bold uppercase tracking-wider inline-flex items-center gap-1.5"
+        className="px-4 py-2.5 rounded-xl bg-fuchsia-600/25 hover:bg-fuchsia-600/40 border border-fuchsia-400/40 text-fuchsia-200 font-mono font-bold uppercase tracking-wider inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(217,70,239,0.15)] transition-all"
       >
         {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
         <span>Save Tier Pricing</span>
@@ -263,10 +266,10 @@ const FestInfoEditorForm: React.FC<FestInfoFormProps> = ({ festInfo, token, onSa
   return (
     <form
       onSubmit={handleSave}
-      className="lg:col-span-5 p-5 rounded-2xl bg-[#0b0b11] border border-fuchsia-500/30 space-y-3 text-xs"
+      className="lg:col-span-5 p-5 rounded-2xl bg-gradient-to-b from-[#0e071c] via-[#090514] to-[#05030b] border border-fuchsia-500/35 shadow-[0_4px_25px_rgba(217,70,239,0.08)] space-y-3.5 text-xs backdrop-blur-md"
     >
-      <div className="flex items-center gap-2 text-fuchsia-300 font-mono font-bold uppercase">
-        <Settings className="w-4 h-4" />
+      <div className="flex items-center gap-2 text-fuchsia-300 font-mono font-bold uppercase tracking-wider">
+        <Settings className="w-4 h-4 text-fuchsia-400" />
         <span>Fest Identity &amp; Contacts</span>
       </div>
       <input
@@ -275,7 +278,7 @@ const FestInfoEditorForm: React.FC<FestInfoFormProps> = ({ festInfo, token, onSa
         value={tagline}
         onChange={(e) => setTagline(e.target.value)}
         placeholder="Fest Tagline"
-        className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+        className="w-full px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
         <input
@@ -284,7 +287,7 @@ const FestInfoEditorForm: React.FC<FestInfoFormProps> = ({ festInfo, token, onSa
           value={dates}
           onChange={(e) => setDates(e.target.value)}
           placeholder="Dates (e.g. Sep 28 - Sep 29, 2026)"
-          className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+          className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
         />
         <input
           type="email"
@@ -292,7 +295,7 @@ const FestInfoEditorForm: React.FC<FestInfoFormProps> = ({ festInfo, token, onSa
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Official Desk Email"
-          className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+          className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
         />
       </div>
       <input
@@ -301,7 +304,7 @@ const FestInfoEditorForm: React.FC<FestInfoFormProps> = ({ festInfo, token, onSa
         value={venue}
         onChange={(e) => setVenue(e.target.value)}
         placeholder="Campus Venue"
-        className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+        className="w-full px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
         <input
@@ -310,7 +313,7 @@ const FestInfoEditorForm: React.FC<FestInfoFormProps> = ({ festInfo, token, onSa
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="Helpdesk Phone"
-          className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white font-mono"
+          className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white font-mono focus:border-fuchsia-400 focus:outline-none"
         />
         <input
           type="text"
@@ -318,7 +321,7 @@ const FestInfoEditorForm: React.FC<FestInfoFormProps> = ({ festInfo, token, onSa
           value={studentConvenor}
           onChange={(e) => setStudentConvenor(e.target.value)}
           placeholder="Student Convenor Phone"
-          className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white font-mono"
+          className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white font-mono focus:border-fuchsia-400 focus:outline-none"
         />
       </div>
       <input
@@ -327,12 +330,12 @@ const FestInfoEditorForm: React.FC<FestInfoFormProps> = ({ festInfo, token, onSa
         value={telegram}
         onChange={(e) => setTelegram(e.target.value)}
         placeholder="Official Telegram URL"
-        className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-sky-300 font-mono"
+        className="w-full px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-sky-300 font-mono focus:border-fuchsia-400 focus:outline-none"
       />
       <button
         type="submit"
         disabled={saving}
-        className="w-full py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-mono font-bold uppercase tracking-wider flex items-center justify-center gap-2"
+        className="w-full py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-mono font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(217,70,239,0.3)] transition-all"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         <span>Update Fest Settings</span>
@@ -360,17 +363,17 @@ const DatabaseHealthPanel: React.FC<{
   };
 
   return (
-    <div className="p-5 rounded-2xl bg-[#0b0b11] border border-emerald-500/30 space-y-4 text-xs">
+    <div className="p-5 rounded-2xl bg-gradient-to-b from-[#061710] via-[#040d09] to-[#020504] border border-emerald-500/35 shadow-[0_4px_25px_rgba(16,185,129,0.08)] space-y-4 text-xs backdrop-blur-md">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-emerald-300 font-mono font-bold uppercase">
-          <Database className="w-4 h-4" />
+        <div className="flex items-center gap-2 text-emerald-300 font-mono font-bold uppercase tracking-wider">
+          <Database className="w-4 h-4 text-emerald-400" />
           <span>SQLite Engine Diagnostics ({Object.keys(dbStats.tableCounts).length} Tables)</span>
         </div>
         <button
           type="button"
           onClick={() => void handleBackup()}
           disabled={downloading}
-          className="px-3.5 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/40 text-emerald-200 font-mono font-bold inline-flex items-center gap-1.5"
+          className="px-3.5 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/40 text-emerald-200 font-mono font-bold inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.15)] transition-all"
         >
           {downloading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
           <span>Download .db Backup</span>
@@ -378,20 +381,20 @@ const DatabaseHealthPanel: React.FC<{
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 font-mono text-[11px]">
-        <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
-          <span className="text-slate-400 block">Journal Mode</span>
+        <div className="p-2.5 rounded-xl bg-black/40 border border-white/10">
+          <span className="text-slate-400 block text-[10px]">Journal Mode</span>
           <strong className="text-white uppercase">{dbStats.journalMode}</strong>
         </div>
-        <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
-          <span className="text-slate-400 block">Integrity Check</span>
+        <div className="p-2.5 rounded-xl bg-black/40 border border-white/10">
+          <span className="text-slate-400 block text-[10px]">Integrity Check</span>
           <strong className="text-emerald-300 uppercase">{dbStats.integrityCheck}</strong>
         </div>
-        <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
-          <span className="text-slate-400 block">Schema Version</span>
+        <div className="p-2.5 rounded-xl bg-black/40 border border-white/10">
+          <span className="text-slate-400 block text-[10px]">Schema Version</span>
           <strong className="text-fuchsia-300">v{dbStats.schemaVersion}</strong>
         </div>
-        <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
-          <span className="text-slate-400 block">Allocated Size</span>
+        <div className="p-2.5 rounded-xl bg-black/40 border border-white/10">
+          <span className="text-slate-400 block text-[10px]">Allocated Size</span>
           <strong className="text-white">{Math.round(dbStats.estimatedBytes / 1024)} KB</strong>
         </div>
       </div>
@@ -528,9 +531,9 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
     <div className="space-y-6 text-xs">
       {/* Row 1: Announcements + Results */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="p-5 rounded-2xl bg-[#0b0b11] border border-fuchsia-500/30 space-y-4">
-          <div className="flex items-center gap-2 text-fuchsia-300 font-mono font-bold uppercase">
-            <Bell className="w-4 h-4" />
+        <div className="p-5 rounded-2xl bg-gradient-to-b from-[#0e071c] via-[#090514] to-[#05030b] border border-fuchsia-500/35 shadow-[0_4px_25px_rgba(217,70,239,0.08)] space-y-4 backdrop-blur-md">
+          <div className="flex items-center gap-2 text-fuchsia-300 font-mono font-bold uppercase tracking-wider">
+            <Bell className="w-4 h-4 text-fuchsia-400" />
             <span>Noticeboard Announcements ({announcements.length})</span>
           </div>
           <form onSubmit={handleCreateNotice} className="space-y-2.5">
@@ -541,12 +544,12 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
                 value={noticeTitle}
                 onChange={(e) => setNoticeTitle(e.target.value)}
                 placeholder="Notice title"
-                className="sm:col-span-2 px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                className="sm:col-span-2 px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
               />
               <select
                 value={noticePrio}
                 onChange={(e) => setNoticePrio(e.target.value as AnnouncementRecord['priority'])}
-                className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white font-mono"
+                className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white font-mono focus:border-fuchsia-400 focus:outline-none"
               >
                 <option value="info">info</option>
                 <option value="important">important</option>
@@ -559,11 +562,11 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
               value={noticeMsg}
               onChange={(e) => setNoticeMsg(e.target.value)}
               placeholder="Announcement details shown on website..."
-              className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+              className="w-full px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
             />
             <button
               type="submit"
-              className="px-4 py-2 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-mono font-bold uppercase"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-mono font-bold uppercase shadow-[0_0_15px_rgba(217,70,239,0.25)] transition-all"
             >
               Post Notice
             </button>
@@ -573,7 +576,7 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
             {announcements.map((item) => (
               <div
                 key={item.id}
-                className="p-3 rounded-xl bg-black/50 border border-white/10 flex items-start justify-between gap-2"
+                className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-start justify-between gap-2 hover:border-white/20 transition-all"
               >
                 <div>
                   <span className="text-[10px] font-mono uppercase text-amber-300 font-bold">
@@ -590,7 +593,7 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
                         .then(() => onSaved())
                         .catch((err) => onError(err instanceof Error ? err.message : 'Failed to toggle notice'))
                     }
-                    className="px-2 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[10px] font-mono text-white"
+                    className="px-2 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[10px] font-mono text-white transition-all"
                   >
                     {item.isActive ? 'Pause' : 'Enable'}
                   </button>
@@ -612,9 +615,9 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#0b0b11] border border-amber-500/30 space-y-4">
-          <div className="flex items-center gap-2 text-amber-300 font-mono font-bold uppercase">
-            <Trophy className="w-4 h-4" />
+        <div className="p-5 rounded-2xl bg-gradient-to-b from-[#181105] via-[#0f0b03] to-[#050301] border border-amber-500/35 shadow-[0_4px_25px_rgba(245,158,11,0.08)] space-y-4 backdrop-blur-md">
+          <div className="flex items-center gap-2 text-amber-300 font-mono font-bold uppercase tracking-wider">
+            <Trophy className="w-4 h-4 text-amber-400" />
             <span>Official Event Winners &amp; Results ({results.length})</span>
           </div>
           <form onSubmit={handleCreateResult} className="space-y-2.5">
@@ -622,7 +625,7 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
               <select
                 value={resEventId}
                 onChange={(e) => setResEventId(e.target.value)}
-                className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-amber-400 focus:outline-none"
               >
                 {events.map((ev) => (
                   <option key={ev.id} value={ev.id}>
@@ -636,7 +639,7 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
                 value={resPos}
                 onChange={(e) => setResPos(e.target.value)}
                 placeholder="Position (e.g. 1st Place)"
-                className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-amber-300 font-mono"
+                className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-amber-300 font-mono focus:border-amber-400 focus:outline-none"
               />
               <input
                 type="text"
@@ -644,14 +647,14 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
                 value={resWinner}
                 onChange={(e) => setResWinner(e.target.value)}
                 placeholder="Winner Full Name"
-                className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-amber-400 focus:outline-none"
               />
               <input
                 type="text"
                 value={resTeam}
                 onChange={(e) => setResTeam(e.target.value)}
                 placeholder="Team Name (Optional)"
-                className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-amber-400 focus:outline-none"
               />
               <input
                 type="text"
@@ -659,7 +662,7 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
                 value={resBranch}
                 onChange={(e) => setResBranch(e.target.value)}
                 placeholder="Branch"
-                className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-amber-400 focus:outline-none"
               />
               <input
                 type="text"
@@ -667,13 +670,13 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
                 value={resPrize}
                 onChange={(e) => setResPrize(e.target.value)}
                 placeholder="Award / Prize"
-                className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-emerald-300"
+                className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-emerald-300 focus:border-amber-400 focus:outline-none"
               />
             </div>
             <button
               type="submit"
               disabled={!resEventId}
-              className="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-200 font-mono font-bold uppercase"
+              className="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-200 font-mono font-bold uppercase shadow-[0_0_15px_rgba(245,158,11,0.2)] transition-all"
             >
               Publish Winner
             </button>
@@ -686,7 +689,7 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
               results.map((r) => (
                 <div
                   key={r.id}
-                  className="p-3 rounded-xl bg-black/50 border border-white/10 flex items-start justify-between gap-2"
+                  className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-start justify-between gap-2 hover:border-white/20 transition-all"
                 >
                   <div>
                     <span className="text-[10px] font-mono text-amber-300 font-bold uppercase">
@@ -721,8 +724,8 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
 
       {/* Row 2: Campus Clubs + Core Organizers */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="p-5 rounded-2xl bg-[#0b0b11] border border-white/10 space-y-4">
-          <h3 className="text-fuchsia-300 font-mono font-bold uppercase">
+        <div className="p-5 rounded-2xl bg-gradient-to-b from-[#0e071c] via-[#090514] to-[#05030b] border border-purple-500/30 shadow-[0_4px_25px_rgba(168,85,247,0.08)] space-y-4 backdrop-blur-md">
+          <h3 className="text-fuchsia-300 font-mono font-bold uppercase tracking-wider">
             Campus Clubs ({clubs.length})
           </h3>
           <form onSubmit={handleCreateClub} className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -732,7 +735,7 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
               value={clubName}
               onChange={(e) => setClubName(e.target.value)}
               placeholder="Club Name"
-              className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+              className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-purple-400 focus:outline-none"
             />
             <input
               type="text"
@@ -740,7 +743,7 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
               value={clubRole}
               onChange={(e) => setClubRole(e.target.value)}
               placeholder="Focus / Role"
-              className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+              className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-purple-400 focus:outline-none"
             />
             <input
               type="text"
@@ -748,12 +751,12 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
               value={clubLead}
               onChange={(e) => setClubLead(e.target.value)}
               placeholder="Club Lead Name"
-              className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+              className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-purple-400 focus:outline-none"
             />
             <select
               value={clubIcon}
               onChange={(e) => setClubIcon(e.target.value as CampusClub['icon'])}
-              className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white font-mono"
+              className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white font-mono focus:border-purple-400 focus:outline-none"
             >
               <option value="code">code</option>
               <option value="bot">bot</option>
@@ -764,14 +767,14 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
             </select>
             <button
               type="submit"
-              className="sm:col-span-2 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white font-mono font-bold uppercase"
+              className="sm:col-span-2 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/35 text-purple-200 font-mono font-bold uppercase transition-all"
             >
               Add Club Chapter
             </button>
           </form>
           <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
             {clubs.map((c) => (
-              <div key={c.id} className="p-2.5 rounded-xl bg-black/50 border border-white/10 flex items-center justify-between">
+              <div key={c.id} className="p-2.5 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between hover:border-white/20 transition-all">
                 <div>
                   <strong className="text-white block">{c.name}</strong>
                   <span className="text-slate-400 font-mono">{c.role} • Lead: {c.leadName}</span>
@@ -793,8 +796,8 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#0b0b11] border border-white/10 space-y-4">
-          <h3 className="text-fuchsia-300 font-mono font-bold uppercase">
+        <div className="p-5 rounded-2xl bg-gradient-to-b from-[#0e071c] via-[#090514] to-[#05030b] border border-white/10 hover:border-fuchsia-500/30 shadow-lg space-y-4 backdrop-blur-md transition-all">
+          <h3 className="text-fuchsia-300 font-mono font-bold uppercase tracking-wider">
             Organizing Team &amp; Contacts ({organizers.length})
           </h3>
           <form onSubmit={handleCreateOrganizer} className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -804,7 +807,7 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
               value={orgName}
               onChange={(e) => setOrgName(e.target.value)}
               placeholder="Name"
-              className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+              className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
             />
             <input
               type="text"
@@ -812,7 +815,7 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
               value={orgRole}
               onChange={(e) => setOrgRole(e.target.value)}
               placeholder="Role / Designation"
-              className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+              className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
             />
             <input
               type="text"
@@ -820,7 +823,7 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
               value={orgDept}
               onChange={(e) => setOrgDept(e.target.value)}
               placeholder="Department / Year"
-              className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+              className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
             />
             <input
               type="text"
@@ -828,12 +831,12 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
               value={orgPhone}
               onChange={(e) => setOrgPhone(e.target.value)}
               placeholder="Phone"
-              className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white font-mono"
+              className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white font-mono focus:border-fuchsia-400 focus:outline-none"
             />
             <select
               value={orgCategory}
               onChange={(e) => setOrgCategory(e.target.value as OrganizerMember['category'])}
-              className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white font-mono"
+              className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white font-mono focus:border-fuchsia-400 focus:outline-none"
             >
               <option value="student">student</option>
               <option value="faculty">faculty</option>
@@ -841,14 +844,14 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
             </select>
             <button
               type="submit"
-              className="py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white font-mono font-bold uppercase"
+              className="py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-mono font-bold uppercase transition-all"
             >
               Add Organizer
             </button>
           </form>
           <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
             {organizers.map((m) => (
-              <div key={m.id} className="p-2.5 rounded-xl bg-black/50 border border-white/10 flex items-center justify-between">
+              <div key={m.id} className="p-2.5 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between hover:border-white/20 transition-all">
                 <div>
                   <strong className="text-white block">{m.name} ({m.category})</strong>
                   <span className="text-slate-400 font-mono">{m.role} • {m.phone}</span>
@@ -875,16 +878,19 @@ const CommunityAndResultsPanel: React.FC<CommunityPanelProps> = ({
 };
 
 const AuditTrailPanel: React.FC<{ logs: AuditLogRecord[] }> = ({ logs }) => (
-  <div className="rounded-2xl bg-[#0b0b11] border border-white/10 overflow-hidden">
-    <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between text-xs font-mono">
-      <div className="flex items-center gap-2 text-fuchsia-300 font-bold uppercase">
-        <History className="w-4 h-4" />
+  <div className="rounded-2xl bg-gradient-to-b from-[#0e071c]/95 via-[#080512]/95 to-[#05030b]/95 border border-white/10 shadow-xl overflow-hidden backdrop-blur-md">
+    <div className="px-4 py-3.5 border-b border-white/10 bg-white/[0.03] flex items-center justify-between text-xs font-mono">
+      <div className="flex items-center gap-2 text-fuchsia-300 font-bold uppercase tracking-wider">
+        <History className="w-4 h-4 text-fuchsia-400" />
         <span>Organizer Audit Log (SQLite Append-Only)</span>
       </div>
-      <span className="text-slate-400">Latest {logs.length} actions</span>
+      <span className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[10px] text-slate-400">
+        Latest {logs.length} actions
+      </span>
     </div>
     {logs.length === 0 ? (
-      <div className="p-8 text-center text-xs font-mono text-slate-400">
+      <div className="p-12 text-center text-xs font-mono text-slate-400">
+        <History className="w-8 h-8 text-slate-600 mx-auto mb-2" />
         No organizer audit entries recorded yet.
       </div>
     ) : (
@@ -892,7 +898,7 @@ const AuditTrailPanel: React.FC<{ logs: AuditLogRecord[] }> = ({ logs }) => (
         {logs.map((entry) => (
           <div
             key={entry.id}
-            className="px-4 py-3 flex flex-wrap items-center justify-between gap-3 text-xs font-mono hover:bg-white/[0.02]"
+            className="px-4 py-3 flex flex-wrap items-center justify-between gap-3 text-xs font-mono hover:bg-white/[0.02] transition-colors"
           >
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-2">
@@ -1281,121 +1287,198 @@ export const AdminDashboardPage: React.FC = () => {
 
   if (!authToken) {
     return (
-      <div className="min-h-screen bg-[#020003] text-slate-100 flex items-center justify-center p-4">
-        <div className="max-w-md w-full rounded-3xl bg-[#0b0b11]/95 border border-fuchsia-500/35 p-8 space-y-6 shadow-2xl">
-          <div className="flex items-center justify-between">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-white"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Fest Home</span>
-            </Link>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-fuchsia-400 font-bold">
-              SQLite Desk Auth
-            </span>
+      <div className="min-h-screen bg-[#020003] text-slate-100 flex items-center justify-center p-4 relative overflow-hidden">
+        {/* Ambient Radiant Cyber Lights */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[650px] h-[400px] bg-fuchsia-600/15 blur-[150px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-10 left-10 w-96 h-96 bg-purple-600/15 blur-[140px] rounded-full pointer-events-none" />
+        <div className="absolute top-10 right-10 w-80 h-80 bg-emerald-500/10 blur-[130px] rounded-full pointer-events-none" />
+
+        {/* Double-Border Glowing Cyber Glassmorphic Card */}
+        <div className="relative rounded-3xl p-[1px] bg-gradient-to-br from-fuchsia-500/50 via-purple-500/25 to-emerald-500/40 shadow-[0_0_60px_rgba(217,70,239,0.2)] max-w-md w-full z-10">
+          <div className="rounded-[calc(1.5rem-1px)] bg-[#07060e]/95 backdrop-blur-2xl p-7 sm:p-9 space-y-6">
+            
+            {/* Top Navigation & Status */}
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-white transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4 text-fuchsia-400" />
+                <span>Back to Fest Home</span>
+              </Link>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/35 text-[10px] font-mono text-emerald-300 font-bold uppercase tracking-wider">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Console Active</span>
+              </div>
+            </div>
+
+            {/* Official Techy Brand & Lock Visual */}
+            <div className="text-center space-y-3">
+              <div className="flex justify-center">
+                <TechyLogo size={56} glow={true} />
+              </div>
+              <div className="space-y-1">
+                <h1 className="text-2xl sm:text-3xl font-black font-display text-white">
+                  Organizer{' '}
+                  <span className="bg-gradient-to-r from-fuchsia-400 via-pink-300 to-purple-400 bg-clip-text text-transparent">
+                    Desk Console
+                  </span>
+                </h1>
+                <p className="text-xs text-slate-400 font-sans leading-relaxed">
+                  GEC Sheikhpura intra-college fest administration. Access pass management, squad rosters, gate check-ins &amp; CSV export.
+                </p>
+              </div>
+            </div>
+
+            {authError && (
+              <div role="alert" className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-200 text-xs font-mono text-center flex items-center justify-center gap-2">
+                <ShieldAlert className="w-4 h-4 text-rose-400 shrink-0" />
+                <span>{authError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label htmlFor="admin-pin" className="block text-xs font-mono text-slate-300 font-semibold">
+                    Organizer Access PIN
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setPinInput('GECS2026')}
+                    className="text-[10px] font-mono text-fuchsia-300 hover:text-white underline cursor-pointer"
+                    title="Click to autofill dev PIN"
+                  >
+                    Autofill PIN (GECS2026)
+                  </button>
+                </div>
+                <div className="relative">
+                  <input
+                    id="admin-pin"
+                    type="password"
+                    required
+                    value={pinInput}
+                    onChange={(e) => setPinInput(e.target.value)}
+                    placeholder="Enter PIN: GECS2026"
+                    className="w-full px-4 py-3 rounded-xl bg-[#030107] border border-white/20 text-white font-mono text-center tracking-widest text-base focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-500/30 focus:outline-none transition-all placeholder:tracking-normal placeholder:text-sm placeholder:text-slate-500"
+                  />
+                  <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                </div>
+                <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mt-2 px-1">
+                  <span>Authorized Dev PIN:</span>
+                  <code className="text-fuchsia-300 font-bold bg-white/5 border border-white/10 px-2 py-0.5 rounded">GECS2026</code>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={authLoading}
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold text-xs font-mono uppercase tracking-wider hover:opacity-95 shadow-glow-fuchsia flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-60 cursor-pointer"
+              >
+                {authLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
+                <span>Unlock Organizer Console</span>
+              </button>
+            </form>
+
+            <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-slate-500">
+              <span>SQLite Engine</span>
+              <span>•</span>
+              <span>HMAC-SHA256</span>
+              <span>•</span>
+              <span>Instant Gate Check-In</span>
+            </div>
+
           </div>
-
-          <div className="text-center space-y-2">
-            <div className="w-14 h-14 mx-auto rounded-2xl bg-fuchsia-500/15 border border-fuchsia-400/40 flex items-center justify-center text-fuchsia-400">
-              <Lock className="w-6 h-6" />
-            </div>
-            <h1 className="text-2xl font-black font-display text-white">Organizer Console</h1>
-            <p className="text-xs text-slate-400 font-sans">
-              Enter your Organizer Access PIN to manage live delegate passes, gate check-ins, support tickets, and fest events.
-            </p>
-          </div>
-
-          {authError && (
-            <div role="alert" className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-200 text-xs font-mono text-center">
-              {authError}
-            </div>
-          )}
-
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label htmlFor="admin-pin" className="block text-xs font-mono text-slate-300 mb-1.5">
-                Organizer PIN
-              </label>
-              <input
-                id="admin-pin"
-                type="password"
-                required
-                value={pinInput}
-                onChange={(e) => setPinInput(e.target.value)}
-                placeholder="Enter PIN: GECS2026"
-                className="w-full px-4 py-3 rounded-xl bg-[#020003] border border-white/15 text-white font-mono text-sm focus:border-fuchsia-400 focus:outline-none"
-              />
-              <p className="text-[11px] text-fuchsia-300/80 font-mono mt-1.5">
-                Default Access PIN: <code className="text-white font-bold bg-white/10 px-1.5 py-0.5 rounded">GECS2026</code>
-              </p>
-            </div>
-            <button
-              type="submit"
-              disabled={authLoading}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold text-xs font-mono uppercase tracking-wider hover:opacity-95 shadow-glow-fuchsia flex items-center justify-center gap-2"
-            >
-              {authLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
-              <span>Unlock Dashboard</span>
-            </button>
-          </form>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#020003] text-slate-100 px-4 sm:px-6 lg:px-8 py-8">
+    <div className="relative min-h-screen bg-[#020003] text-slate-100 px-4 sm:px-6 lg:px-8 py-8 selection:bg-fuchsia-500 selection:text-white">
+      {/* Background Cyber Ambient Lights & Grid */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        <div className="absolute top-[-10%] left-[20%] w-[550px] h-[550px] rounded-full bg-gradient-to-br from-fuchsia-600/15 via-purple-600/10 to-transparent blur-[120px]" />
+        <div className="absolute top-[35%] right-[-10%] w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-cyan-600/10 via-blue-600/5 to-transparent blur-[140px]" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-violet-600/15 via-pink-600/10 to-transparent blur-[120px]" />
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.7) 1px, transparent 0)`,
+            backgroundSize: '32px 32px',
+          }}
+        />
+      </div>
+
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Top Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
-          <div className="flex items-center gap-3">
+        <div className="relative overflow-hidden p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#0d071b]/90 via-[#070512]/90 to-[#0c0919]/90 border border-fuchsia-500/25 shadow-[0_0_30px_rgba(217,70,239,0.08)] backdrop-blur-xl flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
             <Link
               to="/"
-              className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300"
+              className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-fuchsia-500/40 text-slate-300 hover:text-white transition-all duration-200 group flex items-center justify-center shadow-inner"
               aria-label="Back to fest home"
+              title="Return to Fest Home"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             </Link>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-black font-display text-white">
-                {FEST_INFO.shortName} <span className="text-fuchsia-400">Desk Console</span>
-              </h1>
-              <p className="text-xs font-mono text-slate-400">
-                Real-Time SQLite Registration &amp; Operations Backend
-              </p>
+
+            <div className="flex items-center gap-3">
+              <div className="p-1.5 rounded-xl bg-gradient-to-br from-fuchsia-500/20 to-purple-500/10 border border-fuchsia-500/30 shadow-[0_0_15px_rgba(217,70,239,0.25)]">
+                <TechyLogo size={36} glow={true} />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-xl sm:text-2xl font-black font-display tracking-tight text-white">
+                    {FEST_INFO.shortName}{' '}
+                    <span className="bg-gradient-to-r from-fuchsia-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                      Desk Console
+                    </span>
+                  </h1>
+                  <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    LIVE OPS
+                  </span>
+                </div>
+                <p className="text-[11px] font-mono text-slate-400 flex items-center gap-2">
+                  <span>SQLite &amp; In-Memory Data Hub</span>
+                  <span className="text-slate-600">•</span>
+                  <span className="text-fuchsia-400/80">HMAC Authenticated</span>
+                </p>
+              </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <button
               type="button"
               onClick={() => void loadDashboard(authToken)}
               disabled={loadingData}
-              className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-slate-200 inline-flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 hover:border-fuchsia-400/40 text-xs font-mono font-semibold text-slate-200 hover:text-white inline-flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${loadingData ? 'animate-spin' : ''}`} />
-              <span>Refresh</span>
+              <RefreshCw className={`w-3.5 h-3.5 text-fuchsia-400 ${loadingData ? 'animate-spin' : ''}`} />
+              <span>{loadingData ? 'Syncing...' : 'Sync Data'}</span>
             </button>
             <button
               type="button"
               onClick={handleLogout}
-              className="px-3.5 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-xs font-mono text-rose-200 inline-flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 hover:border-rose-400 text-xs font-mono font-bold text-rose-200 inline-flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(244,63,94,0.15)] active:scale-95"
             >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>Lock</span>
+              <LogOut className="w-3.5 h-3.5 text-rose-400" />
+              <span>Lock Console</span>
             </button>
           </div>
         </div>
 
         {actionError && (
-          <div role="alert" className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-200 text-xs font-mono">
-            {actionError}
+          <div role="alert" className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-200 text-xs font-mono flex items-center gap-2 shadow-[0_0_15px_rgba(244,63,94,0.15)]">
+            <ShieldAlert className="w-4 h-4 shrink-0 text-rose-400" />
+            <span>{actionError}</span>
           </div>
         )}
 
         {isOfflineMode && (
-          <div className="p-3.5 rounded-2xl bg-amber-500/15 border border-amber-500/35 text-amber-200 text-xs font-mono flex flex-wrap items-center justify-between gap-3">
+          <div className="p-3.5 rounded-2xl bg-amber-500/15 border border-amber-500/35 text-amber-200 text-xs font-mono flex flex-wrap items-center justify-between gap-3 shadow-[0_0_20px_rgba(245,158,11,0.08)]">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
               <span>
@@ -1410,111 +1493,174 @@ export const AdminDashboardPage: React.FC = () => {
 
         {dashboard && (
           <>
-            {/* KPI Summary Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
-              <div className="p-5 rounded-2xl bg-[#0b0b11] border border-white/10">
-                <div className="flex items-center justify-between text-slate-400 text-[11px] font-mono uppercase">
+            {/* KPI Summary Cards with Cyber Neon Accents */}
+            <div className="grid grid-cols-2 lg:grid-cols-6 gap-3.5 sm:gap-4">
+              {/* Passes */}
+              <div className="group relative overflow-hidden p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#12081c] via-[#090510] to-[#040207] border border-fuchsia-500/30 hover:border-fuchsia-400/60 shadow-[0_4px_20px_rgba(217,70,239,0.08)] transition-all duration-300 hover:-translate-y-0.5">
+                <div className="flex items-center justify-between text-slate-400 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider">
                   <span>Passes</span>
-                  <Ticket className="w-4 h-4 text-fuchsia-400" />
+                  <div className="p-1.5 rounded-lg bg-fuchsia-500/15 border border-fuchsia-500/30 text-fuchsia-300">
+                    <Ticket className="w-3.5 h-3.5" />
+                  </div>
                 </div>
-                <div className="text-3xl font-black font-mono text-white mt-2">
+                <div className="text-2xl sm:text-3xl font-black font-mono text-white mt-2 group-hover:text-fuchsia-300 transition-colors">
                   {dashboard.summary.totalRegistrations}
                 </div>
-              </div>
-              <div className="p-5 rounded-2xl bg-[#0b0b11] border border-fuchsia-500/30">
-                <div className="flex items-center justify-between text-slate-400 text-[11px] font-mono uppercase">
-                  <span>Teams</span>
-                  <Users className="w-4 h-4 text-fuchsia-400" />
+                <div className="text-[10px] font-mono text-fuchsia-400/80 mt-1 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400" />
+                  Booked Passes
                 </div>
-                <div className="text-3xl font-black font-mono text-fuchsia-400 mt-2">
+              </div>
+
+              {/* Teams */}
+              <div className="group relative overflow-hidden p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#130722] via-[#090512] to-[#040207] border border-purple-500/35 hover:border-purple-400/60 shadow-[0_4px_20px_rgba(168,85,247,0.08)] transition-all duration-300 hover:-translate-y-0.5">
+                <div className="flex items-center justify-between text-slate-400 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider">
+                  <span>Teams</span>
+                  <div className="p-1.5 rounded-lg bg-purple-500/15 border border-purple-500/30 text-purple-300">
+                    <Users className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <div className="text-2xl sm:text-3xl font-black font-mono text-purple-300 mt-2 group-hover:text-purple-200 transition-colors">
                   {dashboard.summary.totalTeams ?? dashboard.teams?.length ?? 0}
                 </div>
-              </div>
-              <div className="p-5 rounded-2xl bg-[#0b0b11] border border-white/10">
-                <div className="flex items-center justify-between text-slate-400 text-[11px] font-mono uppercase">
-                  <span>Gate Checked-In</span>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <div className="text-[10px] font-mono text-purple-400/80 mt-1 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                  Registered Squads
                 </div>
-                <div className="text-3xl font-black font-mono text-emerald-400 mt-2">
+              </div>
+
+              {/* Gate Checked-In */}
+              <div className="group relative overflow-hidden p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#061710] via-[#040d09] to-[#020504] border border-emerald-500/30 hover:border-emerald-400/60 shadow-[0_4px_20px_rgba(16,185,129,0.08)] transition-all duration-300 hover:-translate-y-0.5">
+                <div className="flex items-center justify-between text-slate-400 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider">
+                  <span>Gate Verified</span>
+                  <div className="p-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <div className="text-2xl sm:text-3xl font-black font-mono text-emerald-400 mt-2">
                   {dashboard.summary.checkedInCount}
                 </div>
-              </div>
-              <div className="p-5 rounded-2xl bg-[#0b0b11] border border-white/10">
-                <div className="flex items-center justify-between text-slate-400 text-[11px] font-mono uppercase">
-                  <span>Fee Revenue</span>
-                  <IndianRupee className="w-4 h-4 text-amber-400" />
+                <div className="text-[10px] font-mono text-emerald-400/80 mt-1 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  Inside Venue
                 </div>
-                <div className="text-3xl font-black font-mono text-white mt-2">
+              </div>
+
+              {/* Fee Revenue */}
+              <div className="group relative overflow-hidden p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#181105] via-[#0f0b03] to-[#050301] border border-amber-500/30 hover:border-amber-400/60 shadow-[0_4px_20px_rgba(245,158,11,0.08)] transition-all duration-300 hover:-translate-y-0.5">
+                <div className="flex items-center justify-between text-slate-400 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider">
+                  <span>Gross Value</span>
+                  <div className="p-1.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300">
+                    <IndianRupee className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <div className="text-2xl sm:text-3xl font-black font-mono text-amber-300 mt-2">
                   ₹{dashboard.summary.totalRevenue}
                 </div>
-              </div>
-              <div className="p-5 rounded-2xl bg-[#0b0b11] border border-white/10">
-                <div className="flex items-center justify-between text-slate-400 text-[11px] font-mono uppercase">
-                  <span>Open Queries</span>
-                  <MessageSquare className="w-4 h-4 text-sky-400" />
+                <div className="text-[10px] font-mono text-amber-400/80 mt-1 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                  Pass Valuation
                 </div>
-                <div className="text-3xl font-black font-mono text-sky-300 mt-2">
+              </div>
+
+              {/* Open Queries */}
+              <div className="group relative overflow-hidden p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#05141e] via-[#030d14] to-[#010408] border border-sky-500/30 hover:border-sky-400/60 shadow-[0_4px_20px_rgba(14,165,233,0.08)] transition-all duration-300 hover:-translate-y-0.5">
+                <div className="flex items-center justify-between text-slate-400 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider">
+                  <span>Helpdesk</span>
+                  <div className="p-1.5 rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-300">
+                    <MessageSquare className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <div className="text-2xl sm:text-3xl font-black font-mono text-sky-300 mt-2">
                   {dashboard.summary.openInquiries}
                 </div>
-              </div>
-              <div className="p-5 rounded-2xl bg-[#0b0b11] border border-white/10 col-span-2 lg:col-span-1">
-                <div className="flex items-center justify-between text-slate-400 text-[11px] font-mono uppercase">
-                  <span>Active Events</span>
-                  <Users className="w-4 h-4 text-purple-400" />
+                <div className="text-[10px] font-mono text-sky-400/80 mt-1 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
+                  Open Tickets
                 </div>
-                <div className="text-3xl font-black font-mono text-white mt-2">
+              </div>
+
+              {/* Active Arenas */}
+              <div className="group relative overflow-hidden p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#170617] via-[#0e040f] to-[#040105] border border-pink-500/30 hover:border-pink-400/60 shadow-[0_4px_20px_rgba(236,72,153,0.08)] transition-all duration-300 hover:-translate-y-0.5 col-span-2 lg:col-span-1">
+                <div className="flex items-center justify-between text-slate-400 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider">
+                  <span>Arenas</span>
+                  <div className="p-1.5 rounded-lg bg-pink-500/15 border border-pink-500/30 text-pink-300">
+                    <Trophy className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <div className="text-2xl sm:text-3xl font-black font-mono text-pink-300 mt-2">
                   {dashboard.summary.totalEvents}
+                </div>
+                <div className="text-[10px] font-mono text-pink-400/80 mt-1 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-pink-400" />
+                  Active Tracks
                 </div>
               </div>
             </div>
 
-            {/* Pass Tier Breakdown */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Pass Tier Breakdown Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
               {dashboard.passBreakdown.map((tier) => (
                 <div
                   key={tier.passId}
-                  className="p-4 rounded-2xl bg-[#0b0b11]/80 border border-white/10 flex items-center justify-between font-mono text-xs"
+                  className="relative overflow-hidden p-4 rounded-2xl bg-gradient-to-r from-[#0d071a]/90 to-[#070512]/90 border border-white/10 hover:border-fuchsia-500/40 transition-all duration-200 flex items-center justify-between font-mono text-xs shadow-sm hover:shadow-[0_0_20px_rgba(217,70,239,0.1)]"
                 >
-                  <div>
-                    <span className="text-white font-bold block">{tier.passName}</span>
-                    <span className="text-slate-400">₹{tier.price} per pass</span>
+                  <div className="space-y-0.5">
+                    <span className="text-white font-bold block text-sm">{tier.passName}</span>
+                    <span className="text-slate-400 text-[11px]">₹{tier.price} per pass tier</span>
                   </div>
                   <div className="text-right">
-                    <strong className="text-fuchsia-300 text-base block">{tier.bookings} sold</strong>
-                    <span className="text-emerald-400">₹{tier.revenue}</span>
+                    <span className="inline-block px-2.5 py-0.5 rounded-md bg-fuchsia-500/20 border border-fuchsia-500/30 text-fuchsia-300 font-black text-sm">
+                      {tier.bookings} sold
+                    </span>
+                    <span className="text-emerald-400 font-bold block text-xs mt-1">₹{tier.revenue} total</span>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Navigation Tabs */}
-            <div className="flex flex-wrap gap-2 border-b border-white/10 pb-3 font-mono text-xs">
+            {/* Navigation Tabs with Cyber Pill Segmented Bar */}
+            <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 border-b border-white/10 font-mono text-xs no-scrollbar">
               {(
                 [
-                  { id: 'registrations', label: `Passes (${dashboard.registrations.length})` },
-                  { id: 'teams', label: `Teams (${(dashboard.teams || []).length})` },
-                  { id: 'inquiries', label: `Helpdesk Tickets (${dashboard.inquiries.length})` },
-                  { id: 'events', label: `Events Catalog (${dashboard.events.length})` },
-                  { id: 'schedule', label: `Schedule (${dashboard.schedule.length})` },
-                  { id: 'faqs', label: `FAQs (${dashboard.faqs.length})` },
-                  { id: 'community', label: `Notices & Results (${dashboard.announcements.length}/${dashboard.results.length})` },
-                  { id: 'settings', label: `Settings & DB (${dashboard.passes.length})` },
-                  { id: 'audit', label: `Audit (${dashboard.auditLogs.length})` },
+                  { id: 'registrations', label: 'Passes', count: dashboard.registrations.length, icon: Ticket },
+                  { id: 'teams', label: 'Teams', count: (dashboard.teams || []).length, icon: Users },
+                  { id: 'inquiries', label: 'Helpdesk', count: dashboard.inquiries.length, icon: MessageSquare },
+                  { id: 'events', label: 'Events', count: dashboard.events.length, icon: Trophy },
+                  { id: 'schedule', label: 'Schedule', count: dashboard.schedule.length, icon: CalendarPlus },
+                  { id: 'faqs', label: 'FAQs', count: dashboard.faqs.length, icon: HelpCircle },
+                  { id: 'community', label: 'Notices', count: `${dashboard.announcements.length}/${dashboard.results.length}`, icon: Bell },
+                  { id: 'settings', label: 'Settings & DB', count: dashboard.passes.length, icon: Settings },
+                  { id: 'audit', label: 'Audit', count: dashboard.auditLogs.length, icon: History },
                 ] as const
-              ).map((tab) => (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`px-4 py-2 rounded-xl font-bold transition-all ${
-                    activeTab === tab.id
-                      ? 'bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-glow-fuchsia'
-                      : 'bg-white/5 text-slate-300 hover:text-white'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
+              ).map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setActiveTab(tab.id as ConsoleTab)}
+                    className={`shrink-0 px-3.5 py-2 rounded-xl font-bold inline-flex items-center gap-2 transition-all duration-200 ${
+                      isActive
+                        ? 'bg-gradient-to-r from-fuchsia-600 via-purple-600 to-fuchsia-600 text-white shadow-[0_0_20px_rgba(217,70,239,0.35)] border border-fuchsia-400/50 scale-[1.02]'
+                        : 'bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white'
+                    }`}
+                  >
+                    <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                    <span>{tab.label}</span>
+                    <span
+                      className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
+                        isActive
+                          ? 'bg-black/30 text-white'
+                          : 'bg-white/10 text-slate-400'
+                      }`}
+                    >
+                      {tab.count}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
 
             {/* Tab 1: Registrations */}
@@ -1529,14 +1675,14 @@ export const AdminDashboardPage: React.FC = () => {
                         value={regSearch}
                         onChange={(e) => setRegSearch(e.target.value)}
                         placeholder="Search RegID, student, roll no, branch..."
-                        className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-[#0b0b11] border border-white/15 text-xs text-white font-mono focus:border-fuchsia-400 focus:outline-none"
+                        className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-[#090613] border border-white/15 text-xs text-white font-mono focus:border-fuchsia-400 focus:ring-1 focus:ring-fuchsia-400/30 focus:outline-none placeholder:text-slate-500"
                       />
                     </div>
                     <select
                       value={passFilter}
                       onChange={(e) => setPassFilter(e.target.value)}
                       aria-label="Filter by pass tier"
-                      className="px-3.5 py-2.5 rounded-xl bg-[#0b0b11] border border-white/15 text-xs text-white font-mono focus:outline-none"
+                      className="px-3.5 py-2.5 rounded-xl bg-[#090613] border border-white/15 text-xs text-white font-mono focus:border-fuchsia-400 focus:outline-none"
                     >
                       <option value="All">All Pass Tiers</option>
                       {dashboard.passBreakdown.map((p) => (
@@ -1551,7 +1697,7 @@ export const AdminDashboardPage: React.FC = () => {
                     type="button"
                     onClick={() => void handleExportCsv()}
                     disabled={dashboard.registrations.length === 0}
-                    className="px-4 py-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/35 text-emerald-300 text-xs font-mono font-bold inline-flex items-center gap-1.5 disabled:opacity-50"
+                    className="px-4 py-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/35 hover:border-emerald-400 text-emerald-300 text-xs font-mono font-bold inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.12)] disabled:opacity-50 transition-all"
                   >
                     <Download className="w-4 h-4" />
                     <span>Export CSV ({dashboard.registrations.length})</span>
@@ -1559,13 +1705,14 @@ export const AdminDashboardPage: React.FC = () => {
                 </div>
 
                 {filteredRegistrations.length === 0 ? (
-                  <div className="p-10 rounded-2xl bg-[#0b0b11] border border-white/10 text-center text-xs font-mono text-slate-400">
+                  <div className="p-12 rounded-2xl bg-gradient-to-b from-[#0a0714] to-[#040208] border border-white/10 text-center text-xs font-mono text-slate-400 shadow-xl">
+                    <Ticket className="w-8 h-8 text-slate-600 mx-auto mb-2" />
                     No delegate registrations found yet. Bookings created on the homepage appear here in real time.
                   </div>
                 ) : (
-                  <div className="overflow-x-auto rounded-2xl border border-white/10 bg-[#0b0b11]">
+                  <div className="overflow-x-auto rounded-2xl border border-white/10 bg-gradient-to-b from-[#0a0714]/95 to-[#05030a]/95 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md">
                     <table className="w-full text-left text-xs font-mono">
-                      <thead className="bg-white/5 text-slate-300 uppercase text-[10px]">
+                      <thead className="bg-white/[0.04] text-slate-300 uppercase text-[10px] tracking-wider border-b border-white/10">
                         <tr>
                           <th className="p-3.5">Reg ID</th>
                           <th className="p-3.5">Student &amp; Roll</th>
@@ -1578,20 +1725,22 @@ export const AdminDashboardPage: React.FC = () => {
                       </thead>
                       <tbody className="divide-y divide-white/5">
                         {filteredRegistrations.map((reg) => (
-                          <tr key={reg.regId} className="hover:bg-white/[0.03]">
-                            <td className="p-3.5 font-bold text-fuchsia-300 whitespace-nowrap">
-                              {reg.regId}
+                          <tr key={reg.regId} className="hover:bg-gradient-to-r hover:from-fuchsia-500/5 hover:via-purple-500/5 hover:to-transparent transition-colors">
+                            <td className="p-3.5 whitespace-nowrap">
+                              <span className="px-2 py-1 rounded-md bg-fuchsia-500/15 border border-fuchsia-500/30 text-fuchsia-300 font-bold font-mono text-[11px]">
+                                {reg.regId}
+                              </span>
                             </td>
                             <td className="p-3.5">
-                              <strong className="text-white block">{reg.fullName}</strong>
-                              <span className="text-slate-400">{reg.rollNo}</span>
+                              <strong className="text-white block font-sans">{reg.fullName}</strong>
+                              <span className="text-slate-400 font-mono text-[11px]">{reg.rollNo}</span>
                             </td>
                             <td className="p-3.5 text-slate-300">
                               <span className="block max-w-[190px] truncate">{reg.branch}</span>
-                              <span className="text-slate-500">{reg.year}</span>
+                              <span className="text-slate-500 text-[11px]">{reg.year}</span>
                             </td>
                             <td className="p-3.5">
-                              <span className="text-white block">{reg.passName} (₹{reg.price})</span>
+                              <span className="text-white block font-semibold">{reg.passName} (₹{reg.price})</span>
                               {(reg.eventTitle || reg.teamName) && (
                                 <span className="text-[11px] text-fuchsia-300">
                                   {[reg.eventTitle, reg.teamName].filter(Boolean).join(' • ')}
@@ -1606,10 +1755,10 @@ export const AdminDashboardPage: React.FC = () => {
                               <button
                                 type="button"
                                 onClick={() => void handleToggleCheckIn(reg.regId, reg.checkedIn)}
-                                className={`px-3 py-1.5 rounded-lg font-bold text-[11px] transition-colors ${
+                                className={`px-3 py-1.5 rounded-lg font-bold text-[11px] transition-all shadow-sm ${
                                   reg.checkedIn
-                                    ? 'bg-emerald-500/20 border border-emerald-400/40 text-emerald-300'
-                                    : 'bg-amber-500/15 border border-amber-400/35 text-amber-300 hover:bg-emerald-500/20'
+                                    ? 'bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
+                                    : 'bg-amber-500/15 border border-amber-400/35 text-amber-300 hover:bg-emerald-500/20 hover:border-emerald-400/40 hover:text-emerald-300'
                                 }`}
                               >
                                 {reg.checkedIn ? 'Checked In ✓' : 'Check In'}
@@ -1620,7 +1769,7 @@ export const AdminDashboardPage: React.FC = () => {
                                 type="button"
                                 onClick={() => void handleDeleteReg(reg.regId)}
                                 aria-label={`Delete ${reg.regId}`}
-                                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10"
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/15 hover:shadow-[0_0_10px_rgba(244,63,94,0.2)] transition-all"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
@@ -1646,14 +1795,14 @@ export const AdminDashboardPage: React.FC = () => {
                         value={teamSearch}
                         onChange={(e) => setTeamSearch(e.target.value)}
                         placeholder="Search Team, Leader, Roll, Event, Member..."
-                        className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-[#0b0b11] border border-white/15 text-xs text-white font-mono focus:border-fuchsia-400 focus:outline-none"
+                        className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-[#090613] border border-white/15 text-xs text-white font-mono focus:border-fuchsia-400 focus:ring-1 focus:ring-fuchsia-400/30 focus:outline-none placeholder:text-slate-500"
                       />
                     </div>
                     <select
                       value={teamEventFilter}
                       onChange={(e) => setTeamEventFilter(e.target.value)}
                       aria-label="Filter teams by event"
-                      className="px-3.5 py-2.5 rounded-xl bg-[#0b0b11] border border-white/15 text-xs text-white font-mono focus:outline-none"
+                      className="px-3.5 py-2.5 rounded-xl bg-[#090613] border border-white/15 text-xs text-white font-mono focus:border-fuchsia-400 focus:outline-none"
                     >
                       <option value="All">All Events ({dashboard.teams?.length ?? 0})</option>
                       {FEST_EVENTS.map((ev) => (
@@ -1668,7 +1817,7 @@ export const AdminDashboardPage: React.FC = () => {
                     type="button"
                     onClick={() => void handleExportTeamsCsv()}
                     disabled={!dashboard.teams || dashboard.teams.length === 0}
-                    className="px-4 py-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/35 text-emerald-300 text-xs font-mono font-bold inline-flex items-center gap-1.5 disabled:opacity-50"
+                    className="px-4 py-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/35 hover:border-emerald-400 text-emerald-300 text-xs font-mono font-bold inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.12)] disabled:opacity-50 transition-all"
                   >
                     <Download className="w-4 h-4" />
                     <span>Export Teams CSV ({dashboard.teams?.length ?? 0})</span>
@@ -1676,13 +1825,14 @@ export const AdminDashboardPage: React.FC = () => {
                 </div>
 
                 {filteredTeams.length === 0 ? (
-                  <div className="p-10 rounded-2xl bg-[#0b0b11] border border-white/10 text-center text-xs font-mono text-slate-400">
+                  <div className="p-12 rounded-2xl bg-gradient-to-b from-[#0a0714] to-[#040208] border border-white/10 text-center text-xs font-mono text-slate-400 shadow-xl">
+                    <Users className="w-8 h-8 text-slate-600 mx-auto mb-2" />
                     No team registrations found matching your filter. Teams registered via Desk Open appear here in real time.
                   </div>
                 ) : (
-                  <div className="overflow-x-auto rounded-2xl border border-white/10 bg-[#0b0b11]">
+                  <div className="overflow-x-auto rounded-2xl border border-white/10 bg-gradient-to-b from-[#0a0714]/95 to-[#05030a]/95 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-md">
                     <table className="w-full text-left text-xs font-mono">
-                      <thead className="bg-white/5 text-slate-300 uppercase text-[10px]">
+                      <thead className="bg-white/[0.04] text-slate-300 uppercase text-[10px] tracking-wider border-b border-white/10">
                         <tr>
                           <th className="p-3.5">Team ID &amp; Name</th>
                           <th className="p-3.5">Event Track</th>
@@ -1695,30 +1845,32 @@ export const AdminDashboardPage: React.FC = () => {
                       </thead>
                       <tbody className="divide-y divide-white/5">
                         {filteredTeams.map((team) => (
-                          <tr key={team.teamId} className="hover:bg-white/[0.03]">
-                            <td className="p-3.5 font-bold text-fuchsia-300 whitespace-nowrap">
-                              <span className="block text-white text-sm">{team.teamName}</span>
-                              <span className="text-[11px] text-fuchsia-400 font-mono">{team.teamId}</span>
+                          <tr key={team.teamId} className="hover:bg-gradient-to-r hover:from-purple-500/5 hover:via-fuchsia-500/5 hover:to-transparent transition-colors">
+                            <td className="p-3.5 whitespace-nowrap">
+                              <span className="block text-white font-bold font-sans text-sm">{team.teamName}</span>
+                              <span className="inline-block mt-0.5 px-2 py-0.5 rounded bg-fuchsia-500/15 border border-fuchsia-500/30 text-[10px] text-fuchsia-300 font-mono">
+                                {team.teamId}
+                              </span>
                             </td>
                             <td className="p-3.5">
-                              <span className="px-2 py-0.5 rounded bg-fuchsia-500/15 border border-fuchsia-500/30 text-fuchsia-300 text-[10px] uppercase font-bold inline-block mb-1">
+                              <span className="px-2 py-0.5 rounded bg-purple-500/20 border border-purple-500/35 text-purple-300 text-[10px] uppercase font-bold inline-block mb-1">
                                 {team.eventTitle}
                               </span>
                             </td>
                             <td className="p-3.5">
-                              <strong className="text-white block">{team.leaderName}</strong>
+                              <strong className="text-white block font-sans">{team.leaderName}</strong>
                               <span className="text-slate-400 text-[11px] block">{team.leaderRoll} • {team.branch}</span>
-                              <span className="text-slate-500 text-[10px] block">{team.leaderPhone} • {team.leaderEmail}</span>
+                              <span className="text-slate-500 text-[10px] block font-mono">{team.leaderPhone} • {team.leaderEmail}</span>
                             </td>
                             <td className="p-3.5 text-slate-300 max-w-xs">
                               <div className="flex flex-wrap gap-1">
-                                <span className="px-2 py-0.5 rounded bg-white/10 text-white text-[10px] font-bold">
+                                <span className="px-2 py-0.5 rounded-md bg-fuchsia-500/20 border border-fuchsia-500/30 text-fuchsia-200 text-[10px] font-bold">
                                   1: {team.leaderName} (L)
                                 </span>
                                 {team.members.map((m, idx) => (
                                   <span
                                     key={`${m.rollNo}-${idx}`}
-                                    className="px-2 py-0.5 rounded bg-white/5 text-slate-300 text-[10px]"
+                                    className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-slate-300 text-[10px]"
                                     title={`${m.name} (${m.rollNo})`}
                                   >
                                     {idx + 2}: {m.name} ({m.rollNo})
@@ -1745,10 +1897,10 @@ export const AdminDashboardPage: React.FC = () => {
                               <button
                                 type="button"
                                 onClick={() => void handleToggleTeamCheckIn(team.teamId, team.checkedIn)}
-                                className={`px-3 py-1.5 rounded-lg font-bold text-[11px] transition-colors ${
+                                className={`px-3 py-1.5 rounded-lg font-bold text-[11px] transition-all shadow-sm ${
                                   team.checkedIn
-                                    ? 'bg-emerald-500/20 border border-emerald-400/40 text-emerald-300'
-                                    : 'bg-amber-500/15 border border-amber-400/35 text-amber-300 hover:bg-emerald-500/20'
+                                    ? 'bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
+                                    : 'bg-amber-500/15 border border-amber-400/35 text-amber-300 hover:bg-emerald-500/20 hover:border-emerald-400/40 hover:text-emerald-300'
                                 }`}
                               >
                                 {team.checkedIn ? 'Checked In ✓' : 'Check In'}
@@ -1759,7 +1911,7 @@ export const AdminDashboardPage: React.FC = () => {
                                 type="button"
                                 onClick={() => void handleDeleteTeam(team.teamId, team.teamName)}
                                 aria-label={`Delete ${team.teamName}`}
-                                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/15 hover:shadow-[0_0_10px_rgba(244,63,94,0.2)] transition-all"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
@@ -1777,44 +1929,45 @@ export const AdminDashboardPage: React.FC = () => {
             {activeTab === 'inquiries' && (
               <div className="space-y-3">
                 {dashboard.inquiries.length === 0 ? (
-                  <div className="p-10 rounded-2xl bg-[#0b0b11] border border-white/10 text-center text-xs font-mono text-slate-400">
-                    No support tickets submitted yet.
+                  <div className="p-12 rounded-2xl bg-gradient-to-b from-[#0a0714] to-[#040208] border border-white/10 text-center text-xs font-mono text-slate-400 shadow-xl">
+                    <MessageSquare className="w-8 h-8 text-slate-600 mx-auto mb-2" />
+                    No support tickets submitted yet. Helpdesk queries from the contact section appear here in real time.
                   </div>
                 ) : (
                   dashboard.inquiries.map((inq) => (
                     <div
                       key={inq.id}
-                      className="p-5 rounded-2xl bg-[#0b0b11] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                      className="p-5 rounded-2xl bg-gradient-to-r from-[#0d071a]/90 via-[#090614]/90 to-[#070512]/90 border border-white/10 hover:border-sky-500/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all duration-200 shadow-sm hover:shadow-[0_0_20px_rgba(14,165,233,0.1)]"
                     >
-                      <div className="space-y-1">
+                      <div className="space-y-1.5">
                         <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
-                          <span className="text-fuchsia-300 font-bold">#{inq.id}</span>
-                          <strong className="text-white">{inq.subject}</strong>
+                          <span className="px-2 py-0.5 rounded bg-sky-500/15 border border-sky-500/30 text-sky-300 font-bold">#{inq.id}</span>
+                          <strong className="text-white text-sm font-sans">{inq.subject}</strong>
                           <span
-                            className={`px-2 py-0.5 rounded-full text-[10px] uppercase font-bold ${
+                            className={`px-2 py-0.5 rounded-full text-[10px] uppercase font-bold border ${
                               inq.status === 'resolved'
-                                ? 'bg-emerald-500/20 text-emerald-300'
-                                : 'bg-amber-500/20 text-amber-300'
+                                ? 'bg-emerald-500/20 border-emerald-500/30 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.15)]'
+                                : 'bg-amber-500/20 border-amber-500/30 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.15)]'
                             }`}
                           >
                             {inq.status}
                           </span>
                         </div>
-                        <p className="text-xs text-slate-300 font-sans">{inq.message}</p>
+                        <p className="text-xs text-slate-300 font-sans leading-relaxed">{inq.message}</p>
                         {inq.adminNote && (
-                          <p className="text-[11px] font-mono text-emerald-300">
+                          <p className="text-[11px] font-mono text-emerald-300 bg-emerald-950/30 border border-emerald-500/30 rounded-lg px-2.5 py-1">
                             Resolution Note: {inq.adminNote}
                           </p>
                         )}
                         <p className="text-[11px] font-mono text-slate-500">
-                          From {inq.name} ({inq.email}){inq.rollNo ? ` • Roll: ${inq.rollNo}` : ''}
+                          From <span className="text-slate-300">{inq.name}</span> ({inq.email}){inq.rollNo ? ` • Roll: ${inq.rollNo}` : ''}
                         </p>
                       </div>
                       <div className="flex items-center gap-2 shrink-0">
                         <button
                           type="button"
                           onClick={() => void handleToggleInquiry(inq.id, inq.status)}
-                          className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-mono font-bold text-white"
+                          className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-xs font-mono font-bold text-white transition-all active:scale-95"
                         >
                           {inq.status === 'open' ? 'Mark Resolved' : 'Reopen'}
                         </button>
@@ -1822,7 +1975,7 @@ export const AdminDashboardPage: React.FC = () => {
                           type="button"
                           onClick={() => void handleDeleteInquiry(inq.id)}
                           aria-label={`Delete inquiry ${inq.id}`}
-                          className="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/10"
+                          className="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/15 border border-transparent hover:border-rose-500/30 transition-all"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -1838,11 +1991,11 @@ export const AdminDashboardPage: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 <form
                   onSubmit={handleAddEvent}
-                  className="lg:col-span-5 p-5 rounded-2xl bg-[#0b0b11] border border-fuchsia-500/30 space-y-3 text-xs"
+                  className="lg:col-span-5 p-5 rounded-2xl bg-gradient-to-b from-[#0e071c] via-[#090514] to-[#05030b] border border-fuchsia-500/35 shadow-[0_4px_25px_rgba(217,70,239,0.08)] space-y-3.5 text-xs backdrop-blur-md"
                 >
-                  <div className="flex items-center gap-2 text-fuchsia-300 font-mono font-bold uppercase">
-                    <CalendarPlus className="w-4 h-4" />
-                    <span>Add Event to SQLite</span>
+                  <div className="flex items-center gap-2 text-fuchsia-300 font-mono font-bold uppercase tracking-wider">
+                    <CalendarPlus className="w-4 h-4 text-fuchsia-400" />
+                    <span>Add Event to Catalog</span>
                   </div>
 
                   <input
@@ -1851,7 +2004,7 @@ export const AdminDashboardPage: React.FC = () => {
                     value={evTitle}
                     onChange={(e) => setEvTitle(e.target.value)}
                     placeholder="Event Title (e.g. AI Agents Sprint)"
-                    className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:ring-1 focus:ring-fuchsia-400/30 focus:outline-none placeholder:text-slate-500"
                   />
                   <input
                     type="text"
@@ -1859,13 +2012,13 @@ export const AdminDashboardPage: React.FC = () => {
                     value={evTagline}
                     onChange={(e) => setEvTagline(e.target.value)}
                     placeholder="Short Tagline"
-                    className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:ring-1 focus:ring-fuchsia-400/30 focus:outline-none placeholder:text-slate-500"
                   />
                   <div className="grid grid-cols-2 gap-2">
                     <select
                       value={evCategory}
                       onChange={(e) => setEvCategory(e.target.value as FestEvent['category'])}
-                      className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                      className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
                     >
                       {CATEGORIES.map((c) => (
                         <option key={c} value={c}>
@@ -1879,7 +2032,7 @@ export const AdminDashboardPage: React.FC = () => {
                       value={evDate}
                       onChange={(e) => setEvDate(e.target.value)}
                       placeholder="Day 1 (Sep 28)"
-                      className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                      className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-2">
@@ -1889,7 +2042,7 @@ export const AdminDashboardPage: React.FC = () => {
                       value={evTime}
                       onChange={(e) => setEvTime(e.target.value)}
                       placeholder="Time"
-                      className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                      className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
                     />
                     <input
                       type="text"
@@ -1897,7 +2050,7 @@ export const AdminDashboardPage: React.FC = () => {
                       value={evVenue}
                       onChange={(e) => setEvVenue(e.target.value)}
                       placeholder="Venue"
-                      className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                      className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-2">
@@ -1906,14 +2059,14 @@ export const AdminDashboardPage: React.FC = () => {
                       value={evTeamSize}
                       onChange={(e) => setEvTeamSize(e.target.value)}
                       placeholder="Team Size"
-                      className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                      className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
                     />
                     <input
                       type="text"
                       value={evPrizes}
                       onChange={(e) => setEvPrizes(e.target.value)}
                       placeholder="Prize Pool"
-                      className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                      className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
                     />
                   </div>
                   <textarea
@@ -1923,12 +2076,12 @@ export const AdminDashboardPage: React.FC = () => {
                     value={evDescription}
                     onChange={(e) => setEvDescription(e.target.value)}
                     placeholder="Event description and judging focus..."
-                    className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white resize-none focus:border-fuchsia-400 focus:outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white resize-none focus:border-fuchsia-400 focus:ring-1 focus:ring-fuchsia-400/30 focus:outline-none placeholder:text-slate-500"
                   />
                   <button
                     type="submit"
                     disabled={creatingEvent}
-                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-mono font-bold uppercase tracking-wider hover:opacity-95"
+                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-mono font-bold uppercase tracking-wider hover:opacity-95 shadow-[0_0_20px_rgba(217,70,239,0.3)] transition-all"
                   >
                     {creatingEvent ? 'Saving Event...' : 'Publish Event'}
                   </button>
@@ -1938,7 +2091,7 @@ export const AdminDashboardPage: React.FC = () => {
                   {dashboard.events.map((ev) => (
                     <div
                       key={ev.id}
-                      className="p-4 rounded-2xl bg-[#0b0b11] border border-white/10 flex items-start justify-between gap-3"
+                      className="p-4 rounded-2xl bg-gradient-to-r from-[#0d071a]/90 to-[#070512]/90 border border-white/10 hover:border-fuchsia-500/40 flex items-start justify-between gap-3 transition-all duration-200 shadow-sm hover:shadow-[0_0_20px_rgba(217,70,239,0.1)]"
                     >
                       <div className="space-y-1 min-w-0">
                         <span className="text-[10px] font-mono uppercase text-fuchsia-400 font-bold">
@@ -1951,7 +2104,7 @@ export const AdminDashboardPage: React.FC = () => {
                         type="button"
                         onClick={() => void handleDeleteEvent(ev.id, ev.title)}
                         aria-label={`Delete event ${ev.title}`}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 shrink-0"
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 shrink-0 transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -1966,17 +2119,17 @@ export const AdminDashboardPage: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 <form
                   onSubmit={handleAddSchedule}
-                  className="lg:col-span-5 p-5 rounded-2xl bg-[#0b0b11] border border-fuchsia-500/30 space-y-3 text-xs"
+                  className="lg:col-span-5 p-5 rounded-2xl bg-gradient-to-b from-[#0e071c] via-[#090514] to-[#05030b] border border-fuchsia-500/35 shadow-[0_4px_25px_rgba(217,70,239,0.08)] space-y-3.5 text-xs backdrop-blur-md"
                 >
-                  <div className="flex items-center gap-2 text-fuchsia-300 font-mono font-bold uppercase">
-                    <CalendarPlus className="w-4 h-4" />
+                  <div className="flex items-center gap-2 text-fuchsia-300 font-mono font-bold uppercase tracking-wider">
+                    <CalendarPlus className="w-4 h-4 text-fuchsia-400" />
                     <span>Add Schedule Slot</span>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <select
                       value={schedDay}
                       onChange={(e) => setSchedDay(e.target.value as 'Day 1' | 'Day 2')}
-                      className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                      className="px-3 py-2 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
                     >
                       <option value="Day 1">Day 1</option>
                       <option value="Day 2">Day 2</option>
@@ -1987,7 +2140,7 @@ export const AdminDashboardPage: React.FC = () => {
                       value={schedTime}
                       onChange={(e) => setSchedTime(e.target.value)}
                       placeholder="04:30 PM"
-                      className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                      className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
                     />
                   </div>
                   <input
@@ -1996,7 +2149,7 @@ export const AdminDashboardPage: React.FC = () => {
                     value={schedTitle}
                     onChange={(e) => setSchedTitle(e.target.value)}
                     placeholder="Session Title"
-                    className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
                   />
                   <div className="grid grid-cols-2 gap-2">
                     <input
@@ -2005,7 +2158,7 @@ export const AdminDashboardPage: React.FC = () => {
                       value={schedCategory}
                       onChange={(e) => setSchedCategory(e.target.value)}
                       placeholder="Category"
-                      className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                      className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
                     />
                     <input
                       type="text"
@@ -2013,7 +2166,7 @@ export const AdminDashboardPage: React.FC = () => {
                       value={schedVenue}
                       onChange={(e) => setSchedVenue(e.target.value)}
                       placeholder="Venue"
-                      className="px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                      className="px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
                     />
                   </div>
                   <textarea
@@ -2023,11 +2176,11 @@ export const AdminDashboardPage: React.FC = () => {
                     value={schedDesc}
                     onChange={(e) => setSchedDesc(e.target.value)}
                     placeholder="Short schedule description..."
-                    className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white resize-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white resize-none focus:border-fuchsia-400 focus:outline-none"
                   />
                   <button
                     type="submit"
-                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-mono font-bold uppercase tracking-wider"
+                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-mono font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(217,70,239,0.3)] transition-all"
                   >
                     Add Schedule Slot
                   </button>
@@ -2037,7 +2190,7 @@ export const AdminDashboardPage: React.FC = () => {
                   {dashboard.schedule.map((slot) => (
                     <div
                       key={slot.id}
-                      className="p-4 rounded-2xl bg-[#0b0b11] border border-white/10 flex items-start justify-between gap-3"
+                      className="p-4 rounded-2xl bg-gradient-to-r from-[#0d071a]/90 to-[#070512]/90 border border-white/10 hover:border-fuchsia-500/40 flex items-start justify-between gap-3 transition-all duration-200 shadow-sm hover:shadow-[0_0_20px_rgba(217,70,239,0.1)]"
                     >
                       <div className="space-y-1">
                         <span className="text-[10px] font-mono uppercase text-fuchsia-400 font-bold">
@@ -2050,7 +2203,7 @@ export const AdminDashboardPage: React.FC = () => {
                         type="button"
                         onClick={() => void handleDeleteSchedule(slot.id)}
                         aria-label={`Delete schedule ${slot.title}`}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 shrink-0"
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 shrink-0 transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -2065,10 +2218,10 @@ export const AdminDashboardPage: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 <form
                   onSubmit={handleAddFaq}
-                  className="lg:col-span-5 p-5 rounded-2xl bg-[#0b0b11] border border-fuchsia-500/30 space-y-3 text-xs"
+                  className="lg:col-span-5 p-5 rounded-2xl bg-gradient-to-b from-[#0e071c] via-[#090514] to-[#05030b] border border-fuchsia-500/35 shadow-[0_4px_25px_rgba(217,70,239,0.08)] space-y-3.5 text-xs backdrop-blur-md"
                 >
-                  <div className="flex items-center gap-2 text-fuchsia-300 font-mono font-bold uppercase">
-                    <MessageSquare className="w-4 h-4" />
+                  <div className="flex items-center gap-2 text-fuchsia-300 font-mono font-bold uppercase tracking-wider">
+                    <MessageSquare className="w-4 h-4 text-fuchsia-400" />
                     <span>Add FAQ Entry</span>
                   </div>
                   <input
@@ -2078,7 +2231,7 @@ export const AdminDashboardPage: React.FC = () => {
                     value={faqQuestion}
                     onChange={(e) => setFaqQuestion(e.target.value)}
                     placeholder="Question..."
-                    className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none"
                   />
                   <textarea
                     rows={3}
@@ -2087,11 +2240,11 @@ export const AdminDashboardPage: React.FC = () => {
                     value={faqAnswer}
                     onChange={(e) => setFaqAnswer(e.target.value)}
                     placeholder="Answer..."
-                    className="w-full px-3 py-2 rounded-xl bg-[#020003] border border-white/15 text-white resize-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#080512] border border-white/15 text-white resize-none focus:border-fuchsia-400 focus:outline-none"
                   />
                   <button
                     type="submit"
-                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-mono font-bold uppercase tracking-wider"
+                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-mono font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(217,70,239,0.3)] transition-all"
                   >
                     Publish FAQ
                   </button>
@@ -2101,7 +2254,7 @@ export const AdminDashboardPage: React.FC = () => {
                   {dashboard.faqs.map((faq) => (
                     <div
                       key={faq.id}
-                      className="p-4 rounded-2xl bg-[#0b0b11] border border-white/10 flex items-start justify-between gap-3"
+                      className="p-4 rounded-2xl bg-gradient-to-r from-[#0d071a]/90 to-[#070512]/90 border border-white/10 hover:border-fuchsia-500/40 flex items-start justify-between gap-3 transition-all duration-200 shadow-sm hover:shadow-[0_0_20px_rgba(217,70,239,0.1)]"
                     >
                       <div className="space-y-1">
                         <h3 className="text-sm font-bold text-white">{faq.q}</h3>
