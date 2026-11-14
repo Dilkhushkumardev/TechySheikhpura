@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Sparkles,
   MapPin,
@@ -19,7 +19,9 @@ import {
   VolumeX,
   Flame,
   Radio,
-  Search
+  Search,
+  ShieldCheck,
+  Users
 } from 'lucide-react';
 import {
   FEST_CLUBS,
@@ -698,19 +700,50 @@ export const TechySheikhpuraPage: React.FC = () => {
       </section>
 
       {/* =========================================================================
-          SECTION 4: PASSES & REGISTRATION (EXACT TECHVERSE FORMAT)
+          SECTION 4: PASSES & REGISTRATION (100% FREE ACCESS)
           ========================================================================= */}
-      <section id="passes" className="scroll-mt-28 py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-14">
+      <section id="passes" className="scroll-mt-28 py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
         <div className="text-center space-y-3 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
-            Official Fest Passes • September 2026 Edition
+            ✨ 100% Free Entry • Zero Registration Fees
           </div>
           <h2 className="text-3xl sm:text-5xl font-black font-display text-white">
-            Official Delegate Passes
+            Official Student Passes <span className="text-gradient-techverse">(Bilkul Free)</span>
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-mono">
-            Intra-college passes issued for students of Government Engineering College, Sheikhpura.
+            Government Engineering College, Sheikhpura ke sabhi students aur registered teams ke liye fest access 100% FREE hai. Kisi bhi event ya pass ke liye koi payment nahi karna hai.
           </p>
+        </div>
+
+        {/* Free Pass & Squad Registration Highlight Banner */}
+        <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-r from-emerald-950/40 via-[#070512] to-fuchsia-950/30 border border-emerald-500/35 shadow-[0_0_30px_rgba(16,185,129,0.1)] flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-6 h-6 text-emerald-400" />
+            </div>
+            <div className="space-y-1 text-center md:text-left">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
+                <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 text-[10px] font-mono font-bold uppercase tracking-wider">
+                  NO PAYMENT REQUIRED
+                </span>
+                <span className="text-xs font-mono text-emerald-400 font-bold">ALL SQUADS INCLUDED</span>
+              </div>
+              <h3 className="text-base sm:text-lg font-bold font-display text-white">
+                Team Register Kar Liya? Aapka Pass Already 100% Free &amp; Active Hai!
+              </h3>
+              <p className="text-xs text-slate-300 font-sans leading-relaxed">
+                Team registration ke baad kisi bhi squad member ko alag se pass lene ya payment karne ki zaroorat nahi hai. Team ID &amp; QR code hi sabhi members ka verified Gate Entry Pass hai.
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/team-register"
+            onClick={() => playClickSound()}
+            className="shrink-0 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:opacity-95 text-white font-mono font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(16,185,129,0.25)] flex items-center gap-2 transition-transform hover:scale-105"
+          >
+            <Users className="w-4 h-4" />
+            <span>Register Squad (Free Entry)</span>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -725,7 +758,7 @@ export const TechySheikhpuraPage: React.FC = () => {
             >
               {pass.isPopular && (
                 <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-mono font-black text-[10px] uppercase tracking-wider shadow-lg">
-                  ⭐ BEST VALUE • ALL INCLUDED
+                  ⭐ 100% FREE FOR ALL STUDENTS
                 </span>
               )}
 
@@ -735,15 +768,13 @@ export const TechySheikhpuraPage: React.FC = () => {
                   <p className="text-xs text-slate-400">{pass.tagline}</p>
                 </div>
 
-                <div className="flex items-baseline gap-2 font-mono">
-                  <span className="text-4xl sm:text-5xl font-black text-white text-gradient-techverse">
-                    ₹{pass.price}
+                <div className="flex items-center gap-2.5 font-mono">
+                  <span className="text-3xl sm:text-4xl font-black text-emerald-400 drop-shadow-[0_0_15px_rgba(16,185,129,0.35)]">
+                    FREE
                   </span>
-                  <span className="text-sm text-slate-500 line-through">
-                    ₹{pass.originalPrice}
-                  </span>
-                  <span className="text-[10px] text-emerald-400 font-bold ml-1 uppercase bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
-                    CONCLUDED
+                  <span className="text-[10px] text-emerald-300 font-bold uppercase bg-emerald-500/15 px-2.5 py-1 rounded-full border border-emerald-500/35 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    ₹0 Zero Fees
                   </span>
                 </div>
 
@@ -772,7 +803,7 @@ export const TechySheikhpuraPage: React.FC = () => {
                 }`}
               >
                 <Ticket className="w-4 h-4" />
-                <span>View {pass.name.split(' ')[0]} Pass Details</span>
+                <span>Claim Free {pass.name.split(' ')[0]} Pass</span>
               </button>
             </div>
           ))}

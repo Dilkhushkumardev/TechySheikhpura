@@ -9,7 +9,6 @@ import {
   Download,
   HelpCircle,
   History,
-  IndianRupee,
   Loader2,
   Lock,
   LogOut,
@@ -1546,20 +1545,20 @@ export const AdminDashboardPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Fee Revenue */}
-              <div className="group relative overflow-hidden p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#181105] via-[#0f0b03] to-[#050301] border border-amber-500/30 hover:border-amber-400/60 shadow-[0_4px_20px_rgba(245,158,11,0.08)] transition-all duration-300 hover:-translate-y-0.5">
+              {/* Fest Entry Policy */}
+              <div className="group relative overflow-hidden p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#041d14] via-[#02130d] to-[#010805] border border-emerald-500/30 hover:border-emerald-400/60 shadow-[0_4px_20px_rgba(16,185,129,0.08)] transition-all duration-300 hover:-translate-y-0.5">
                 <div className="flex items-center justify-between text-slate-400 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider">
-                  <span>Gross Value</span>
-                  <div className="p-1.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300">
-                    <IndianRupee className="w-3.5 h-3.5" />
+                  <span>Fest Entry</span>
+                  <div className="p-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">
+                    <ShieldCheck className="w-3.5 h-3.5" />
                   </div>
                 </div>
-                <div className="text-2xl sm:text-3xl font-black font-mono text-amber-300 mt-2">
-                  ₹{dashboard.summary.totalRevenue}
+                <div className="text-2xl sm:text-3xl font-black font-mono text-emerald-300 mt-2">
+                  100% FREE
                 </div>
-                <div className="text-[10px] font-mono text-amber-400/80 mt-1 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                  Pass Valuation
+                <div className="text-[10px] font-mono text-emerald-400/80 mt-1 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  ₹0 Zero Fees Policy
                 </div>
               </div>
 
@@ -1607,13 +1606,16 @@ export const AdminDashboardPage: React.FC = () => {
                 >
                   <div className="space-y-0.5">
                     <span className="text-white font-bold block text-sm">{tier.passName}</span>
-                    <span className="text-slate-400 text-[11px]">₹{tier.price} per pass tier</span>
+                    <span className="text-emerald-400 text-[11px] font-semibold flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      100% Free Entry Tier (₹0)
+                    </span>
                   </div>
                   <div className="text-right">
                     <span className="inline-block px-2.5 py-0.5 rounded-md bg-fuchsia-500/20 border border-fuchsia-500/30 text-fuchsia-300 font-black text-sm">
-                      {tier.bookings} sold
+                      {tier.bookings} issued
                     </span>
-                    <span className="text-emerald-400 font-bold block text-xs mt-1">₹{tier.revenue} total</span>
+                    <span className="text-emerald-400 font-bold block text-xs mt-1">₹0 Free</span>
                   </div>
                 </div>
               ))}

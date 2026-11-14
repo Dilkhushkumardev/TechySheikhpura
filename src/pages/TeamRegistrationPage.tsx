@@ -7,8 +7,11 @@ import {
   UserPlus,
   Trash2,
   CheckCircle,
+  Check,
+  Copy,
   Loader2,
   ShieldAlert,
+  ShieldCheck,
   Printer,
   Sparkles,
   Ticket,
@@ -67,6 +70,7 @@ export const TeamRegistrationPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [duplicateId, setDuplicateId] = useState<string | null>(null);
   const [confirmedTeam, setConfirmedTeam] = useState<TeamRegistrationRecord | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const currentEvent: FestEvent =
     FEST_EVENTS.find((e) => e.id === selectedEventId) || FEST_EVENTS[0];
@@ -272,14 +276,52 @@ export const TeamRegistrationPage: React.FC = () => {
               </p>
             </div>
 
+            {/* 100% Free Pass Granted Highlight Card */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-500/15 via-[#061510] to-emerald-500/10 border-2 border-emerald-400/40 shadow-[0_0_30px_rgba(16,185,129,0.15)] flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3.5">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-emerald-300 shrink-0 shadow-lg">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <div className="space-y-0.5 text-center sm:text-left">
+                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                    <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-mono font-black uppercase tracking-wider">
+                      ₹0 NO PAYMENT REQUIRED
+                    </span>
+                    <span className="text-xs font-mono text-emerald-400 font-bold">ALL-ACCESS PASS: ACTIVE ✓</span>
+                  </div>
+                  <h3 className="text-sm sm:text-base font-bold font-display text-white">
+                    Official Squad Pass Included (Bilkul Free)
+                  </h3>
+                  <p className="text-xs text-slate-300 font-sans leading-relaxed">
+                    Aapke sabhi <strong>{confirmedTeam.members.length + 1} squad members</strong> ke liye fest access <strong>100% FREE</strong> hai. Kisi bhi member ko alag se pass lene ya payment karne ki bilkul zaroorat nahi hai. Gate par bas ye QR code aur college ID dikhayein!
+                  </p>
+                </div>
+              </div>
+              <div className="shrink-0 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(confirmedTeam.teamId);
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                  }}
+                  className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-mono text-xs font-bold inline-flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
+                >
+                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-slate-300" />}
+                  <span>{copied ? 'Copied ID!' : 'Copy Team ID'}</span>
+                </button>
+              </div>
+            </div>
+
             {/* Official Holographic Team Pass Card */}
             <div className="p-6 rounded-2xl bg-gradient-to-br from-[#050308] via-[#0d0714] to-[#050308] border border-fuchsia-500/35 space-y-5 shadow-inner">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                 <div className="flex items-center gap-3">
                   <TechyLogo size={42} glow={true} />
                   <div>
-                    <span className="text-[10px] font-mono uppercase text-fuchsia-400 tracking-wider block font-bold">
-                      {FEST_INFO.name} Delegate Team Pass
+                    <span className="text-[10px] font-mono uppercase text-emerald-400 tracking-wider block font-bold flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      {FEST_INFO.name} Free Delegate Squad Pass
                     </span>
                     <strong className="text-lg font-bold font-display text-white">
                       {confirmedTeam.teamName}
@@ -314,14 +356,14 @@ export const TeamRegistrationPage: React.FC = () => {
                   <strong className="text-emerald-400 font-bold block">
                     {confirmedTeam.members.length + 1} Squad Members
                   </strong>
-                  <span className="text-[11px] text-slate-400">{confirmedTeam.branch}</span>
+                  <span className="text-[11px] text-emerald-300 font-bold">100% Free Pass Granted</span>
                 </div>
               </div>
 
               {/* Members Roster */}
               <div className="space-y-2">
                 <span className="text-[11px] font-mono uppercase text-slate-400 font-bold block">
-                  Registered Squad Members:
+                  Registered Squad Members (Free Passes Active):
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
                   <div className="p-2.5 rounded-lg bg-fuchsia-500/10 border border-fuchsia-500/30 flex items-center justify-between">
@@ -330,7 +372,7 @@ export const TeamRegistrationPage: React.FC = () => {
                       <span className="text-[10px] text-slate-400">{confirmedTeam.leaderRoll} • {confirmedTeam.branch}</span>
                     </div>
                     <span className="px-2 py-0.5 rounded text-[10px] bg-fuchsia-500/20 text-fuchsia-300 font-bold">
-                      Leader
+                      Leader Pass ✓
                     </span>
                   </div>
 
@@ -345,8 +387,8 @@ export const TeamRegistrationPage: React.FC = () => {
                           {m.rollNo} • {m.branch || confirmedTeam.branch}
                         </span>
                       </div>
-                      <span className="px-2 py-0.5 rounded text-[10px] bg-white/10 text-slate-300">
-                        Member #{idx + 2}
+                      <span className="px-2 py-0.5 rounded text-[10px] bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold">
+                        Member #{idx + 2} ✓
                       </span>
                     </div>
                   ))}
@@ -366,89 +408,118 @@ export const TeamRegistrationPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold inline-flex items-center gap-2 transition-colors"
+                className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold inline-flex items-center gap-2 transition-colors shadow-sm"
               >
                 <Printer className="w-4 h-4" />
-                <span>Print Team Card</span>
+                <span>Print / Save Team Pass</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleReset}
-                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold inline-flex items-center gap-2 transition-transform hover:scale-105"
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold inline-flex items-center gap-2 transition-transform hover:scale-105 shadow-glow-fuchsia"
               >
                 <Sparkles className="w-4 h-4" />
                 <span>Register Another Team</span>
               </button>
+
+              <Link
+                to="/"
+                className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white font-bold inline-flex items-center gap-2 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4 text-fuchsia-400" />
+                <span>Fest Home</span>
+              </Link>
             </div>
           </div>
         ) : (
           /* Team Registration Form */
-          <form
-            onSubmit={handleSubmit}
-            className="rounded-3xl bg-[#07060e]/95 border border-fuchsia-500/35 hover:border-fuchsia-400/50 p-6 sm:p-10 shadow-[0_0_50px_rgba(217,70,239,0.12)] space-y-8 backdrop-blur-2xl transition-all"
-          >
-            {error && (
-              <div
-                role="alert"
-                className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-rose-200 font-mono text-xs flex items-start gap-3"
-              >
-                <ShieldAlert className="w-5 h-5 shrink-0 text-rose-400 mt-0.5" />
-                <div className="space-y-1">
-                  <strong className="block font-bold">Registration Alert</strong>
-                  <p>{error}</p>
-                  {duplicateId && (
-                    <span className="block text-[11px] text-amber-300">
-                      Existing Registration ID: <strong>{duplicateId}</strong>
-                    </span>
-                  )}
+          <div className="space-y-6">
+            {/* Free Squad Registration Notice Banner */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-950/40 via-[#070512] to-fuchsia-950/30 border border-emerald-500/35 shadow-[0_0_25px_rgba(16,185,129,0.1)] flex items-start gap-3.5">
+              <div className="p-2 rounded-xl bg-emerald-500/15 border border-emerald-400/35 text-emerald-400 shrink-0 mt-0.5">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <div className="space-y-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <strong className="text-white text-xs font-mono uppercase tracking-wider">
+                    100% Free Squad Registration • Zero Pass Payment Needed
+                  </strong>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/35">
+                    ₹0 FREE ACCESS
+                  </span>
                 </div>
+                <p className="text-xs text-slate-300 font-sans leading-relaxed">
+                  Team register karne ke baad kisi bhi squad member ko alag se pass lene ya payment karne ki bilkul zaroorat nahi hai. Sabhi 14+ events, tech labs, aur arenas me entry <strong>100% FREE</strong> hai. Registration confirm hote hi sabhi members ka <strong>Official Digital Pass &amp; Gate QR</strong> generate ho jayega.
+                </p>
               </div>
-            )}
+            </div>
 
-            {/* Section 1: Event Selection & Team Identity */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 border-b border-white/10 pb-2">
-                <Ticket className="w-4 h-4 text-fuchsia-400" />
-                <h2 className="text-sm font-bold font-mono uppercase tracking-wider text-fuchsia-300">
-                  Step 1: Event &amp; Team Details
-                </h2>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-sans">
-                <div>
-                  <label htmlFor="team-event" className="block text-slate-300 mb-1.5 font-medium">
-                    Choose Fest Event <span className="text-rose-400">*</span>
-                  </label>
-                  <select
-                    id="team-event"
-                    value={selectedEventId}
-                    onChange={(e) => setUserSelectedEventId(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none font-mono"
-                  >
-                    {FEST_EVENTS.map((ev) => (
-                      <option key={ev.id} value={ev.id}>
-                        {ev.title} ({ev.category}) — {ev.teamSize}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="mt-1.5 flex items-center gap-3 text-[11px] font-mono text-slate-400">
-                    <span>Team: <strong className="text-fuchsia-300">{currentEvent.teamSize}</strong></span>
-                    <span>Fee: <strong className="text-emerald-400">{currentEvent.entryFee}</strong></span>
+            <form
+              onSubmit={handleSubmit}
+              className="rounded-3xl bg-[#07060e]/95 border border-fuchsia-500/35 hover:border-fuchsia-400/50 p-6 sm:p-10 shadow-[0_0_50px_rgba(217,70,239,0.12)] space-y-8 backdrop-blur-2xl transition-all"
+            >
+              {error && (
+                <div
+                  role="alert"
+                  className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-rose-200 font-mono text-xs flex items-start gap-3"
+                >
+                  <ShieldAlert className="w-5 h-5 shrink-0 text-rose-400 mt-0.5" />
+                  <div className="space-y-1">
+                    <strong className="block font-bold">Registration Alert</strong>
+                    <p>{error}</p>
+                    {duplicateId && (
+                      <span className="block text-[11px] text-amber-300">
+                        Existing Registration ID: <strong>{duplicateId}</strong>
+                      </span>
+                    )}
                   </div>
                 </div>
+              )}
 
-                <div>
-                  <label htmlFor="team-name" className="block text-slate-300 mb-1.5 font-medium">
-                    Team / Squad Name <span className="text-rose-400">*</span>
-                  </label>
-                  <input
-                    id="team-name"
-                    type="text"
-                    required
-                    value={teamName}
-                    onChange={(e) => setTeamName(e.target.value)}
-                    placeholder="e.g. CyberKnights, Squad Alpha, RoboRiders"
+              {/* Section 1: Event Selection & Team Identity */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 border-b border-white/10 pb-2">
+                  <Ticket className="w-4 h-4 text-fuchsia-400" />
+                  <h2 className="text-sm font-bold font-mono uppercase tracking-wider text-fuchsia-300">
+                    Step 1: Event &amp; Team Details
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-sans">
+                  <div>
+                    <label htmlFor="team-event" className="block text-slate-300 mb-1.5 font-medium">
+                      Choose Fest Event <span className="text-rose-400">*</span>
+                    </label>
+                    <select
+                      id="team-event"
+                      value={selectedEventId}
+                      onChange={(e) => setUserSelectedEventId(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none font-mono"
+                    >
+                      {FEST_EVENTS.map((ev) => (
+                        <option key={ev.id} value={ev.id}>
+                          {ev.title} ({ev.category}) — {ev.teamSize}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="mt-1.5 flex items-center gap-3 text-[11px] font-mono text-slate-400">
+                      <span>Team: <strong className="text-fuchsia-300">{currentEvent.teamSize}</strong></span>
+                      <span>Entry Fee: <strong className="text-emerald-300 font-bold bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/35">100% FREE (₹0)</strong></span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="team-name" className="block text-slate-300 mb-1.5 font-medium">
+                      Team / Squad Name <span className="text-rose-400">*</span>
+                    </label>
+                    <input
+                      id="team-name"
+                      type="text"
+                      required
+                      value={teamName}
+                      onChange={(e) => setTeamName(e.target.value)}
+                      placeholder="e.g. CyberKnights, Squad Alpha, RoboRiders"
                     className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none font-mono"
                   />
                   <span className="text-[10px] text-slate-400 font-mono mt-1 block">
@@ -720,6 +791,7 @@ export const TeamRegistrationPage: React.FC = () => {
               </button>
             </div>
           </form>
+          </div>
         )}
       </div>
     </div>

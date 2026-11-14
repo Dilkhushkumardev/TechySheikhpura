@@ -276,7 +276,7 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                       {confirmedPass.passName}
                     </strong>
                     <span className="text-xs font-mono font-bold text-emerald-400 block mt-1">
-                      ₹{confirmedPass.price} • {confirmedPass.regId}
+                      100% Free Entry • {confirmedPass.regId}
                     </span>
                   </div>
 
@@ -421,11 +421,11 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                       <span className="text-[10px] font-mono uppercase text-slate-400 block truncate">
                         {p.name.split(' ')[0]}
                       </span>
-                      <strong className="text-lg font-bold text-white font-mono block">
-                        ₹{p.price}
+                      <strong className="text-lg font-bold text-emerald-400 font-mono block">
+                        FREE
                       </strong>
-                      <span className="text-[10px] text-slate-500 line-through font-mono">
-                        ₹{p.originalPrice}
+                      <span className="text-[10px] text-emerald-300 font-mono font-bold">
+                        ₹0 Entry
                       </span>
                     </button>
                   ))}
@@ -433,12 +433,18 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
               </div>
 
               {/* Pass Selected Highlight */}
-              <div className="p-3.5 rounded-xl bg-[#050308] border border-fuchsia-500/25 text-xs text-slate-300">
-                <div className="flex items-center justify-between font-bold text-white mb-1">
+              <div className="p-3.5 rounded-xl bg-[#050308] border border-emerald-500/30 text-xs text-slate-300 space-y-1.5">
+                <div className="flex items-center justify-between font-bold text-white">
                   <span className="text-fuchsia-300">{currentPass.name}</span>
-                  <span className="font-mono text-emerald-400">₹{currentPass.price}</span>
+                  <span className="font-mono text-emerald-400 font-black">100% FREE (₹0)</span>
                 </div>
                 <p className="text-[11px] text-slate-400">{currentPass.tagline}</p>
+                <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-emerald-300">
+                  <span>✓ Intra-College GECS Free Pass</span>
+                  <Link to="/team-register" onClick={onClose} className="text-fuchsia-400 hover:text-white underline">
+                    Have a Squad? Register Team →
+                  </Link>
+                </div>
               </div>
 
               {/* Input Fields */}
@@ -575,7 +581,7 @@ export const PassBookingModal: React.FC<PassBookingModalProps> = ({
                   ) : (
                     <>
                       <Ticket className="w-4 h-4" />
-                      <span>Confirm &amp; Generate Delegate Pass (₹{currentPass.price})</span>
+                      <span>Confirm &amp; Generate Free Delegate Pass (₹0 Free)</span>
                     </>
                   )}
                 </button>
