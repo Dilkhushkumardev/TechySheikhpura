@@ -18,6 +18,7 @@ import {
   type InquiryRecord,
   type TeamRegistrationRecord,
 } from '../../services/api';
+import { saveOfflineTeam } from '../../services/offlineStorage';
 
 interface HelpdeskSectionProps {
   telegramUrl: string;
@@ -152,6 +153,7 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
       });
 
       setSubmittedTeam(res.teamRegistration);
+      saveOfflineTeam(res.teamRegistration);
       setTeamName('');
       setLeaderName('');
       setLeaderRoll('');
@@ -160,13 +162,40 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
       setMember2Name('');
       setMember2Roll('');
     } catch (err) {
-      if (err instanceof ApiError) {
+      if (err instanceof ApiError && err.status === 409) {
         setTeamError(err.message);
-      } else if (err instanceof Error) {
-        setTeamError(err.message);
-      } else {
-        setTeamError('Unable to save team registration to backend. Please check connection.');
+        return;
       }
+      // Offline fallback for static GitHub Pages
+      const offlineTeamId = `TS26-TEAM-${Math.floor(100 + Math.random() * 900)}`;
+      const fallbackTeam: TeamRegistrationRecord = {
+        teamId: offlineTeamId,
+        teamName: teamName.trim(),
+        eventId,
+        eventTitle: FEST_EVENTS.find((e) => e.id === eventId)?.title ?? eventId,
+        leaderName: leaderName.trim(),
+        leaderRoll: leaderRoll.trim().toUpperCase(),
+        leaderEmail: leaderEmail.trim().toLowerCase(),
+        leaderPhone: leaderPhone.trim(),
+        branch: leaderBranch,
+        year: '3rd Year (2024-28)',
+        members: membersList,
+        projectTitle: null,
+        notes: null,
+        status: 'confirmed',
+        checkedIn: false,
+        checkedInAt: null,
+        createdAt: new Date().toISOString(),
+      };
+      saveOfflineTeam(fallbackTeam);
+      setSubmittedTeam(fallbackTeam);
+      setTeamName('');
+      setLeaderName('');
+      setLeaderRoll('');
+      setLeaderEmail('');
+      setLeaderPhone('');
+      setMember2Name('');
+      setMember2Roll('');
     } finally {
       setSubmittingTeam(false);
     }

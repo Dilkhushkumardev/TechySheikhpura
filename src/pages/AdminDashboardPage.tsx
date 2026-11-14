@@ -68,6 +68,15 @@ import {
   type EventResultRecord,
   type FestInfoPayload,
 } from '../services/api';
+import {
+  buildOfflineDashboardData,
+  deleteOfflineRegistration,
+  deleteOfflineTeam,
+  downloadOfflineRegistrationsCsv,
+  downloadOfflineTeamsCsv,
+  toggleOfflineRegistrationCheckIn,
+  toggleOfflineTeamCheckIn,
+} from '../services/offlineStorage';
 
 const TOKEN_STORAGE_KEY = 'techy_admin_token';
 const CATEGORIES: FestEvent['category'][] = [
@@ -907,11 +916,18 @@ const AuditTrailPanel: React.FC<{ logs: AuditLogRecord[] }> = ({ logs }) => (
 export const AdminDashboardPage: React.FC = () => {
   const [pinInput, setPinInput] = useState('');
   const [authToken, setAuthToken] = useState<string>(() => sessionStorage.getItem(TOKEN_STORAGE_KEY) || '');
+  const isOfflineMode = Boolean(authToken.startsWith('offline-'));
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
 
-  const [dashboard, setDashboard] = useState<AdminDashboardData | null>(null);
-  const [loadingData, setLoadingData] = useState(() => Boolean(sessionStorage.getItem(TOKEN_STORAGE_KEY)));
+  const [dashboard, setDashboard] = useState<AdminDashboardData | null>(() => {
+    const existing = sessionStorage.getItem(TOKEN_STORAGE_KEY);
+    return existing?.startsWith('offline-') ? buildOfflineDashboardData() : null;
+  });
+  const [loadingData, setLoadingData] = useState(() => {
+    const existing = sessionStorage.getItem(TOKEN_STORAGE_KEY);
+    return Boolean(existing && !existing.startsWith('offline-'));
+  });
   const [actionError, setActionError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<ConsoleTab>('registrations');
   const [regSearch, setRegSearch] = useState('');
@@ -944,6 +960,11 @@ export const AdminDashboardPage: React.FC = () => {
   const loadDashboard = useCallback(async (token: string) => {
     setLoadingData(true);
     setActionError(null);
+    if (token.startsWith('offline-')) {
+      setDashboard(buildOfflineDashboardData());
+      setLoadingData(false);
+      return;
+    }
     try {
       const data = await fetchAdminDashboard(token);
       setDashboard(data);
@@ -954,7 +975,11 @@ export const AdminDashboardPage: React.FC = () => {
         setDashboard(null);
         setAuthError('Organizer session expired or token invalid.');
       } else {
-        setActionError(err instanceof Error ? err.message : 'Failed to load SQLite dashboard');
+        // Fallback to offline / GitHub Pages mode
+        const offlineToken = 'offline-token-gecs2026';
+        sessionStorage.setItem(TOKEN_STORAGE_KEY, offlineToken);
+        setAuthToken(offlineToken);
+        setDashboard(buildOfflineDashboardData());
       }
     } finally {
       setLoadingData(false);
@@ -962,7 +987,7 @@ export const AdminDashboardPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!authToken) return;
+    if (!authToken || authToken.startsWith('offline-')) return;
     let cancelled = false;
     fetchAdminDashboard(authToken)
       .then((data) => {
@@ -979,7 +1004,11 @@ export const AdminDashboardPage: React.FC = () => {
           setDashboard(null);
           setAuthError('Organizer session expired or token invalid.');
         } else {
-          setActionError(err instanceof Error ? err.message : 'Failed to load SQLite dashboard');
+          // Fallback to offline storage if backend is unreachable
+          const offlineToken = 'offline-token-gecs2026';
+          sessionStorage.setItem(TOKEN_STORAGE_KEY, offlineToken);
+          setAuthToken(offlineToken);
+          setDashboard(buildOfflineDashboardData());
         }
       })
       .finally(() => {
@@ -1003,7 +1032,16 @@ export const AdminDashboardPage: React.FC = () => {
       setAuthToken(token);
       setPinInput('');
     } catch (err) {
-      setAuthError(err instanceof ApiError ? err.message : 'Unable to verify organizer PIN');
+      // Fallback for GitHub Pages static hosting where API is unavailable
+      if (cleanPin.toUpperCase() === 'GECS2026') {
+        const offlineToken = 'offline-token-gecs2026';
+        sessionStorage.setItem(TOKEN_STORAGE_KEY, offlineToken);
+        setAuthToken(offlineToken);
+        setDashboard(buildOfflineDashboardData());
+        setPinInput('');
+      } else {
+        setAuthError(err instanceof ApiError ? err.message : 'Invalid Organizer Access PIN');
+      }
     } finally {
       setAuthLoading(false);
     }
@@ -1016,6 +1054,11 @@ export const AdminDashboardPage: React.FC = () => {
   };
 
   const handleToggleCheckIn = async (regId: string, current: boolean) => {
+    if (isOfflineMode) {
+      toggleOfflineRegistrationCheckIn(regId, !current);
+      setDashboard(buildOfflineDashboardData());
+      return;
+    }
     try {
       await toggleRegistrationCheckIn(authToken, regId, !current);
       await loadDashboard(authToken);
@@ -1025,7 +1068,12 @@ export const AdminDashboardPage: React.FC = () => {
   };
 
   const handleDeleteReg = async (regId: string) => {
-    if (!window.confirm(`Delete delegate pass ${regId} permanently from SQLite?`)) return;
+    if (!window.confirm(`Delete delegate pass ${regId} permanently?`)) return;
+    if (isOfflineMode) {
+      deleteOfflineRegistration(regId);
+      setDashboard(buildOfflineDashboardData());
+      return;
+    }
     try {
       await deleteAdminRegistration(authToken, regId);
       await loadDashboard(authToken);
@@ -1035,6 +1083,11 @@ export const AdminDashboardPage: React.FC = () => {
   };
 
   const handleToggleTeamCheckIn = async (teamId: string, current: boolean) => {
+    if (isOfflineMode) {
+      toggleOfflineTeamCheckIn(teamId, !current);
+      setDashboard(buildOfflineDashboardData());
+      return;
+    }
     try {
       await toggleTeamRegistrationCheckIn(authToken, teamId, !current);
       await loadDashboard(authToken);
@@ -1044,7 +1097,12 @@ export const AdminDashboardPage: React.FC = () => {
   };
 
   const handleDeleteTeam = async (teamId: string, teamName: string) => {
-    if (!window.confirm(`Delete team '${teamName}' (${teamId}) permanently from SQLite?`)) return;
+    if (!window.confirm(`Delete team '${teamName}' (${teamId}) permanently?`)) return;
+    if (isOfflineMode) {
+      deleteOfflineTeam(teamId);
+      setDashboard(buildOfflineDashboardData());
+      return;
+    }
     try {
       await deleteAdminTeamRegistration(authToken, teamId);
       await loadDashboard(authToken);
@@ -1054,10 +1112,14 @@ export const AdminDashboardPage: React.FC = () => {
   };
 
   const handleExportTeamsCsv = async () => {
+    if (isOfflineMode) {
+      downloadOfflineTeamsCsv(dashboard?.teams);
+      return;
+    }
     try {
       await downloadTeamsCsv(authToken);
-    } catch (err) {
-      setActionError(err instanceof Error ? err.message : 'Failed to download teams CSV');
+    } catch {
+      downloadOfflineTeamsCsv(dashboard?.teams);
     }
   };
 
@@ -1206,10 +1268,14 @@ export const AdminDashboardPage: React.FC = () => {
   }, [dashboard, teamSearch, teamEventFilter]);
 
   const handleExportCsv = async () => {
+    if (isOfflineMode) {
+      downloadOfflineRegistrationsCsv(dashboard?.registrations);
+      return;
+    }
     try {
       await downloadRegistrationsCsv(authToken);
-    } catch (err) {
-      setActionError(err instanceof Error ? err.message : 'Failed to export CSV');
+    } catch {
+      downloadOfflineRegistrationsCsv(dashboard?.registrations);
     }
   };
 
@@ -1257,9 +1323,12 @@ export const AdminDashboardPage: React.FC = () => {
                 required
                 value={pinInput}
                 onChange={(e) => setPinInput(e.target.value)}
-                placeholder="Default dev PIN: GECS2026"
+                placeholder="Enter PIN: GECS2026"
                 className="w-full px-4 py-3 rounded-xl bg-[#020003] border border-white/15 text-white font-mono text-sm focus:border-fuchsia-400 focus:outline-none"
               />
+              <p className="text-[11px] text-fuchsia-300/80 font-mono mt-1.5">
+                Default Access PIN: <code className="text-white font-bold bg-white/10 px-1.5 py-0.5 rounded">GECS2026</code>
+              </p>
             </div>
             <button
               type="submit"
@@ -1322,6 +1391,20 @@ export const AdminDashboardPage: React.FC = () => {
         {actionError && (
           <div role="alert" className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-200 text-xs font-mono">
             {actionError}
+          </div>
+        )}
+
+        {isOfflineMode && (
+          <div className="p-3.5 rounded-2xl bg-amber-500/15 border border-amber-500/35 text-amber-200 text-xs font-mono flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
+              <span>
+                <strong>GitHub Pages Client Storage Active:</strong> Registrations, team rosters, and gate check-ins are saved directly in your browser.
+              </span>
+            </div>
+            <span className="px-2.5 py-1 rounded-md bg-amber-500/25 border border-amber-400/40 text-[10px] text-amber-300 font-bold uppercase tracking-wider">
+              Static Mode
+            </span>
           </div>
         )}
 

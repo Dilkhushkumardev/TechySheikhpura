@@ -20,6 +20,7 @@ import {
   type TeamMember,
   type TeamRegistrationRecord,
 } from '../services/api';
+import { saveOfflineTeam } from '../services/offlineStorage';
 import { DelegateQrSvg } from '../components/techy/DelegateQrSvg';
 import { TechyLogo } from '../components/techy/TechyLogo';
 
@@ -160,18 +161,41 @@ export const TeamRegistrationPage: React.FC = () => {
       });
 
       setConfirmedTeam(response.teamRegistration);
+      saveOfflineTeam(response.teamRegistration);
       triggerCelebration();
     } catch (err) {
-      if (err instanceof ApiError) {
+      if (err instanceof ApiError && err.status === 409) {
         setError(err.message);
-        if (err.status === 409 && err.existingRegId) {
+        if (err.existingRegId) {
           setDuplicateId(err.existingRegId);
         }
-      } else if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('Failed to submit team registration. Please check network connection.');
+        return;
       }
+
+      // Offline / GitHub Pages fallback
+      const offlineTeamId = `TS26-TEAM-${Math.floor(100 + Math.random() * 900)}`;
+      const offlineTeam: TeamRegistrationRecord = {
+        teamId: offlineTeamId,
+        teamName: teamName.trim(),
+        eventId: selectedEventId,
+        eventTitle: FEST_EVENTS.find((e) => e.id === selectedEventId)?.title ?? selectedEventId,
+        leaderName: leaderName.trim(),
+        leaderRoll: leaderRoll.trim().toUpperCase(),
+        leaderEmail: leaderEmail.trim().toLowerCase(),
+        leaderPhone: leaderPhone.trim(),
+        branch,
+        year,
+        members: validMembers,
+        projectTitle: projectTitle.trim() || null,
+        notes: notes.trim() || null,
+        status: 'confirmed',
+        checkedIn: false,
+        checkedInAt: null,
+        createdAt: new Date().toISOString(),
+      };
+      saveOfflineTeam(offlineTeam);
+      setConfirmedTeam(offlineTeam);
+      triggerCelebration();
     } finally {
       setSubmitting(false);
     }

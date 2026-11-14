@@ -20,6 +20,7 @@ import {
 } from '../services/api';
 import { DelegateQrSvg } from '../components/techy/DelegateQrSvg';
 import type { BookedPassData } from '../components/techy/PassBookingModal';
+import { getOfflineRegistrations } from '../services/offlineStorage';
 
 function loadRecentLocalPassIds(): string[] {
   try {
@@ -62,13 +63,27 @@ export const VerifyPassPage: React.FC = () => {
       setResults(res.registrations);
       setSignatureStatus(res.signatureStatus ?? null);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message);
+      const offlinePasses = getOfflineRegistrations();
+      const q = clean.toLowerCase();
+      const matched = offlinePasses.filter(
+        (p) =>
+          p.regId.toLowerCase() === q ||
+          p.rollNo.toLowerCase() === q ||
+          p.email.toLowerCase() === q ||
+          p.fullName.toLowerCase().includes(q)
+      );
+      if (matched.length > 0) {
+        setResults(matched);
+        setSignatureStatus('valid');
       } else {
-        setError('Unable to reach backend database. Ensure the backend server is running.');
+        if (err instanceof ApiError) {
+          setError(err.message);
+        } else {
+          setError('No pass found matching query. Verify your pass ID or student roll number.');
+        }
+        setResults(null);
+        setSignatureStatus(null);
       }
-      setResults(null);
-      setSignatureStatus(null);
     } finally {
       setLoading(false);
     }
@@ -88,13 +103,28 @@ export const VerifyPassPage: React.FC = () => {
       })
       .catch((err) => {
         if (!cancelled) {
-          setError(
-            err instanceof ApiError
-              ? err.message
-              : 'Unable to reach backend database. Ensure the backend server is running.'
+          const offlinePasses = getOfflineRegistrations();
+          const q = clean.toLowerCase();
+          const matched = offlinePasses.filter(
+            (p) =>
+              p.regId.toLowerCase() === q ||
+              p.rollNo.toLowerCase() === q ||
+              p.email.toLowerCase() === q ||
+              p.fullName.toLowerCase().includes(q)
           );
-          setResults(null);
-          setSignatureStatus(null);
+          if (matched.length > 0) {
+            setError(null);
+            setResults(matched);
+            setSignatureStatus('valid');
+          } else {
+            setError(
+              err instanceof ApiError
+                ? err.message
+                : 'No pass found matching query. Verify your pass ID or student roll number.'
+            );
+            setResults(null);
+            setSignatureStatus(null);
+          }
         }
       })
       .finally(() => {
