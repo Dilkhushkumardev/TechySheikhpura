@@ -9,6 +9,7 @@ import {
   getEventStats,
   getFestBundle,
   getHealthStats,
+  getDatabaseDiagnostics,
   getRegistrationById,
   getTeamRegistrationById,
   listActivity,
@@ -84,6 +85,18 @@ export async function handlePublicRoutes(
       uptimeSeconds: Math.round(process.uptime()),
       timestamp: new Date().toISOString(),
       stats: getHealthStats(),
+    });
+    return true;
+  }
+
+  if ((method === 'GET' || method === 'HEAD') && pathname === '/api/health/db') {
+    const diagnostics = getDatabaseDiagnostics();
+    sendJson(res, 200, {
+      ok: diagnostics.integrityCheck === 'ok',
+      service: 'techysheikhpura-api',
+      engine: 'node:sqlite (Node 24)',
+      diagnostics,
+      timestamp: new Date().toISOString(),
     });
     return true;
   }

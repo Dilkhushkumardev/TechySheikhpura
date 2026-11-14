@@ -28,6 +28,7 @@ export interface FestInfoPayload {
     phone: string;
     studentConvenor: string;
     telegram: string;
+    linkedin?: string;
   };
 }
 
@@ -252,6 +253,7 @@ export interface UpdateFestInfoPayload {
   phone?: string;
   studentConvenor?: string;
   telegram?: string;
+  linkedin?: string;
 }
 
 export interface AdminDashboardData {

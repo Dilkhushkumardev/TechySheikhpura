@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS fest_info (
   phone TEXT NOT NULL,
   student_convenor TEXT NOT NULL,
   telegram TEXT NOT NULL,
+  linkedin TEXT,
   stats_json TEXT NOT NULL,
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
@@ -189,7 +190,8 @@ CREATE TABLE IF NOT EXISTS organizers (
   phone TEXT NOT NULL,
   category TEXT NOT NULL CHECK (category IN ('faculty', 'student', 'team')),
   featured_footer INTEGER NOT NULL DEFAULT 0 CHECK (featured_footer IN (0, 1)),
-  sort_order INTEGER NOT NULL DEFAULT 0
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  linkedin TEXT
 );
 
 CREATE TABLE IF NOT EXISTS announcements (
@@ -219,10 +221,14 @@ CREATE INDEX IF NOT EXISTS idx_registrations_roll_pass ON registrations(roll_no,
 CREATE INDEX IF NOT EXISTS idx_registrations_email_pass ON registrations(email, pass_id);
 CREATE INDEX IF NOT EXISTS idx_registrations_event ON registrations(event_id);
 CREATE INDEX IF NOT EXISTS idx_registrations_created ON registrations(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_registrations_checked_in ON registrations(checked_in);
 CREATE INDEX IF NOT EXISTS idx_team_reg_event ON team_registrations(event_id);
 CREATE INDEX IF NOT EXISTS idx_team_reg_leader_roll ON team_registrations(leader_roll);
 CREATE INDEX IF NOT EXISTS idx_team_reg_created ON team_registrations(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_team_reg_event_status ON team_registrations(event_id, status);
+CREATE INDEX IF NOT EXISTS idx_team_reg_checked_in ON team_registrations(checked_in);
 CREATE INDEX IF NOT EXISTS idx_inquiries_status ON inquiries(status, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_inquiries_email ON inquiries(email);
 CREATE INDEX IF NOT EXISTS idx_activity_created ON activity_feed(id DESC);
 CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_logs(id DESC);
 CREATE INDEX IF NOT EXISTS idx_announcements_active ON announcements(is_active, id DESC);
@@ -251,6 +257,18 @@ SELECT
 FROM events e
 LEFT JOIN registrations r ON r.event_id = e.id
 GROUP BY e.id, e.title, e.category, e.sort_order
+ORDER BY e.sort_order ASC;
+
+CREATE VIEW IF NOT EXISTS v_team_roster_summary AS
+SELECT
+  e.id AS event_id,
+  e.title AS event_title,
+  COUNT(t.team_id) AS total_squads,
+  COALESCE(SUM(CASE WHEN t.status = 'confirmed' THEN 1 ELSE 0 END), 0) AS confirmed_squads,
+  COALESCE(SUM(CASE WHEN t.checked_in = 1 THEN 1 ELSE 0 END), 0) AS checked_in_squads
+FROM events e
+LEFT JOIN team_registrations t ON t.event_id = e.id
+GROUP BY e.id, e.title, e.sort_order
 ORDER BY e.sort_order ASC;
 
 CREATE VIEW IF NOT EXISTS v_branch_distribution AS

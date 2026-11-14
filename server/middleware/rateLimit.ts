@@ -86,7 +86,9 @@ export function enforceRateLimit(
     bucketPrefix = 'admin-auth';
   } else if (
     method === 'POST' &&
-    (pathname === '/api/registrations' || pathname === '/api/inquiries')
+    (pathname === '/api/registrations' ||
+      pathname === '/api/team-registrations' ||
+      pathname === '/api/inquiries')
   ) {
     limiter = writeMutationLimiter;
     bucketPrefix = 'public-write';

@@ -8,15 +8,22 @@ export function applySecurityHeaders(res: ServerResponse, requestId: string): vo
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Access-Control-Allow-Origin', '*');
 }
 
 export function extractClientIp(req: IncomingMessage): string {
   const forwarded = req.headers['x-forwarded-for'];
+  let ip = '127.0.0.1';
   if (typeof forwarded === 'string' && forwarded.trim()) {
-    return forwarded.split(',')[0].trim();
+    ip = forwarded.split(',')[0].trim();
+  } else if (req.socket.remoteAddress) {
+    ip = req.socket.remoteAddress;
   }
-  return req.socket.remoteAddress || '127.0.0.1';
+  if (ip.startsWith('::ffff:')) {
+    ip = ip.substring(7);
+  }
+  return ip;
 }
 
 export function resolveRequestId(req: IncomingMessage): string {

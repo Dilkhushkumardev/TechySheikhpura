@@ -45,6 +45,7 @@ export interface FestInfoPayload {
     phone: string;
     studentConvenor: string;
     telegram: string;
+    linkedin: string;
   };
 }
 
@@ -251,6 +252,7 @@ export interface UpdateFestInfoInput {
   phone?: string;
   studentConvenor?: string;
   telegram?: string;
+  linkedin?: string;
 }
 
 export interface CreateInquiryInput {
@@ -298,8 +300,8 @@ function seedFestData(db: DatabaseSync): void {
       db.prepare(`
         INSERT INTO fest_info (
           id, name, tagline, college_name, short_college, dates, venue,
-          email, phone, student_convenor, telegram, stats_json
-        ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          email, phone, student_convenor, telegram, linkedin, stats_json
+        ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `).run(
         FEST_INFO.name,
         FEST_INFO.tagline,
@@ -311,6 +313,7 @@ function seedFestData(db: DatabaseSync): void {
         FEST_INFO.contacts.phone,
         FEST_INFO.contacts.studentConvenor,
         FEST_INFO.contacts.telegram,
+        FEST_INFO.contacts.linkedin,
         JSON.stringify(FEST_INFO.stats)
       );
     }
@@ -447,8 +450,8 @@ function seedFestData(db: DatabaseSync): void {
     const organizersCount = asNumber((db.prepare('SELECT COUNT(*) AS count FROM organizers').get() as SqlRow | undefined)?.count);
     if (organizersCount === 0) {
       const insertOrg = db.prepare(`
-        INSERT INTO organizers (id, name, role, department, phone, category, featured_footer, sort_order)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO organizers (id, name, role, department, phone, category, featured_footer, sort_order, linkedin)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       `);
       FEST_ORGANIZERS.forEach((member, index) => {
         insertOrg.run(
@@ -459,7 +462,8 @@ function seedFestData(db: DatabaseSync): void {
           member.phone,
           member.category,
           member.featuredFooter ? 1 : 0,
-          index
+          index,
+          member.linkedin || null
         );
       });
     }
@@ -472,7 +476,7 @@ function seedFestData(db: DatabaseSync): void {
       `);
       insertNotice.run(
         'Delegate Pass Window Live',
-        'All-Events Tech Passes (₹149) and Esports Arena slots (₹29) are open with instant HMAC-sealed QR verification.',
+        'All-Events Tech Passes and Esports Squad Slots are 100% Free (₹0) with instant HMAC-sealed QR verification.',
         'important'
       );
       insertNotice.run(
@@ -721,6 +725,56 @@ function runMigrations(db: DatabaseSync): void {
       'Updated footer organizer contacts to Supriya Singh exclusively'
     );
   }
+
+  const hasV9 = asNumber(
+    (db.prepare('SELECT COUNT(*) AS c FROM schema_migrations WHERE version = 9').get() as SqlRow | undefined)?.c
+  );
+  if (hasV9 === 0) {
+    const festInfoCols = db.prepare('PRAGMA table_info(fest_info)').all() as SqlRow[];
+    if (!festInfoCols.some((col) => asString(col.name) === 'linkedin')) {
+      db.exec('ALTER TABLE fest_info ADD COLUMN linkedin TEXT;');
+    }
+
+    const orgCols = db.prepare('PRAGMA table_info(organizers)').all() as SqlRow[];
+    if (!orgCols.some((col) => asString(col.name) === 'linkedin')) {
+      db.exec('ALTER TABLE organizers ADD COLUMN linkedin TEXT;');
+    }
+
+    db.prepare(`
+      UPDATE fest_info
+      SET linkedin = ?
+      WHERE id = 1
+    `).run('https://www.linkedin.com/in/supriya-singh-6ba07a370/');
+
+    db.prepare(`
+      UPDATE organizers
+      SET linkedin = ?
+      WHERE id = 'org-supriya'
+    `).run('https://www.linkedin.com/in/supriya-singh-6ba07a370/');
+
+    db.prepare(`
+      UPDATE passes
+      SET price = 0, original_price = 0, is_popular = 1
+    `).run();
+
+    db.prepare(`
+      UPDATE events
+      SET entry_fee = 'FREE (100% Free Entry)'
+      WHERE entry_fee LIKE '%Pass%' OR entry_fee LIKE '%₹%'
+    `).run();
+
+    db.exec(`
+      CREATE INDEX IF NOT EXISTS idx_team_reg_event_status ON team_registrations(event_id, status);
+      CREATE INDEX IF NOT EXISTS idx_team_reg_checked_in ON team_registrations(checked_in);
+      CREATE INDEX IF NOT EXISTS idx_registrations_checked_in ON registrations(checked_in);
+      CREATE INDEX IF NOT EXISTS idx_inquiries_email ON inquiries(email);
+    `);
+
+    db.prepare('INSERT OR IGNORE INTO schema_migrations (version, description) VALUES (?, ?)').run(
+      9,
+      'Added linkedin columns, optimized WAL pragmas, updated free pass tiers, and added team composite indexes'
+    );
+  }
 }
 
 export function initDatabase(customPath?: string): DatabaseSync {
@@ -739,8 +793,12 @@ export function initDatabase(customPath?: string): DatabaseSync {
 
   const db = new DatabaseSync(targetPath);
   db.exec('PRAGMA journal_mode = WAL;');
+  db.exec('PRAGMA synchronous = NORMAL;');
   db.exec('PRAGMA busy_timeout = 5000;');
   db.exec('PRAGMA foreign_keys = ON;');
+  db.exec('PRAGMA temp_store = MEMORY;');
+  db.exec('PRAGMA cache_size = -64000;');
+  db.exec('PRAGMA mmap_size = 268435456;');
 
   const schemaSql = fs.readFileSync(path.join(DB_MODULE_DIR, 'schema.sql'), 'utf8');
   db.exec(schemaSql);
@@ -799,6 +857,7 @@ export function getFestInfo(): FestInfoPayload {
       phone: asString(row.phone, FEST_INFO.contacts.phone),
       studentConvenor: asString(row.student_convenor, FEST_INFO.contacts.studentConvenor),
       telegram: asString(row.telegram, FEST_INFO.contacts.telegram),
+      linkedin: asString(row.linkedin, FEST_INFO.contacts.linkedin),
     },
   };
 }
@@ -809,7 +868,7 @@ export function updateFestInfo(input: UpdateFestInfoInput): FestInfoPayload {
   db.prepare(`
     UPDATE fest_info
     SET tagline = ?, dates = ?, venue = ?, email = ?, phone = ?,
-        student_convenor = ?, telegram = ?, updated_at = datetime('now')
+        student_convenor = ?, telegram = ?, linkedin = ?, updated_at = datetime('now')
     WHERE id = 1
   `).run(
     input.tagline?.trim() || current.tagline,
@@ -818,7 +877,8 @@ export function updateFestInfo(input: UpdateFestInfoInput): FestInfoPayload {
     input.email?.trim() || current.contacts.email,
     input.phone?.trim() || current.contacts.phone,
     input.studentConvenor?.trim() || current.contacts.studentConvenor,
-    input.telegram?.trim() || current.contacts.telegram
+    input.telegram?.trim() || current.contacts.telegram,
+    input.linkedin?.trim() || current.contacts.linkedin
   );
   return getFestInfo();
 }
@@ -1844,6 +1904,7 @@ export function listOrganizers(category?: OrganizerMember['category']): Organize
     phone: asString(row.phone),
     category: asString(row.category) as OrganizerMember['category'],
     featuredFooter: asNumber(row.featured_footer) === 1,
+    linkedin: asNullableString(row.linkedin) ?? undefined,
   }));
 }
 
@@ -1851,8 +1912,8 @@ export function createOrganizer(input: OrganizerMember): OrganizerMember {
   const db = getDb();
   const maxSort = asNumber((db.prepare('SELECT COALESCE(MAX(sort_order), 0) AS m FROM organizers').get() as SqlRow | undefined)?.m);
   db.prepare(`
-    INSERT INTO organizers (id, name, role, department, phone, category, featured_footer, sort_order)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO organizers (id, name, role, department, phone, category, featured_footer, sort_order, linkedin)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).run(
     input.id.trim(),
     input.name.trim(),
@@ -1861,9 +1922,16 @@ export function createOrganizer(input: OrganizerMember): OrganizerMember {
     input.phone.trim(),
     input.category,
     input.featuredFooter ? 1 : 0,
-    maxSort + 1
+    maxSort + 1,
+    input.linkedin?.trim() || null
   );
   return { ...input };
+}
+
+export function optimizeDatabase(): { changes: number; message: string } {
+  const db = getDb();
+  db.exec('PRAGMA optimize;');
+  return { changes: 1, message: 'SQLite database stats analyzed and index trees optimized successfully' };
 }
 
 export function deleteOrganizer(id: string): boolean {

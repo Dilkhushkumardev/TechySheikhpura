@@ -25,6 +25,7 @@ import {
   getDatabaseDiagnostics,
   listAuditLogs,
   listTeamRegistrations,
+  optimizeDatabase,
   queryRegistrations,
   recordAuditLog,
   setRegistrationCheckIn,
@@ -206,6 +207,13 @@ export async function handleAdminRoutes(
     return true;
   }
 
+  if (method === 'POST' && pathname === '/api/admin/db/optimize') {
+    const result = optimizeDatabase();
+    recordAuditLog('DATABASE_OPTIMIZE', 'database', 'sqlite', result.message);
+    sendJson(res, 200, { ok: true, result });
+    return true;
+  }
+
   if (method === 'GET' && pathname === '/api/admin/db/backup') {
     const buffer = createDatabaseBackupBuffer();
     recordAuditLog('DB_BACKUP', 'database', 'sqlite', `Exported ${buffer.length} byte SQLite snapshot`);
@@ -260,6 +268,7 @@ export async function handleAdminRoutes(
       phone: readOptionalString(body, 'phone', 30),
       studentConvenor: readOptionalString(body, 'studentConvenor', 30),
       telegram: readOptionalString(body, 'telegram', 240),
+      linkedin: readOptionalString(body, 'linkedin', 240),
     });
     recordAuditLog('FEST_UPDATED', 'fest_info', '1', `Updated fest metadata (${festInfo.dates})`);
     sendJson(res, 200, { festInfo });
@@ -644,6 +653,7 @@ export async function handleAdminRoutes(
       phone: readRequiredString(body, 'phone', 6, 30),
       category: catRaw as OrganizerMember['category'],
       featuredFooter: Boolean(body.featuredFooter),
+      linkedin: readOptionalString(body, 'linkedin', 240),
     });
     recordAuditLog('ORGANIZER_CREATED', 'organizer', member.id, `${member.name} (${member.role})`);
     sendJson(res, 201, { organizer: member });

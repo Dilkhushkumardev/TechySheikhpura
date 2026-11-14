@@ -83,6 +83,14 @@ describe('TechySheikhpura Backend API & SQLite Integration', () => {
     const headHealth = await fetch(`${baseUrl}/api/health`, { method: 'HEAD' });
     assert.equal(headHealth.status, 200);
 
+    const dbHealth = await apiJson<{ ok: boolean; diagnostics: { integrityCheck: string; journalMode: string } }>(
+      '/api/health/db'
+    );
+    assert.equal(dbHealth.status, 200);
+    assert.equal(dbHealth.data.ok, true);
+    assert.equal(dbHealth.data.diagnostics.integrityCheck, 'ok');
+    assert.equal(dbHealth.data.diagnostics.journalMode, 'wal');
+
     const malformedParam = await apiJson('/api/events/%ZZ');
     assert.equal(malformedParam.status, 400);
 
@@ -394,8 +402,15 @@ describe('TechySheikhpura Backend API & SQLite Integration', () => {
     }>('/api/admin/db/stats', { headers: bearerHeaders });
     assert.equal(dbStats.status, 200);
     assert.equal(dbStats.data.dbStats.integrityCheck, 'ok');
-    assert.equal(dbStats.data.dbStats.schemaVersion, 8);
+    assert.equal(dbStats.data.dbStats.schemaVersion, 9);
     assert.equal(Object.keys(dbStats.data.dbStats.tableCounts).length, 18);
+
+    const optimizeRes = await apiJson<{ ok: boolean }>('/api/admin/db/optimize', {
+      method: 'POST',
+      headers: bearerHeaders,
+    });
+    assert.equal(optimizeRes.status, 200);
+    assert.equal(optimizeRes.data.ok, true);
 
     const facultyRes = await apiJson<{ organizers: { id: string; name: string }[] }>(
       '/api/organizers?category=faculty'
@@ -403,13 +418,17 @@ describe('TechySheikhpura Backend API & SQLite Integration', () => {
     assert.equal(facultyRes.status, 200);
     assert.equal(facultyRes.data.organizers[0]?.name, 'Dr. Anil Singh Yadav');
 
-    const footerContactsRes = await apiJson<{ organizers: { name: string; featuredFooter: boolean }[] }>(
+    const footerContactsRes = await apiJson<{ organizers: { name: string; featuredFooter: boolean; linkedin?: string }[] }>(
       '/api/organizers?category=student'
     );
     assert.equal(footerContactsRes.status, 200);
     assert.deepEqual(
       footerContactsRes.data.organizers.filter((m) => m.featuredFooter).map((m) => m.name),
       ['Supriya Singh']
+    );
+    assert.equal(
+      footerContactsRes.data.organizers.find((m) => m.featuredFooter)?.linkedin,
+      'https://www.linkedin.com/in/supriya-singh-6ba07a370/'
     );
 
     const backupRes = await fetch(`${baseUrl}/api/admin/db/backup`, { headers: bearerHeaders });
