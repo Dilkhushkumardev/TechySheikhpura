@@ -35,8 +35,11 @@ jobs:
           VITE_BASE_PATH: /${{ github.event.repository.name || 'TechySheikhpura' }}/
         run: npm run build
 
-      - name: Add SPA 404 fallback
-        run: cp dist/index.html dist/404.html
+      - name: Verify SPA 404 fallback exists
+        run: |
+          if [ ! -f dist/404.html ]; then
+            cp dist/index.html dist/404.html
+          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
