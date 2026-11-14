@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HomePage } from './pages/HomePage';
 import { VerifyPassPage } from './pages/VerifyPassPage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
+import { TeamRegistrationPage } from './pages/TeamRegistrationPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 export const App: React.FC = () => {
@@ -14,6 +15,8 @@ export const App: React.FC = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/verify" element={<VerifyPassPage />} />
+          <Route path="/team-register" element={<TeamRegistrationPage />} />
+          <Route path="/team-registration" element={<TeamRegistrationPage />} />
           <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

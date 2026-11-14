@@ -393,8 +393,8 @@ describe('TechySheikhpura Backend API & SQLite Integration', () => {
     }>('/api/admin/db/stats', { headers: bearerHeaders });
     assert.equal(dbStats.status, 200);
     assert.equal(dbStats.data.dbStats.integrityCheck, 'ok');
-    assert.equal(dbStats.data.dbStats.schemaVersion, 6);
-    assert.equal(Object.keys(dbStats.data.dbStats.tableCounts).length, 17);
+    assert.equal(dbStats.data.dbStats.schemaVersion, 7);
+    assert.equal(Object.keys(dbStats.data.dbStats.tableCounts).length, 18);
 
     const facultyRes = await apiJson<{ organizers: { id: string; name: string }[] }>(
       '/api/organizers?category=faculty'
@@ -499,5 +499,128 @@ describe('TechySheikhpura Backend API & SQLite Integration', () => {
     });
     assert.equal(blocked.status, 429);
     assert.ok(blocked.headers.get('retry-after'));
+  });
+
+  it('handles team registration, duplicate prevention, and admin desk operations', async () => {
+    // Register a new team for HackArena
+    const createRes = await apiJson<{
+      teamRegistration: {
+        teamId: string;
+        teamName: string;
+        eventTitle: string;
+        leaderRoll: string;
+        members: { name: string; rollNo: string }[];
+        checkedIn: boolean;
+      };
+      activityStream: { action: string }[];
+    }>('/api/team-registrations', {
+      method: 'POST',
+      body: JSON.stringify({
+        teamName: 'Binary Blitzers',
+        eventId: 'hackarena',
+        leaderName: 'Sneha Kumari',
+        leaderRoll: '23105147088',
+        leaderEmail: 'sneha.k@gecsheikhpura.ac.in',
+        leaderPhone: '9876543299',
+        branch: 'Computer Science & Engineering (CSE)',
+        year: '3rd Year (2024-28)',
+        projectTitle: 'Smart Campus Emergency Alert Hub',
+        notes: 'Require 2 LAN ports or Wi-Fi hotspot',
+        members: [
+          { name: 'Kavita Singh', rollNo: '23105147089', branch: 'CSE' },
+          { name: 'Manish Raj', rollNo: '23105147090', branch: 'ECE' },
+        ],
+      }),
+    });
+
+    assert.equal(createRes.status, 201);
+    const team = createRes.data.teamRegistration;
+    assert.ok(team.teamId.startsWith('TS26-TEAM-'));
+    assert.equal(team.teamName, 'Binary Blitzers');
+    assert.equal(team.eventTitle, 'HackArena');
+    assert.equal(team.members.length, 2);
+    assert.equal(team.checkedIn, false);
+
+    // Duplicate check for same event & leader roll
+    const duplicateRes = await apiJson<{ error: string; existingTeamId: string }>('/api/team-registrations', {
+      method: 'POST',
+      body: JSON.stringify({
+        teamName: 'Binary Blitzers 2',
+        eventId: 'hackarena',
+        leaderName: 'Sneha Duplicate',
+        leaderRoll: '23105147088',
+        leaderEmail: 'other@gecsheikhpura.ac.in',
+        leaderPhone: '9876543299',
+        branch: 'CSE',
+        year: '3rd Year',
+        members: [],
+      }),
+    });
+    assert.equal(duplicateRes.status, 409);
+    assert.equal(duplicateRes.data.existingTeamId, team.teamId);
+
+    // Verify / search team
+    const verifyRes = await apiJson<{
+      count: number;
+      teams: { teamId: string; teamName: string }[];
+    }>(`/api/team-registrations/verify?q=${encodeURIComponent(team.teamName)}`);
+    assert.equal(verifyRes.status, 200);
+    assert.ok(verifyRes.data.count >= 1);
+    assert.equal(verifyRes.data.teams[0]?.teamId, team.teamId);
+
+    // Get single team
+    const getRes = await apiJson<{ teamRegistration: { teamId: string } }>(
+      `/api/team-registrations/${team.teamId}`
+    );
+    assert.equal(getRes.status, 200);
+    assert.equal(getRes.data.teamRegistration.teamId, team.teamId);
+
+    // Admin Auth
+    resetAllRateLimiters();
+    const authRes = await apiJson<{ token: string }>('/api/admin/auth', {
+      method: 'POST',
+      body: JSON.stringify({ pin: 'TESTPIN99' }),
+    });
+    assert.equal(authRes.status, 200);
+    const token = authRes.data.token;
+    const adminHeaders = { Authorization: `Bearer ${token}` };
+
+    // Admin list teams
+    const adminTeams = await apiJson<{ teams: { teamId: string }[] }>('/api/admin/teams', {
+      headers: adminHeaders,
+    });
+    assert.equal(adminTeams.status, 200);
+    assert.ok(adminTeams.data.teams.some((t) => t.teamId === team.teamId));
+
+    // Admin check-in team
+    const checkinRes = await apiJson<{ team: { teamId: string; checkedIn: boolean } }>(
+      `/api/admin/teams/${team.teamId}/checkin`,
+      {
+        method: 'PATCH',
+        headers: adminHeaders,
+        body: JSON.stringify({ checkedIn: true }),
+      }
+    );
+    assert.equal(checkinRes.status, 200);
+    assert.equal(checkinRes.data.team.checkedIn, true);
+
+    // Admin export CSV
+    const csvRes = await fetch(`${baseUrl}/api/admin/teams/export.csv`, {
+      headers: adminHeaders,
+    });
+    assert.equal(csvRes.status, 200);
+    const csvText = await csvRes.text();
+    assert.ok(csvText.includes('Binary Blitzers'));
+
+    // Admin delete team
+    const deleteRes = await apiJson<{ deleted: boolean; teamId: string }>(
+      `/api/admin/teams/${team.teamId}`,
+      {
+        method: 'DELETE',
+        headers: adminHeaders,
+      }
+    );
+    assert.equal(deleteRes.status, 200);
+    assert.equal(deleteRes.data.deleted, true);
   });
 });

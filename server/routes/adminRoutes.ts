@@ -18,13 +18,17 @@ import {
   deleteOrganizer,
   deleteRegistration,
   deleteScheduleItem,
+  deleteTeamRegistration,
   exportRegistrationsCsv,
+  exportTeamRegistrationsCsv,
   getAdminDashboard,
   getDatabaseDiagnostics,
   listAuditLogs,
+  listTeamRegistrations,
   queryRegistrations,
   recordAuditLog,
   setRegistrationCheckIn,
+  setTeamRegistrationCheckIn,
   toggleAnnouncementActive,
   updateEvent,
   updateFaq,
@@ -360,6 +364,55 @@ export async function handleAdminRoutes(
     }
     recordAuditLog('REGISTRATION_DELETED', 'registration', regId, 'Removed registration from SQLite');
     sendJson(res, 200, { deleted: true, regId });
+    return true;
+  }
+
+  if (method === 'GET' && pathname === '/api/admin/teams') {
+    const q = url.searchParams.get('q') || undefined;
+    const eventId = url.searchParams.get('eventId') || undefined;
+    sendJson(res, 200, { teams: listTeamRegistrations({ q, eventId }) });
+    return true;
+  }
+
+  if (method === 'GET' && pathname === '/api/admin/teams/export.csv') {
+    const csv = exportTeamRegistrationsCsv();
+    recordAuditLog('CSV_EXPORTED', 'team_registrations', 'all', 'Downloaded teams CSV export');
+    const dateStamp = new Date().toISOString().slice(0, 10);
+    sendCsv(res, `techysheikhpura-teams-${dateStamp}.csv`, csv);
+    return true;
+  }
+
+  const teamCheckinMatch = pathname.match(/^\/api\/admin\/teams\/([^/]+)\/checkin$/);
+  if (method === 'PATCH' && teamCheckinMatch) {
+    const teamId = decodeRouteParam(teamCheckinMatch[1]);
+    const body = await readJsonBody(req);
+    if (typeof body.checkedIn !== 'boolean') {
+      throw new HttpError(400, 'checkedIn boolean field is required');
+    }
+    const team = setTeamRegistrationCheckIn(teamId, body.checkedIn);
+    if (!team) {
+      sendJson(res, 404, { error: `Team ${teamId} not found` });
+      return true;
+    }
+    recordAuditLog(
+      team.checkedIn ? 'TEAM_CHECKED_IN' : 'TEAM_CHECKIN_REVOKED',
+      'team_registration',
+      team.teamId,
+      `${team.teamName} (${team.eventTitle})`
+    );
+    sendJson(res, 200, { team });
+    return true;
+  }
+
+  const teamDeleteMatch = pathname.match(/^\/api\/admin\/teams\/([^/]+)$/);
+  if (method === 'DELETE' && teamDeleteMatch) {
+    const teamId = decodeRouteParam(teamDeleteMatch[1]);
+    if (!deleteTeamRegistration(teamId)) {
+      sendJson(res, 404, { error: `Team ${teamId} not found` });
+      return true;
+    }
+    recordAuditLog('TEAM_DELETED', 'team_registration', teamId, 'Removed team registration from SQLite');
+    sendJson(res, 200, { deleted: true, teamId });
     return true;
   }
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Ticket, ShieldCheck, Lock } from 'lucide-react';
+import { Menu, X, Ticket, ShieldCheck, Lock, Users } from 'lucide-react';
 import { FEST_INFO } from '../../data/techySheikhpuraData';
 import { TechyLogo } from './TechyLogo';
 
@@ -107,6 +107,15 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
           {/* Right Action CTA Buttons */}
           <div className="hidden lg:flex items-center gap-2.5 shrink-0">
             <Link
+              to="/team-register"
+              className="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-fuchsia-500/30 hover:border-fuchsia-400 text-slate-200 hover:text-white font-semibold text-xs font-mono flex items-center gap-1.5 transition-all shadow-sm"
+              title="Official Team Registration Portal"
+            >
+              <Users className="w-3.5 h-3.5 text-fuchsia-400" />
+              <span>Team Register</span>
+            </Link>
+
+            <Link
               to="/verify"
               className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-emerald-500/30 hover:border-emerald-400/60 text-slate-200 hover:text-white font-semibold text-xs font-mono flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(16,185,129,0.08)]"
               title="Verify Delegate Pass Certificate"
@@ -178,7 +187,16 @@ export const TechyNavbar: React.FC<TechyNavbarProps> = ({ onOpenPassModal }) => 
             </a>
           ))}
 
-          <div className="grid grid-cols-2 gap-2 pt-2">
+          <Link
+            to="/team-register"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600/20 to-purple-600/20 border border-fuchsia-500/35 text-fuchsia-300 font-bold"
+          >
+            <Users className="w-4 h-4 text-fuchsia-400" />
+            <span>Team Registration (Desk Open)</span>
+          </Link>
+
+          <div className="grid grid-cols-2 gap-2 pt-1">
             <Link
               to="/verify"
               onClick={() => setMobileMenuOpen(false)}

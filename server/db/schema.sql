@@ -119,6 +119,27 @@ CREATE TABLE IF NOT EXISTS registrations (
   FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE SET NULL
 );
 
+CREATE TABLE IF NOT EXISTS team_registrations (
+  team_id TEXT PRIMARY KEY,
+  team_name TEXT NOT NULL,
+  event_id TEXT NOT NULL,
+  event_title TEXT NOT NULL,
+  leader_name TEXT NOT NULL,
+  leader_roll TEXT NOT NULL,
+  leader_email TEXT NOT NULL,
+  leader_phone TEXT NOT NULL,
+  branch TEXT NOT NULL,
+  year TEXT NOT NULL,
+  members_json TEXT NOT NULL DEFAULT '[]',
+  project_title TEXT,
+  notes TEXT,
+  status TEXT NOT NULL DEFAULT 'confirmed' CHECK (status IN ('confirmed', 'verified', 'cancelled')),
+  checked_in INTEGER NOT NULL DEFAULT 0 CHECK (checked_in IN (0, 1)),
+  checked_in_at TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE RESTRICT
+);
+
 CREATE TABLE IF NOT EXISTS inquiries (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
@@ -198,6 +219,9 @@ CREATE INDEX IF NOT EXISTS idx_registrations_roll_pass ON registrations(roll_no,
 CREATE INDEX IF NOT EXISTS idx_registrations_email_pass ON registrations(email, pass_id);
 CREATE INDEX IF NOT EXISTS idx_registrations_event ON registrations(event_id);
 CREATE INDEX IF NOT EXISTS idx_registrations_created ON registrations(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_team_reg_event ON team_registrations(event_id);
+CREATE INDEX IF NOT EXISTS idx_team_reg_leader_roll ON team_registrations(leader_roll);
+CREATE INDEX IF NOT EXISTS idx_team_reg_created ON team_registrations(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_inquiries_status ON inquiries(status, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_activity_created ON activity_feed(id DESC);
 CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_logs(id DESC);

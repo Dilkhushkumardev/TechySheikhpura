@@ -84,6 +84,55 @@ export interface RegistrationRecord {
   createdAt: string;
 }
 
+export interface TeamMember {
+  name: string;
+  rollNo: string;
+  branch?: string;
+  phone?: string;
+}
+
+export interface TeamRegistrationRecord {
+  teamId: string;
+  teamName: string;
+  eventId: string;
+  eventTitle: string;
+  leaderName: string;
+  leaderRoll: string;
+  leaderEmail: string;
+  leaderPhone: string;
+  branch: string;
+  year: string;
+  members: TeamMember[];
+  projectTitle: string | null;
+  notes: string | null;
+  status: 'confirmed' | 'verified' | 'cancelled';
+  checkedIn: boolean;
+  checkedInAt: string | null;
+  createdAt: string;
+}
+
+export interface CreateTeamRegistrationInput {
+  teamName: string;
+  eventId: string;
+  leaderName: string;
+  leaderRoll: string;
+  leaderEmail: string;
+  leaderPhone: string;
+  branch: string;
+  year: string;
+  members: TeamMember[];
+  projectTitle?: string;
+  notes?: string;
+}
+
+export class DuplicateTeamRegistrationError extends Error {
+  readonly existingTeamId: string;
+  constructor(existingTeamId: string, message: string) {
+    super(message);
+    this.existingTeamId = existingTeamId;
+  }
+}
+
 export interface AuditLogRecord {
   id: number;
   action: string;
@@ -437,6 +486,58 @@ function seedFestData(db: DatabaseSync): void {
         'info'
       );
     }
+
+    const teamRegCount = asNumber(
+      (db.prepare('SELECT COUNT(*) AS count FROM team_registrations').get() as SqlRow | undefined)?.count
+    );
+    if (teamRegCount === 0) {
+      const insertTeam = db.prepare(`
+        INSERT INTO team_registrations (
+          team_id, team_name, event_id, event_title, leader_name, leader_roll, leader_email, leader_phone,
+          branch, year, members_json, project_title, notes, status, checked_in
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'confirmed', ?)
+      `);
+      insertTeam.run(
+        'TS26-TEAM-101',
+        'Team CyberKnights',
+        'hackarena',
+        'HackArena',
+        'Aman Verma',
+        '23105147012',
+        'aman.verma@gecsheikhpura.ac.in',
+        '9876543210',
+        'Computer Science & Engineering (CSE)',
+        '3rd Year (2024-28)',
+        JSON.stringify([
+          { name: 'Rohan Gupta', rollNo: '23105147018', branch: 'CSE' },
+          { name: 'Priya Kumari', rollNo: '23105147025', branch: 'CSE' },
+          { name: 'Vikash Kumar', rollNo: '23105147031', branch: 'ECE' },
+        ]),
+        'Campus Flow: Smart IoT Energy Management',
+        'Need 2 power extension sockets at bench',
+        0
+      );
+      insertTeam.run(
+        'TS26-TEAM-102',
+        'Squad AlphaX',
+        'esports-bgmi',
+        'Esports Arena: BGMI Battle Royale',
+        'Sameer Khan',
+        '23105147045',
+        'sameer.k@gecsheikhpura.ac.in',
+        '9876543211',
+        'Civil Engineering (CE)',
+        '2nd Year (2025-29)',
+        JSON.stringify([
+          { name: 'Rahul Roy', rollNo: '23105147048', branch: 'CE' },
+          { name: 'Deepak Jha', rollNo: '23105147052', branch: 'CSE' },
+          { name: 'Ankit Singh', rollNo: '23105147055', branch: 'EE' },
+        ]),
+        'Esports Squad AlphaX',
+        '4-man squad ready for Erangel Qualifier',
+        1
+      );
+    }
   });
 }
 
@@ -557,6 +658,42 @@ function runMigrations(db: DatabaseSync): void {
     db.prepare('INSERT OR IGNORE INTO schema_migrations (version, description) VALUES (?, ?)').run(
       6,
       'Updated stats to 100+ Innovators and ₹10,000+ Prize Pool'
+    );
+  }
+
+  const hasV7 = asNumber(
+    (db.prepare('SELECT COUNT(*) AS c FROM schema_migrations WHERE version = 7').get() as SqlRow | undefined)?.c
+  );
+  if (hasV7 === 0) {
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS team_registrations (
+        team_id TEXT PRIMARY KEY,
+        team_name TEXT NOT NULL,
+        event_id TEXT NOT NULL,
+        event_title TEXT NOT NULL,
+        leader_name TEXT NOT NULL,
+        leader_roll TEXT NOT NULL,
+        leader_email TEXT NOT NULL,
+        leader_phone TEXT NOT NULL,
+        branch TEXT NOT NULL,
+        year TEXT NOT NULL,
+        members_json TEXT NOT NULL DEFAULT '[]',
+        project_title TEXT,
+        notes TEXT,
+        status TEXT NOT NULL DEFAULT 'confirmed' CHECK (status IN ('confirmed', 'verified', 'cancelled')),
+        checked_in INTEGER NOT NULL DEFAULT 0 CHECK (checked_in IN (0, 1)),
+        checked_in_at TEXT,
+        created_at TEXT NOT NULL DEFAULT (datetime('now')),
+        FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE RESTRICT
+      );
+      CREATE INDEX IF NOT EXISTS idx_team_reg_event ON team_registrations(event_id);
+      CREATE INDEX IF NOT EXISTS idx_team_reg_leader_roll ON team_registrations(leader_roll);
+      CREATE INDEX IF NOT EXISTS idx_team_reg_created ON team_registrations(created_at DESC);
+    `);
+
+    db.prepare('INSERT OR IGNORE INTO schema_migrations (version, description) VALUES (?, ?)').run(
+      7,
+      'Added team_registrations table and indexes for fest team registrations'
     );
   }
 }
@@ -1340,6 +1477,239 @@ export function deleteRegistration(regId: string): boolean {
   return info.changes > 0;
 }
 
+function mapTeamRegistrationRow(row: SqlRow): TeamRegistrationRecord {
+  let members: TeamMember[] = [];
+  try {
+    const rawMembers: unknown = JSON.parse(asString(row.members_json, '[]'));
+    if (Array.isArray(rawMembers)) {
+      members = (rawMembers as Record<string, unknown>[]).map((m) => ({
+        name: typeof m.name === 'string' ? m.name : String(m.name ?? ''),
+        rollNo: typeof m.rollNo === 'string' ? m.rollNo : String(m.rollNo ?? ''),
+        branch: typeof m.branch === 'string' ? m.branch : undefined,
+        phone: typeof m.phone === 'string' ? m.phone : undefined,
+      }));
+    }
+  } catch {
+    members = [];
+  }
+
+  return {
+    teamId: asString(row.team_id),
+    teamName: asString(row.team_name),
+    eventId: asString(row.event_id),
+    eventTitle: asString(row.event_title),
+    leaderName: asString(row.leader_name),
+    leaderRoll: asString(row.leader_roll),
+    leaderEmail: asString(row.leader_email),
+    leaderPhone: asString(row.leader_phone),
+    branch: asString(row.branch),
+    year: asString(row.year),
+    members,
+    projectTitle: asNullableString(row.project_title),
+    notes: asNullableString(row.notes),
+    status: (asString(row.status, 'confirmed') as 'confirmed' | 'verified' | 'cancelled'),
+    checkedIn: asNumber(row.checked_in) === 1,
+    checkedInAt: asNullableString(row.checked_in_at),
+    createdAt: asString(row.created_at),
+  };
+}
+
+export function createTeamRegistration(input: CreateTeamRegistrationInput): TeamRegistrationRecord {
+  const db = getDb();
+  const evRow = db.prepare('SELECT id, title FROM events WHERE id = ?').get(input.eventId) as SqlRow | undefined;
+  if (!evRow) {
+    throw new Error(`Unknown event: ${input.eventId}`);
+  }
+  const eventTitle = asString(evRow.title);
+
+  const cleanTeamName = input.teamName.trim();
+  const cleanRoll = input.leaderRoll.trim().toUpperCase();
+  const cleanEmail = input.leaderEmail.trim().toLowerCase();
+
+  const existing = db.prepare(`
+    SELECT team_id, team_name, leader_roll
+    FROM team_registrations
+    WHERE event_id = ? AND (UPPER(leader_roll) = ? OR LOWER(team_name) = ?)
+  `).get(input.eventId, cleanRoll, cleanTeamName.toLowerCase()) as SqlRow | undefined;
+
+  if (existing) {
+    const existingId = asString(existing.team_id);
+    throw new DuplicateTeamRegistrationError(
+      existingId,
+      `Team '${cleanTeamName}' or Leader Roll '${cleanRoll}' is already registered for ${eventTitle} (Team ID: ${existingId}).`
+    );
+  }
+
+  let teamId = `TS26-TEAM-${randomInt(10000, 99999)}`;
+  while (db.prepare('SELECT team_id FROM team_registrations WHERE team_id = ?').get(teamId)) {
+    teamId = `TS26-TEAM-${randomInt(10000, 99999)}`;
+  }
+
+  const sanitizedMembers = input.members.map((m) => ({
+    name: m.name.trim(),
+    rollNo: m.rollNo.trim().toUpperCase(),
+    branch: (m.branch || input.branch).trim(),
+    phone: m.phone ? m.phone.trim() : undefined,
+  }));
+
+  db.prepare(`
+    INSERT INTO team_registrations (
+      team_id, team_name, event_id, event_title, leader_name, leader_roll, leader_email, leader_phone,
+      branch, year, members_json, project_title, notes, status, checked_in
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'confirmed', 0)
+  `).run(
+    teamId,
+    cleanTeamName,
+    input.eventId,
+    eventTitle,
+    input.leaderName.trim(),
+    cleanRoll,
+    cleanEmail,
+    input.leaderPhone.trim(),
+    input.branch.trim(),
+    input.year.trim(),
+    JSON.stringify(sanitizedMembers),
+    input.projectTitle?.trim() || null,
+    input.notes?.trim() || null
+  );
+
+  try {
+    const shortBranch = input.branch.includes('(') ? input.branch.replace(/.*?\((.*?)\).*/, '$1') : input.branch;
+    db.prepare(`
+      INSERT INTO activity_feed (actor_name, branch, action_text, time_label)
+      VALUES (?, ?, ?, 'Just now')
+    `).run(cleanTeamName, `${shortBranch} ${input.year.split(' ')[0]}`, `registered team for ${eventTitle}`);
+  } catch {
+    // Ignore feed logging error
+  }
+
+  recordAuditLog(
+    'CREATE_TEAM_REGISTRATION',
+    'team_registration',
+    teamId,
+    `Team '${cleanTeamName}' (${sanitizedMembers.length + 1} members) registered for ${eventTitle} by ${cleanRoll}`
+  );
+
+  const created = getTeamRegistrationById(teamId);
+  if (!created) {
+    throw new Error('Failed to retrieve newly created team registration');
+  }
+  return created;
+}
+
+export function listTeamRegistrations(options: { eventId?: string; q?: string } = {}): TeamRegistrationRecord[] {
+  const db = getDb();
+  let sql = 'SELECT * FROM team_registrations WHERE 1=1';
+  const params: SQLOutputValue[] = [];
+
+  if (options.eventId) {
+    sql += ' AND event_id = ?';
+    params.push(options.eventId);
+  }
+  if (options.q && options.q.trim().length > 0) {
+    const term = `%${options.q.trim()}%`;
+    sql += ' AND (team_name LIKE ? OR leader_name LIKE ? OR leader_roll LIKE ? OR leader_email LIKE ? OR team_id LIKE ? OR project_title LIKE ?)';
+    params.push(term, term, term, term, term, term);
+  }
+
+  sql += ' ORDER BY created_at DESC';
+  const rows = db.prepare(sql).all(...params) as SqlRow[];
+  return rows.map(mapTeamRegistrationRow);
+}
+
+export function getTeamRegistrationById(teamId: string): TeamRegistrationRecord | null {
+  const db = getDb();
+  const row = db.prepare('SELECT * FROM team_registrations WHERE team_id = ?').get(teamId) as SqlRow | undefined;
+  return row ? mapTeamRegistrationRow(row) : null;
+}
+
+export function setTeamRegistrationCheckIn(teamId: string, checkedIn: boolean): TeamRegistrationRecord | null {
+  const db = getDb();
+  const existing = getTeamRegistrationById(teamId);
+  if (!existing) return null;
+
+  const timestamp = checkedIn ? new Date().toISOString() : null;
+  db.prepare(`
+    UPDATE team_registrations
+    SET checked_in = ?, checked_in_at = ?
+    WHERE team_id = ?
+  `).run(checkedIn ? 1 : 0, timestamp, teamId);
+
+  recordAuditLog(
+    checkedIn ? 'CHECKIN_TEAM' : 'UNCHECKIN_TEAM',
+    'team_registration',
+    teamId,
+    `Team '${existing.teamName}' check-in changed to ${checkedIn}`
+  );
+
+  return getTeamRegistrationById(teamId);
+}
+
+export function deleteTeamRegistration(teamId: string): boolean {
+  const db = getDb();
+  const existing = getTeamRegistrationById(teamId);
+  if (!existing) return false;
+
+  const info = db.prepare('DELETE FROM team_registrations WHERE team_id = ?').run(teamId);
+  if (info.changes > 0) {
+    recordAuditLog(
+      'DELETE_TEAM_REGISTRATION',
+      'team_registration',
+      teamId,
+      `Deleted team registration '${existing.teamName}' (${existing.eventTitle})`
+    );
+    return true;
+  }
+  return false;
+}
+
+export function exportTeamRegistrationsCsv(): string {
+  const teams = listTeamRegistrations();
+  const headers = [
+    'Team ID',
+    'Team Name',
+    'Event',
+    'Leader Name',
+    'Leader Roll',
+    'Leader Email',
+    'Leader Phone',
+    'Branch',
+    'Year',
+    'Total Members',
+    'Member Details',
+    'Project Title',
+    'Notes',
+    'Checked In',
+    'Checked In At',
+    'Registered At',
+  ];
+
+  const lines = teams.map((t) =>
+    [
+      t.teamId,
+      t.teamName,
+      t.eventTitle,
+      t.leaderName,
+      t.leaderRoll,
+      t.leaderEmail,
+      t.leaderPhone,
+      t.branch,
+      t.year,
+      t.members.length + 1,
+      t.members.map((m) => `${m.name} (${m.rollNo}, ${m.branch || t.branch})`).join('; '),
+      t.projectTitle ?? '',
+      t.notes ?? '',
+      t.checkedIn ? 'YES' : 'NO',
+      t.checkedInAt ?? '',
+      t.createdAt,
+    ]
+      .map(sanitizeCsvField)
+      .join(',')
+  );
+
+  return [headers.join(','), ...lines].join('\r\n');
+}
+
 function mapInquiryRow(row: SqlRow): InquiryRecord {
   return {
     id: asNumber(row.id),
@@ -1613,6 +1983,7 @@ const ALL_TABLES = [
   'organizers',
   'announcements',
   'event_results',
+  'team_registrations',
 ] as const;
 
 export function getDatabaseDiagnostics(): DatabaseDiagnostics {
@@ -1703,6 +2074,7 @@ export function getHealthStats() {
     organizers: asNumber((db.prepare('SELECT COUNT(*) AS c FROM organizers').get() as SqlRow | undefined)?.c),
     announcements: asNumber((db.prepare('SELECT COUNT(*) AS c FROM announcements WHERE is_active = 1').get() as SqlRow | undefined)?.c),
     results: asNumber((db.prepare('SELECT COUNT(*) AS c FROM event_results').get() as SqlRow | undefined)?.c),
+    teams: asNumber((db.prepare('SELECT COUNT(*) AS c FROM team_registrations').get() as SqlRow | undefined)?.c),
   };
 }
 
@@ -1735,6 +2107,7 @@ export function getAdminDashboard() {
 
   const registrations = regRows.map(mapRegistrationRow);
   const inquiries: InquiryRecord[] = inqRows.map(mapInquiryRow);
+  const teams = listTeamRegistrations();
 
   return {
     summary: {
@@ -1742,6 +2115,8 @@ export function getAdminDashboard() {
       checkedInCount: registrations.filter((r) => r.checkedIn).length,
       totalRevenue: asNumber(totalRevenueRow?.totalRevenue),
       openInquiries: inquiries.filter((i) => i.status === 'open').length,
+      totalTeams: teams.length,
+      checkedInTeams: teams.filter((t) => t.checkedIn).length,
       totalEvents: getHealthStats().events,
     },
     passBreakdown: passBreakdownRows.map((r) => ({
@@ -1757,6 +2132,7 @@ export function getAdminDashboard() {
     })),
     registrations,
     inquiries,
+    teams,
     events: listEvents(),
     passes: listPasses(),
     schedule: listSchedule(),

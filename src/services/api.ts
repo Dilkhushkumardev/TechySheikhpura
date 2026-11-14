@@ -146,6 +146,52 @@ export interface CreateRegistrationResponse {
   activityStream: ActivityItem[];
 }
 
+export interface TeamMember {
+  name: string;
+  rollNo: string;
+  branch?: string;
+  phone?: string;
+}
+
+export interface TeamRegistrationRecord {
+  teamId: string;
+  teamName: string;
+  eventId: string;
+  eventTitle: string;
+  leaderName: string;
+  leaderRoll: string;
+  leaderEmail: string;
+  leaderPhone: string;
+  branch: string;
+  year: string;
+  members: TeamMember[];
+  projectTitle: string | null;
+  notes: string | null;
+  status: 'confirmed' | 'verified' | 'cancelled';
+  checkedIn: boolean;
+  checkedInAt: string | null;
+  createdAt: string;
+}
+
+export interface CreateTeamRegistrationPayload {
+  teamName: string;
+  eventId: string;
+  leaderName: string;
+  leaderRoll: string;
+  leaderEmail: string;
+  leaderPhone: string;
+  branch: string;
+  year: string;
+  members: TeamMember[];
+  projectTitle?: string;
+  notes?: string;
+}
+
+export interface CreateTeamRegistrationResponse {
+  teamRegistration: TeamRegistrationRecord;
+  activityStream: ActivityItem[];
+}
+
 export interface InquiryRecord {
   id: number;
   name: string;
@@ -214,6 +260,8 @@ export interface AdminDashboardData {
     checkedInCount: number;
     totalRevenue: number;
     openInquiries: number;
+    totalTeams?: number;
+    checkedInTeams?: number;
     totalEvents: number;
   };
   passBreakdown: {
@@ -229,6 +277,7 @@ export interface AdminDashboardData {
   }[];
   registrations: RegistrationRecord[];
   inquiries: InquiryRecord[];
+  teams?: TeamRegistrationRecord[];
   events: FestEvent[];
   schedule: ScheduleItemRecord[];
   faqs: { id: number; q: string; a: string }[];
@@ -346,6 +395,36 @@ export function createInquiry(
   });
 }
 
+export function createTeamRegistration(
+  payload: CreateTeamRegistrationPayload
+): Promise<CreateTeamRegistrationResponse> {
+  return requestJson<CreateTeamRegistrationResponse>('/api/team-registrations', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}
+
+export function verifyTeamRegistrations(
+  query: string,
+  eventId?: string
+): Promise<{
+  query: string;
+  count: number;
+  teams: TeamRegistrationRecord[];
+}> {
+  const params = new URLSearchParams({ q: query.trim() });
+  if (eventId?.trim()) {
+    params.set('eventId', eventId.trim());
+  }
+  return requestJson(`/api/team-registrations/verify?${params.toString()}`);
+}
+
+export function getTeamRegistration(
+  teamId: string
+): Promise<{ teamRegistration: TeamRegistrationRecord }> {
+  return requestJson(`/api/team-registrations/${encodeURIComponent(teamId)}`);
+}
+
 export interface AdminAuthResponse {
   authenticated: boolean;
   token: string;
@@ -429,6 +508,58 @@ export function deleteAdminRegistration(
     method: 'DELETE',
     headers: adminAuthHeaders(token),
   });
+}
+
+export function listAdminTeams(
+  token: string,
+  options?: { q?: string; eventId?: string }
+): Promise<{ teams: TeamRegistrationRecord[] }> {
+  const params = new URLSearchParams();
+  if (options?.q?.trim()) params.set('q', options.q.trim());
+  if (options?.eventId?.trim()) params.set('eventId', options.eventId.trim());
+  const queryStr = params.toString() ? `?${params.toString()}` : '';
+  return requestJson(`/api/admin/teams${queryStr}`, {
+    headers: adminAuthHeaders(token),
+  });
+}
+
+export function toggleTeamRegistrationCheckIn(
+  token: string,
+  teamId: string,
+  checkedIn: boolean
+): Promise<{ team: TeamRegistrationRecord }> {
+  return requestJson(`/api/admin/teams/${encodeURIComponent(teamId)}/checkin`, {
+    method: 'PATCH',
+    headers: adminAuthHeaders(token),
+    body: JSON.stringify({ checkedIn }),
+  });
+}
+
+export function deleteAdminTeamRegistration(
+  token: string,
+  teamId: string
+): Promise<{ deleted: boolean; teamId: string }> {
+  return requestJson(`/api/admin/teams/${encodeURIComponent(teamId)}`, {
+    method: 'DELETE',
+    headers: adminAuthHeaders(token),
+  });
+}
+
+export async function downloadTeamsCsv(token: string): Promise<void> {
+  const response = await fetch(`${API_BASE}/api/admin/teams/export.csv`, {
+    headers: adminAuthHeaders(token),
+  });
+  if (!response.ok) {
+    throw new ApiError(response.status, 'Failed to download teams CSV export');
+  }
+  const csv = await response.text();
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `techysheikhpura-teams-${new Date().toISOString().slice(0, 10)}.csv`;
+  link.click();
+  URL.revokeObjectURL(url);
 }
 
 export function updateAdminInquiryStatus(

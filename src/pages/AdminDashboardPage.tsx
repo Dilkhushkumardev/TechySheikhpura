@@ -24,6 +24,7 @@ import {
   Users,
 } from 'lucide-react';
 import {
+  FEST_EVENTS,
   FEST_INFO,
   type CampusClub,
   type FestEvent,
@@ -48,11 +49,14 @@ import {
   deleteAdminRegistration,
   deleteAdminResult,
   deleteAdminScheduleItem,
+  deleteAdminTeamRegistration,
   downloadDatabaseBackup,
   downloadRegistrationsCsv,
+  downloadTeamsCsv,
   fetchAdminDashboard,
   toggleAdminAnnouncement,
   toggleRegistrationCheckIn,
+  toggleTeamRegistrationCheckIn,
   updateAdminFestInfo,
   updateAdminInquiryStatus,
   updateAdminPass,
@@ -78,6 +82,7 @@ const CATEGORIES: FestEvent['category'][] = [
 
 type ConsoleTab =
   | 'registrations'
+  | 'teams'
   | 'inquiries'
   | 'events'
   | 'schedule'
@@ -911,6 +916,8 @@ export const AdminDashboardPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ConsoleTab>('registrations');
   const [regSearch, setRegSearch] = useState('');
   const [passFilter, setPassFilter] = useState('All');
+  const [teamSearch, setTeamSearch] = useState('');
+  const [teamEventFilter, setTeamEventFilter] = useState('All');
 
   // New event form state
   const [evTitle, setEvTitle] = useState('');
@@ -1024,6 +1031,33 @@ export const AdminDashboardPage: React.FC = () => {
       await loadDashboard(authToken);
     } catch (err) {
       setActionError(err instanceof Error ? err.message : 'Failed to delete registration');
+    }
+  };
+
+  const handleToggleTeamCheckIn = async (teamId: string, current: boolean) => {
+    try {
+      await toggleTeamRegistrationCheckIn(authToken, teamId, !current);
+      await loadDashboard(authToken);
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : 'Failed to update team check-in status');
+    }
+  };
+
+  const handleDeleteTeam = async (teamId: string, teamName: string) => {
+    if (!window.confirm(`Delete team '${teamName}' (${teamId}) permanently from SQLite?`)) return;
+    try {
+      await deleteAdminTeamRegistration(authToken, teamId);
+      await loadDashboard(authToken);
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : 'Failed to delete team registration');
+    }
+  };
+
+  const handleExportTeamsCsv = async () => {
+    try {
+      await downloadTeamsCsv(authToken);
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : 'Failed to download teams CSV');
     }
   };
 
@@ -1150,6 +1184,27 @@ export const AdminDashboardPage: React.FC = () => {
     });
   }, [dashboard, regSearch, passFilter]);
 
+  const filteredTeams = useMemo(() => {
+    if (!dashboard || !dashboard.teams) return [];
+    const q = teamSearch.toLowerCase().trim();
+    return dashboard.teams.filter((t) => {
+      const matchEvent = teamEventFilter === 'All' || t.eventId === teamEventFilter || t.eventTitle === teamEventFilter;
+      const matchQuery =
+        !q ||
+        t.teamId.toLowerCase().includes(q) ||
+        t.teamName.toLowerCase().includes(q) ||
+        t.leaderName.toLowerCase().includes(q) ||
+        t.leaderRoll.toLowerCase().includes(q) ||
+        t.leaderEmail.toLowerCase().includes(q) ||
+        t.eventTitle.toLowerCase().includes(q) ||
+        (t.projectTitle && t.projectTitle.toLowerCase().includes(q)) ||
+        t.members.some(
+          (m) => m.name.toLowerCase().includes(q) || m.rollNo.toLowerCase().includes(q)
+        );
+      return matchEvent && matchQuery;
+    });
+  }, [dashboard, teamSearch, teamEventFilter]);
+
   const handleExportCsv = async () => {
     try {
       await downloadRegistrationsCsv(authToken);
@@ -1273,14 +1328,23 @@ export const AdminDashboardPage: React.FC = () => {
         {dashboard && (
           <>
             {/* KPI Summary Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
               <div className="p-5 rounded-2xl bg-[#0b0b11] border border-white/10">
                 <div className="flex items-center justify-between text-slate-400 text-[11px] font-mono uppercase">
-                  <span>Registrations</span>
+                  <span>Passes</span>
                   <Ticket className="w-4 h-4 text-fuchsia-400" />
                 </div>
                 <div className="text-3xl font-black font-mono text-white mt-2">
                   {dashboard.summary.totalRegistrations}
+                </div>
+              </div>
+              <div className="p-5 rounded-2xl bg-[#0b0b11] border border-fuchsia-500/30">
+                <div className="flex items-center justify-between text-slate-400 text-[11px] font-mono uppercase">
+                  <span>Teams</span>
+                  <Users className="w-4 h-4 text-fuchsia-400" />
+                </div>
+                <div className="text-3xl font-black font-mono text-fuchsia-400 mt-2">
+                  {dashboard.summary.totalTeams ?? dashboard.teams?.length ?? 0}
                 </div>
               </div>
               <div className="p-5 rounded-2xl bg-[#0b0b11] border border-white/10">
@@ -1345,6 +1409,7 @@ export const AdminDashboardPage: React.FC = () => {
               {(
                 [
                   { id: 'registrations', label: `Passes (${dashboard.registrations.length})` },
+                  { id: 'teams', label: `Teams (${(dashboard.teams || []).length})` },
                   { id: 'inquiries', label: `Helpdesk Tickets (${dashboard.inquiries.length})` },
                   { id: 'events', label: `Events Catalog (${dashboard.events.length})` },
                   { id: 'schedule', label: `Schedule (${dashboard.schedule.length})` },
@@ -1473,6 +1538,145 @@ export const AdminDashboardPage: React.FC = () => {
                                 onClick={() => void handleDeleteReg(reg.regId)}
                                 aria-label={`Delete ${reg.regId}`}
                                 className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Tab: Team Registrations */}
+            {activeTab === 'teams' && (
+              <div className="space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center gap-3 flex-1">
+                    <div className="relative flex-1 min-w-[220px] max-w-md">
+                      <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="text"
+                        value={teamSearch}
+                        onChange={(e) => setTeamSearch(e.target.value)}
+                        placeholder="Search Team, Leader, Roll, Event, Member..."
+                        className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-[#0b0b11] border border-white/15 text-xs text-white font-mono focus:border-fuchsia-400 focus:outline-none"
+                      />
+                    </div>
+                    <select
+                      value={teamEventFilter}
+                      onChange={(e) => setTeamEventFilter(e.target.value)}
+                      aria-label="Filter teams by event"
+                      className="px-3.5 py-2.5 rounded-xl bg-[#0b0b11] border border-white/15 text-xs text-white font-mono focus:outline-none"
+                    >
+                      <option value="All">All Events ({dashboard.teams?.length ?? 0})</option>
+                      {FEST_EVENTS.map((ev) => (
+                        <option key={ev.id} value={ev.id}>
+                          {ev.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => void handleExportTeamsCsv()}
+                    disabled={!dashboard.teams || dashboard.teams.length === 0}
+                    className="px-4 py-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/35 text-emerald-300 text-xs font-mono font-bold inline-flex items-center gap-1.5 disabled:opacity-50"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Export Teams CSV ({dashboard.teams?.length ?? 0})</span>
+                  </button>
+                </div>
+
+                {filteredTeams.length === 0 ? (
+                  <div className="p-10 rounded-2xl bg-[#0b0b11] border border-white/10 text-center text-xs font-mono text-slate-400">
+                    No team registrations found matching your filter. Teams registered via Desk Open appear here in real time.
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto rounded-2xl border border-white/10 bg-[#0b0b11]">
+                    <table className="w-full text-left text-xs font-mono">
+                      <thead className="bg-white/5 text-slate-300 uppercase text-[10px]">
+                        <tr>
+                          <th className="p-3.5">Team ID &amp; Name</th>
+                          <th className="p-3.5">Event Track</th>
+                          <th className="p-3.5">Leader Details</th>
+                          <th className="p-3.5">Squad Roster</th>
+                          <th className="p-3.5">Project / Notes</th>
+                          <th className="p-3.5">Desk Check-In</th>
+                          <th className="p-3.5 text-right">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-white/5">
+                        {filteredTeams.map((team) => (
+                          <tr key={team.teamId} className="hover:bg-white/[0.03]">
+                            <td className="p-3.5 font-bold text-fuchsia-300 whitespace-nowrap">
+                              <span className="block text-white text-sm">{team.teamName}</span>
+                              <span className="text-[11px] text-fuchsia-400 font-mono">{team.teamId}</span>
+                            </td>
+                            <td className="p-3.5">
+                              <span className="px-2 py-0.5 rounded bg-fuchsia-500/15 border border-fuchsia-500/30 text-fuchsia-300 text-[10px] uppercase font-bold inline-block mb-1">
+                                {team.eventTitle}
+                              </span>
+                            </td>
+                            <td className="p-3.5">
+                              <strong className="text-white block">{team.leaderName}</strong>
+                              <span className="text-slate-400 text-[11px] block">{team.leaderRoll} • {team.branch}</span>
+                              <span className="text-slate-500 text-[10px] block">{team.leaderPhone} • {team.leaderEmail}</span>
+                            </td>
+                            <td className="p-3.5 text-slate-300 max-w-xs">
+                              <div className="flex flex-wrap gap-1">
+                                <span className="px-2 py-0.5 rounded bg-white/10 text-white text-[10px] font-bold">
+                                  1: {team.leaderName} (L)
+                                </span>
+                                {team.members.map((m, idx) => (
+                                  <span
+                                    key={`${m.rollNo}-${idx}`}
+                                    className="px-2 py-0.5 rounded bg-white/5 text-slate-300 text-[10px]"
+                                    title={`${m.name} (${m.rollNo})`}
+                                  >
+                                    {idx + 2}: {m.name} ({m.rollNo})
+                                  </span>
+                                ))}
+                              </div>
+                            </td>
+                            <td className="p-3.5 text-slate-300 max-w-xs">
+                              {team.projectTitle && (
+                                <span className="text-white block font-semibold truncate" title={team.projectTitle}>
+                                  {team.projectTitle}
+                                </span>
+                              )}
+                              {team.notes && (
+                                <span className="text-slate-400 text-[11px] block truncate" title={team.notes}>
+                                  {team.notes}
+                                </span>
+                              )}
+                              {!team.projectTitle && !team.notes && (
+                                <span className="text-slate-600 italic">None</span>
+                              )}
+                            </td>
+                            <td className="p-3.5">
+                              <button
+                                type="button"
+                                onClick={() => void handleToggleTeamCheckIn(team.teamId, team.checkedIn)}
+                                className={`px-3 py-1.5 rounded-lg font-bold text-[11px] transition-colors ${
+                                  team.checkedIn
+                                    ? 'bg-emerald-500/20 border border-emerald-400/40 text-emerald-300'
+                                    : 'bg-amber-500/15 border border-amber-400/35 text-amber-300 hover:bg-emerald-500/20'
+                                }`}
+                              >
+                                {team.checkedIn ? 'Checked In ✓' : 'Check In'}
+                              </button>
+                            </td>
+                            <td className="p-3.5 text-right">
+                              <button
+                                type="button"
+                                onClick={() => void handleDeleteTeam(team.teamId, team.teamName)}
+                                aria-label={`Delete ${team.teamName}`}
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>

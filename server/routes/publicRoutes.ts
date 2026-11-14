@@ -1,13 +1,16 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import {
   DuplicateRegistrationError,
+  DuplicateTeamRegistrationError,
   createInquiry,
   createRegistration,
+  createTeamRegistration,
   getEventById,
   getEventStats,
   getFestBundle,
   getHealthStats,
   getRegistrationById,
+  getTeamRegistrationById,
   listActivity,
   listAnnouncements,
   listClubs,
@@ -17,8 +20,10 @@ import {
   listOrganizers,
   listPasses,
   listSchedule,
+  listTeamRegistrations,
   verifyRegistrations,
   type OrganizerMember,
+  type TeamMember,
 } from '../db/database.ts';
 import { isPassVerifyCodeValid } from '../middleware/auth.ts';
 import {
@@ -61,6 +66,9 @@ export async function handlePublicRoutes(
         'POST /api/registrations',
         'GET /api/registrations/verify',
         'GET /api/registrations/:regId',
+        'POST /api/team-registrations',
+        'GET /api/team-registrations/verify',
+        'GET /api/team-registrations/:teamId',
         'POST /api/inquiries',
         'POST /api/admin/auth',
       ],
@@ -256,6 +264,109 @@ export async function handlePublicRoutes(
       return true;
     }
     sendJson(res, 200, { registration });
+    return true;
+  }
+
+  if (method === 'POST' && pathname === '/api/team-registrations') {
+    const body = await readJsonBody(req);
+    const teamName = readRequiredString(body, 'teamName', 2, 80);
+    const eventId = readRequiredString(body, 'eventId', 2, 60);
+    const leaderName = readRequiredString(body, 'leaderName', 2, 120);
+    const leaderRoll = readRequiredString(body, 'leaderRoll', 3, 40);
+    const leaderEmail = readRequiredString(body, 'leaderEmail', 5, 160);
+    const leaderPhone = readRequiredString(body, 'leaderPhone', 10, 20);
+    const branch = readRequiredString(body, 'branch', 2, 60);
+    const year = readRequiredString(body, 'year', 2, 40);
+    const projectTitle = readOptionalString(body, 'projectTitle', 160);
+    const notes = readOptionalString(body, 'notes', 1000);
+
+    const digitCount = leaderPhone.replace(/\D/g, '').length;
+    if (digitCount < 10) {
+      throw new HttpError(400, 'Please enter a valid 10-digit WhatsApp / Mobile number for team leader');
+    }
+    if (!isValidEmail(leaderEmail)) {
+      throw new HttpError(400, 'Please enter a valid email address for team leader');
+    }
+
+    const rawMembers = Array.isArray(body.members) ? body.members : [];
+    const members: TeamMember[] = [];
+    for (const raw of rawMembers) {
+      if (raw && typeof raw === 'object') {
+        const m = raw as Record<string, unknown>;
+        const mName = typeof m.name === 'string' ? m.name.trim() : '';
+        const mRoll = typeof m.rollNo === 'string' ? m.rollNo.trim() : '';
+        const mBranch = typeof m.branch === 'string' ? m.branch.trim() : undefined;
+        const mPhone = typeof m.phone === 'string' ? m.phone.trim() : undefined;
+        if (mName && mRoll) {
+          members.push({ name: mName, rollNo: mRoll, branch: mBranch, phone: mPhone });
+        }
+      }
+    }
+
+    try {
+      const teamRegistration = createTeamRegistration({
+        teamName,
+        eventId,
+        leaderName,
+        leaderRoll,
+        leaderEmail,
+        leaderPhone,
+        branch,
+        year,
+        members,
+        projectTitle,
+        notes,
+      });
+      sendJson(res, 201, {
+        teamRegistration,
+        activityStream: listActivity(12),
+      });
+    } catch (error) {
+      if (error instanceof DuplicateTeamRegistrationError) {
+        sendJson(res, 409, {
+          error: error.message,
+          existingTeamId: error.existingTeamId,
+        });
+        return true;
+      }
+      if (error instanceof Error && error.message.startsWith('Unknown ')) {
+        throw new HttpError(400, error.message);
+      }
+      throw error;
+    }
+    return true;
+  }
+
+  if (method === 'GET' && pathname === '/api/team-registrations/verify') {
+    const q = (
+      url.searchParams.get('q') ||
+      url.searchParams.get('teamId') ||
+      url.searchParams.get('leaderRoll') ||
+      url.searchParams.get('teamName') ||
+      ''
+    ).trim();
+    if (q.length < 2) {
+      throw new HttpError(400, 'Provide at least 2 characters to search team registrations');
+    }
+    const eventId = url.searchParams.get('eventId') || undefined;
+    const teams = listTeamRegistrations({ q, eventId });
+    sendJson(res, 200, {
+      query: q,
+      count: teams.length,
+      teams,
+    });
+    return true;
+  }
+
+  const singleTeamMatch = pathname.match(/^\/api\/team-registrations\/([^/]+)$/);
+  if (method === 'GET' && singleTeamMatch) {
+    const teamId = decodeRouteParam(singleTeamMatch[1]);
+    const teamRegistration = getTeamRegistrationById(teamId);
+    if (!teamRegistration) {
+      sendJson(res, 404, { error: `Team registration ${teamId} not found` });
+      return true;
+    }
+    sendJson(res, 200, { teamRegistration });
     return true;
   }
 

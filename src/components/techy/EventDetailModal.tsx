@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { X, CheckCircle2, Ticket, Phone } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { X, CheckCircle2, Ticket, Phone, Users } from 'lucide-react';
 import type { FestEvent } from '../../data/techySheikhpuraData';
 
 interface EventDetailModalProps {
@@ -129,20 +130,31 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClo
         {/* Footer Actions */}
         <div className="px-6 py-4 bg-[#050308] border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
           <span className="text-xs font-mono text-slate-400">
-            Entry: <strong className="text-fuchsia-300">{event.entryFee}</strong>
+            Entry: <strong className="text-fuchsia-300">{event.entryFee}</strong> • Team: <strong className="text-white">{event.teamSize}</strong>
           </span>
 
-          <button
-            type="button"
-            onClick={() => {
-              onClose();
-              onRegister(event.id);
-            }}
-            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold text-xs uppercase font-mono tracking-wider hover:opacity-95 shadow-glow-fuchsia flex items-center gap-2 transition-transform hover:scale-[1.02]"
-          >
-            <Ticket className="w-4 h-4" />
-            <span>Register for {event.title}</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              to={`/team-register?event=${event.id}`}
+              onClick={onClose}
+              className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-fuchsia-500/35 hover:border-fuchsia-400 text-fuchsia-300 hover:text-white font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-2 transition-colors"
+            >
+              <Users className="w-4 h-4 text-fuchsia-400" />
+              <span>Register Squad</span>
+            </Link>
+
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                onRegister(event.id);
+              }}
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold text-xs uppercase font-mono tracking-wider hover:opacity-95 shadow-glow-fuchsia flex items-center gap-2 transition-transform hover:scale-[1.02]"
+            >
+              <Ticket className="w-4 h-4" />
+              <span>Individual Pass</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
