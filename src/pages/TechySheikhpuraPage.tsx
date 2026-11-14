@@ -1044,6 +1044,7 @@ export const TechySheikhpuraPage: React.FC = () => {
       <HelpdeskSection
         telegramUrl={festInfo.contacts.telegram}
         contactEmail={festInfo.contacts.email}
+        leadContact={organizers.find((member) => member.featuredFooter)}
       />
 
       {/* Footer (Exact TechVerse Aesthetic) */}

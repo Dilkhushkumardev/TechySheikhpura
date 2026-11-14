@@ -386,7 +386,7 @@ export const TeamRegistrationPage: React.FC = () => {
           /* Team Registration Form */
           <form
             onSubmit={handleSubmit}
-            className="rounded-3xl bg-[#0b0b11]/90 border border-fuchsia-500/30 p-6 sm:p-10 shadow-2xl space-y-8 backdrop-blur-xl"
+            className="rounded-3xl bg-[#07060e]/95 border border-fuchsia-500/35 hover:border-fuchsia-400/50 p-6 sm:p-10 shadow-[0_0_50px_rgba(217,70,239,0.12)] space-y-8 backdrop-blur-2xl transition-all"
           >
             {error && (
               <div

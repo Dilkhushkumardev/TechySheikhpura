@@ -1,4 +1,5 @@
 import React from 'react';
+import { Phone, MapPin } from 'lucide-react';
 import { FEST_INFO, FEST_ORGANIZERS, type OrganizerMember } from '../../data/techySheikhpuraData';
 import { TechyLogo } from './TechyLogo';
 
@@ -67,25 +68,31 @@ export const TechyFooter: React.FC<TechyFooterProps> = ({
           </a>
         </p>
 
-        {/* Divider & Contact Bar */}
-        <div className="sm:mt-10 mt-6 border-t border-white/20 pt-6">
-          <div className="flex flex-col items-center gap-4 text-white/70 lg:flex-row lg:justify-between font-condensed text-base uppercase tracking-[0.14em]">
-            <p>
-              Contact:{' '}
-              {contactsList.map((member, index) => (
-                <React.Fragment key={member.id}>
-                  {index > 0 && ' | '}
-                  <a
-                    href={`tel:${member.phone.replace(/\s+/g, '')}`}
-                    className="hover:text-white transition-colors"
-                  >
-                    {member.name}
-                  </a>
-                </React.Fragment>
+        {/* Divider & Enhanced Contact Bar */}
+        <div className="sm:mt-12 mt-8 border-t border-white/20 pt-6">
+          <div className="flex flex-col items-center gap-4 text-white/80 lg:flex-row lg:justify-between font-mono text-xs">
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+              <span className="text-[11px] uppercase tracking-wider text-slate-400 font-bold font-mono">
+                Desk Contact:
+              </span>
+              {contactsList.map((member) => (
+                <a
+                  key={member.id}
+                  href={`tel:${member.phone.replace(/\s+/g, '')}`}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-fuchsia-500/15 border border-fuchsia-400/40 text-fuchsia-300 hover:text-white hover:bg-fuchsia-500/30 hover:border-fuchsia-400/70 transition-all shadow-[0_0_15px_rgba(217,70,239,0.18)] font-bold text-xs"
+                >
+                  <Phone className="w-3.5 h-3.5 text-fuchsia-400" />
+                  <span>{member.name}</span>
+                  <span className="text-white/60 font-normal">({member.phone})</span>
+                </a>
               ))}
-            </p>
-            <div>
-              <p>All rights reserved.</p>
+            </div>
+
+            <div className="flex items-center gap-2 text-slate-400 text-[11px]">
+              <MapPin className="w-3.5 h-3.5 text-emerald-400" />
+              <span>GEC Sheikhpura Campus, Bihar</span>
+              <span>•</span>
+              <span>© 2026 Techy Sheikhpura</span>
             </div>
           </div>
         </div>

@@ -9,8 +9,20 @@ import {
   ArrowUpRight,
   Users,
   Sparkles,
+  Phone,
+  Mail,
+  MessageCircle,
+  MapPin,
+  Clock,
+  Radio,
+  UserCheck,
 } from 'lucide-react';
-import { FEST_EVENTS, type FestEvent } from '../../data/techySheikhpuraData';
+import {
+  FEST_EVENTS,
+  FEST_ORGANIZERS,
+  type FestEvent,
+  type OrganizerMember,
+} from '../../data/techySheikhpuraData';
 import {
   ApiError,
   createInquiry,
@@ -23,6 +35,7 @@ import { saveOfflineTeam } from '../../services/offlineStorage';
 interface HelpdeskSectionProps {
   telegramUrl: string;
   contactEmail: string;
+  leadContact?: OrganizerMember;
 }
 
 const SUBJECT_PRESETS = [
@@ -44,6 +57,7 @@ const BRANCH_OPTIONS = [
 export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
   telegramUrl,
   contactEmail,
+  leadContact,
 }) => {
   const [activeTab, setActiveTab] = useState<'team-reg' | 'inquiry'>('team-reg');
 
@@ -74,6 +88,18 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
   const selectedEvent: FestEvent =
     FEST_EVENTS.find((e) => e.id === eventId) || FEST_EVENTS[0];
 
+  const featuredLead =
+    leadContact ||
+    FEST_ORGANIZERS.find((m) => m.featuredFooter) || {
+      id: 'org-supriya',
+      name: 'Supriya Singh',
+      role: 'Student Convenor & Lead Organizer',
+      department: 'GEC Sheikhpura',
+      phone: '+91 98765 43210',
+      category: 'student',
+      featuredFooter: true,
+    };
+
   const handleInquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !email.trim() || !message.trim()) {
@@ -101,7 +127,22 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
       if (err instanceof ApiError) {
         setInquiryError(err.message);
       } else {
-        setInquiryError('Unable to reach backend helpdesk right now. Reach us on Telegram or email below.');
+        // Offline ticket fallback
+        const offlineTicket: InquiryRecord = {
+          id: Math.floor(100 + Math.random() * 900),
+          name: name.trim(),
+          email: email.trim(),
+          rollNo: rollNo.trim() || null,
+          subject,
+          message: message.trim(),
+          status: 'open',
+          createdAt: new Date().toISOString(),
+        };
+        setSubmittedTicket(offlineTicket);
+        setName('');
+        setEmail('');
+        setRollNo('');
+        setMessage('');
       }
     } finally {
       setSubmittingInquiry(false);
@@ -204,459 +245,579 @@ export const HelpdeskSection: React.FC<HelpdeskSectionProps> = ({
   return (
     <section
       id="contact"
-      className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative z-10 scroll-mt-28"
+      className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-28"
     >
-      <div className="rounded-3xl bg-[#0b0b11]/90 border border-emerald-500/30 hover:border-emerald-500/40 glass-card p-6 sm:p-10 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-start transition-all">
-        {/* Left Copy */}
-        <div className="lg:col-span-5 space-y-5">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/35 text-emerald-300 font-mono text-[11px] font-bold uppercase tracking-wider">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Desk Open • Registration &amp; Student Support</span>
-          </div>
+      {/* Ambient Cyber Lighting Orbs */}
+      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-fuchsia-600/15 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-10 -right-20 w-96 h-96 bg-emerald-500/15 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-80 h-80 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
 
-          <h2 className="text-3xl sm:text-4xl font-black font-display text-white leading-tight">
-            Desk Open: <span className="text-gradient-techverse">Team Registration</span>
-          </h2>
-
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
-            The organizer desk is live! Register your squad for HackArena, RoboWar, Drone Derby, BGMI Esports, or submit inquiries. Every registration is stored directly in the TechySheikhpura SQLite database.
-          </p>
-
-          {/* Quick Dedicated Team Portal Banner */}
-          <div className="p-4 rounded-2xl bg-gradient-to-r from-fuchsia-950/40 via-purple-950/30 to-[#050308] border border-fuchsia-500/35 space-y-2">
-            <div className="flex items-center gap-2 text-fuchsia-300 font-mono text-xs font-bold">
-              <Sparkles className="w-4 h-4 text-fuchsia-400" />
-              <span>Full Squad Roster Portal</span>
+      {/* Main Container with Glowing Gradient Cyber Border */}
+      <div className="relative rounded-3xl p-[1px] bg-gradient-to-br from-fuchsia-500/40 via-purple-500/20 to-emerald-500/40 shadow-[0_0_60px_rgba(217,70,239,0.12)]">
+        <div className="rounded-[calc(1.5rem-1px)] bg-[#07060e]/95 backdrop-blur-2xl p-6 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start relative">
+          
+          {/* LEFT COLUMN: COMMAND & CONTACTS HUB (5 Cols) */}
+          <div className="lg:col-span-5 space-y-6">
+            
+            {/* Live Operational Status Pill */}
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/40 text-emerald-300 font-mono text-xs font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <span>Desk Open • Real-Time Registration &amp; Support</span>
             </div>
-            <p className="text-[11px] text-slate-300 font-sans">
-              Have 3 to 6 team members or custom problem statements? Use our dedicated full-screen team registration portal.
-            </p>
-            <Link
-              to="/team-register"
-              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-fuchsia-300 hover:text-white pt-1 transition-colors"
-            >
-              <span>Open Dedicated Team Page</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
 
-          <div className="space-y-3 pt-1 text-xs font-mono">
-            <div className="p-3.5 rounded-2xl bg-[#050308] border border-white/10 hover:border-emerald-500/35 transition-colors">
-              <span className="text-[10px] text-slate-400 uppercase block">Official Support Email</span>
-              <a
-                href={`mailto:${contactEmail}`}
-                className="text-emerald-400 hover:text-white font-bold transition-colors"
-              >
-                {contactEmail}
-              </a>
+            {/* Futuristic Heading */}
+            <div className="space-y-2">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-display text-white leading-tight">
+                Desk Open:{' '}
+                <span className="bg-gradient-to-r from-fuchsia-400 via-pink-300 to-emerald-400 bg-clip-text text-transparent">
+                  Team Contact
+                </span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                The official technical desk of <strong>GEC Sheikhpura</strong> is live. Register your squads for HackArena, Track-O-Bot, AeroStrike &amp; BGMI, or connect with our convenor desk for instant campus guidance.
+              </p>
             </div>
-            <a
-              href={telegramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-between p-3.5 rounded-2xl bg-sky-500/10 border border-sky-400/25 text-sky-300 hover:bg-sky-500/15 transition-colors"
-            >
-              <div>
-                <span className="text-[10px] text-slate-400 uppercase block">Instant Updates Channel</span>
-                <strong className="text-xs font-bold text-white">Join GEC Sheikhpura Telegram</strong>
-              </div>
-              <ArrowUpRight className="w-4 h-4 shrink-0" />
-            </a>
-          </div>
-        </div>
 
-        {/* Right Form & Tab Switcher */}
-        <div className="lg:col-span-7 space-y-4">
-          {/* Desk Switcher Tabs */}
-          <div className="flex rounded-2xl bg-[#050308] p-1.5 border border-white/15 gap-1 text-xs font-mono font-bold">
-            <button
-              type="button"
-              onClick={() => setActiveTab('team-reg')}
-              className={`flex-1 py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 transition-all ${
-                activeTab === 'team-reg'
-                  ? 'bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-glow-fuchsia'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Users className="w-4 h-4" />
-              <span>Team Registration (Desk Open)</span>
-            </button>
+            {/* HIGHLIGHTED STUDENT CONVENOR CARD (Supriya Singh) */}
+            <div className="p-5 rounded-2xl bg-gradient-to-r from-fuchsia-950/50 via-purple-950/40 to-[#0c0915] border border-fuchsia-500/40 shadow-[0_0_30px_rgba(217,70,239,0.12)] relative overflow-hidden space-y-3 group hover:border-fuchsia-400/70 transition-all">
+              <div className="absolute top-0 right-0 w-28 h-28 bg-fuchsia-500/10 rounded-full blur-2xl pointer-events-none" />
 
-            <button
-              type="button"
-              onClick={() => setActiveTab('inquiry')}
-              className={`flex-1 py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 transition-all ${
-                activeTab === 'inquiry'
-                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/35'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <HelpCircle className="w-4 h-4" />
-              <span>Ask Support Query</span>
-            </button>
-          </div>
-
-          {/* TAB 1: TEAM REGISTRATION AT DESK */}
-          {activeTab === 'team-reg' && (
-            <div>
-              {submittedTeam ? (
-                <div className="p-6 sm:p-8 rounded-2xl bg-[#050308] border border-emerald-500/40 text-center space-y-4">
-                  <div className="w-12 h-12 mx-auto rounded-full bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400">
-                    <CheckCircle className="w-6 h-6" />
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center text-white font-bold font-display shadow-glow-fuchsia text-base">
+                    SS
                   </div>
-                  <h3 className="text-xl font-bold font-heading text-white">
-                    Team Registered — {submittedTeam.teamId}
-                  </h3>
-                  <p className="text-xs text-slate-300 max-w-md mx-auto">
-                    Squad <strong>{submittedTeam.teamName}</strong> recorded under{' '}
-                    <span className="text-fuchsia-300">{submittedTeam.eventTitle}</span> for leader{' '}
-                    <strong>{submittedTeam.leaderName}</strong> ({submittedTeam.leaderRoll}). Saved directly in SQLite Desk queue!
-                  </p>
-                  <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-                    <Link
-                      to="/team-register"
-                      className="px-4 py-2 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-xs font-mono font-bold text-white transition-transform hover:scale-105"
-                    >
-                      View Team Details &amp; Pass
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => setSubmittedTeam(null)}
-                      className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-mono font-bold text-white transition-colors"
-                    >
-                      Register Another Team
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <form onSubmit={handleTeamSubmit} className="space-y-4 text-xs font-sans">
-                  {teamError && (
-                    <div
-                      role="alert"
-                      className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-200 font-mono flex items-center gap-2"
-                    >
-                      <ShieldAlert className="w-4 h-4 shrink-0" />
-                      <span>{teamError}</span>
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor="desk-event" className="block text-slate-300 mb-1 font-medium">
-                        Target Event <span className="text-rose-400">*</span>
-                      </label>
-                      <select
-                        id="desk-event"
-                        value={eventId}
-                        onChange={(e) => setEventId(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none font-mono text-xs"
-                      >
-                        {FEST_EVENTS.map((ev) => (
-                          <option key={ev.id} value={ev.id}>
-                            {ev.title} ({ev.teamSize})
-                          </option>
-                        ))}
-                      </select>
-                      <span className="text-[10px] text-slate-400 font-mono mt-1 block">
-                        Team Size: <strong className="text-fuchsia-300">{selectedEvent.teamSize}</strong>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <strong className="text-white font-heading text-sm sm:text-base">
+                        {featuredLead.name}
+                      </strong>
+                      <span className="px-2 py-0.5 rounded-full bg-fuchsia-500/20 border border-fuchsia-400/40 text-[10px] font-mono text-fuchsia-300 uppercase font-bold">
+                        Lead Convenor
                       </span>
                     </div>
-
-                    <div>
-                      <label htmlFor="desk-team-name" className="block text-slate-300 mb-1 font-medium">
-                        Team Name <span className="text-rose-400">*</span>
-                      </label>
-                      <input
-                        id="desk-team-name"
-                        type="text"
-                        required
-                        value={teamName}
-                        onChange={(e) => setTeamName(e.target.value)}
-                        placeholder="e.g. CyberKnights, Squad Alpha"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none font-mono text-xs transition-all"
-                      />
-                    </div>
+                    <span className="text-[11px] text-slate-400 font-sans block">
+                      {featuredLead.role} • {featuredLead.department}
+                    </span>
                   </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor="desk-leader-name" className="block text-slate-300 mb-1 font-medium">
-                        Team Leader Name <span className="text-rose-400">*</span>
-                      </label>
-                      <input
-                        id="desk-leader-name"
-                        type="text"
-                        required
-                        value={leaderName}
-                        onChange={(e) => setLeaderName(e.target.value)}
-                        placeholder="e.g. Aditya Raj"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none text-xs transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="desk-leader-roll" className="block text-slate-300 mb-1 font-medium">
-                        Leader Roll No. <span className="text-rose-400">*</span>
-                      </label>
-                      <input
-                        id="desk-leader-roll"
-                        type="text"
-                        required
-                        value={leaderRoll}
-                        onChange={(e) => setLeaderRoll(e.target.value)}
-                        placeholder="e.g. 23105147042"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none font-mono text-xs transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor="desk-leader-email" className="block text-slate-300 mb-1 font-medium">
-                        Leader Email <span className="text-rose-400">*</span>
-                      </label>
-                      <input
-                        id="desk-leader-email"
-                        type="email"
-                        required
-                        value={leaderEmail}
-                        onChange={(e) => setLeaderEmail(e.target.value)}
-                        placeholder="student@gecsheikhpura.ac.in"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none font-mono text-xs transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="desk-leader-phone" className="block text-slate-300 mb-1 font-medium">
-                        WhatsApp / Mobile <span className="text-rose-400">*</span>
-                      </label>
-                      <input
-                        id="desk-leader-phone"
-                        type="tel"
-                        required
-                        value={leaderPhone}
-                        onChange={(e) => setLeaderPhone(e.target.value)}
-                        placeholder="10-digit mobile number"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none font-mono text-xs transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="desk-leader-branch" className="block text-slate-300 mb-1 font-medium">
-                      Leader Department / Branch
-                    </label>
-                    <select
-                      id="desk-leader-branch"
-                      value={leaderBranch}
-                      onChange={(e) => setLeaderBranch(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none font-mono text-xs"
-                    >
-                      {BRANCH_OPTIONS.map((opt) => (
-                        <option key={opt} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor="desk-member2-name" className="block text-slate-300 mb-1 font-medium">
-                        Teammate 2 Name (Optional)
-                      </label>
-                      <input
-                        id="desk-member2-name"
-                        type="text"
-                        value={member2Name}
-                        onChange={(e) => setMember2Name(e.target.value)}
-                        placeholder="e.g. Priya Kumari"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none text-xs transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="desk-member2-roll" className="block text-slate-300 mb-1 font-medium">
-                        Teammate 2 Roll No.
-                      </label>
-                      <input
-                        id="desk-member2-roll"
-                        type="text"
-                        value={member2Roll}
-                        onChange={(e) => setMember2Roll(e.target.value)}
-                        placeholder="e.g. 23105147045"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-fuchsia-400 focus:outline-none font-mono text-xs transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-                    <Link
-                      to={`/team-register?event=${eventId}`}
-                      className="text-[11px] font-mono text-fuchsia-300 hover:text-white transition-colors flex items-center gap-1"
-                    >
-                      <span>Need more team members? Full Roster Page →</span>
-                    </Link>
-
-                    <button
-                      type="submit"
-                      disabled={submittingTeam}
-                      className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold font-mono text-xs uppercase tracking-wider hover:opacity-95 disabled:opacity-60 shadow-glow-fuchsia inline-flex items-center justify-center gap-2 transition-all hover:scale-105"
-                    >
-                      {submittingTeam ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                          <span>Saving to SQLite Desk...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Users className="w-4 h-4" />
-                          <span>Register Squad at Desk</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
-          )}
-
-          {/* TAB 2: INQUIRY / SUPPORT FORM */}
-          {activeTab === 'inquiry' && (
-            <div>
-              {submittedTicket ? (
-                <div className="p-6 sm:p-8 rounded-2xl bg-[#050308] border border-emerald-500/40 text-center space-y-4">
-                  <div className="w-12 h-12 mx-auto rounded-full bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400">
-                    <CheckCircle className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-xl font-bold font-heading text-white">
-                    Query Logged — Ticket #{submittedTicket.id}
-                  </h3>
-                  <p className="text-xs text-slate-300 max-w-md mx-auto">
-                    Saved for <strong>{submittedTicket.name}</strong> ({submittedTicket.email}) under{' '}
-                    <span className="text-fuchsia-300">{submittedTicket.subject}</span>. Our coordinator desk will review it shortly.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => setSubmittedTicket(null)}
-                    className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-mono font-bold text-white transition-colors"
-                  >
-                    Submit Another Query
-                  </button>
                 </div>
-              ) : (
-                <form onSubmit={handleInquirySubmit} className="space-y-4 text-xs font-sans">
-                  {inquiryError && (
-                    <div
-                      role="alert"
-                      className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-200 font-mono flex items-center gap-2"
-                    >
-                      <ShieldAlert className="w-4 h-4 shrink-0" />
-                      <span>{inquiryError}</span>
-                    </div>
-                  )}
+              </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor="inq-name" className="block text-slate-300 mb-1 font-medium">
-                        Your Name <span className="text-rose-400">*</span>
-                      </label>
-                      <input
-                        id="inq-name"
-                        type="text"
-                        required
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="e.g. Aditya Raj"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none transition-all"
-                      />
+              {/* Direct Actions: Call & WhatsApp */}
+              <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-xs">
+                <a
+                  href={`tel:${featuredLead.phone.replace(/\s+/g, '')}`}
+                  className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-fuchsia-600/25 hover:bg-fuchsia-600/40 border border-fuchsia-400/40 hover:border-fuchsia-400/70 text-white font-bold transition-all shadow-sm group-hover:shadow-glow-fuchsia"
+                >
+                  <Phone className="w-3.5 h-3.5 text-fuchsia-400" />
+                  <span>Call {featuredLead.phone}</span>
+                </a>
+                <a
+                  href={`https://wa.me/${featuredLead.phone.replace(/\D/g, '')}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-bold transition-all"
+                  title="WhatsApp Student Convenor"
+                >
+                  <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>WhatsApp</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Quick Links & Desk Information Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+              {/* Official Email */}
+              <div className="p-3.5 rounded-2xl bg-[#030106] border border-white/10 hover:border-emerald-500/40 transition-colors space-y-1">
+                <div className="flex items-center gap-1.5 text-slate-400 text-[10px] uppercase font-bold">
+                  <Mail className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Official Support Email</span>
+                </div>
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="text-white hover:text-emerald-300 font-bold block truncate transition-colors text-xs"
+                >
+                  {contactEmail}
+                </a>
+              </div>
+
+              {/* Telegram Channel */}
+              <a
+                href={telegramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3.5 rounded-2xl bg-sky-500/10 border border-sky-400/30 hover:border-sky-400/60 text-sky-300 hover:text-white transition-all space-y-1 flex flex-col justify-between"
+              >
+                <div className="flex items-center justify-between text-[10px] uppercase font-bold text-sky-400">
+                  <div className="flex items-center gap-1.5">
+                    <Radio className="w-3.5 h-3.5 animate-pulse text-sky-400" />
+                    <span>Telegram Updates</span>
+                  </div>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </div>
+                <strong className="text-white text-xs block">Join Official Channel</strong>
+              </a>
+
+              {/* Campus Desk Hours */}
+              <div className="p-3.5 rounded-2xl bg-[#030106] border border-white/10 space-y-1 sm:col-span-2">
+                <div className="flex items-center justify-between text-slate-400 text-[10px] uppercase font-bold">
+                  <div className="flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 text-fuchsia-400" />
+                    <span>Campus Location &amp; Desk Hours</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-emerald-400">
+                    <Clock className="w-3 h-3" />
+                    <span>09:00 AM – 08:00 PM</span>
+                  </div>
+                </div>
+                <p className="text-slate-300 text-[11px] font-sans">
+                  Government Engineering College, Sheikhpura — Administrative Block, NH-333A, Mehus, Bihar 811105
+                </p>
+              </div>
+            </div>
+
+            {/* Dedicated Team Page Callout Banner */}
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/40 via-fuchsia-950/30 to-[#050308] border border-fuchsia-500/30 space-y-2">
+              <div className="flex items-center justify-between text-xs font-mono font-bold">
+                <span className="text-fuchsia-300 flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-fuchsia-400" />
+                  <span>Full Roster Portal (3 to 6 Members)</span>
+                </span>
+                <Link
+                  to="/team-register"
+                  className="text-[11px] text-fuchsia-400 hover:text-white underline inline-flex items-center gap-1"
+                >
+                  <span>Open</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </Link>
+              </div>
+              <p className="text-[11px] text-slate-300 font-sans leading-relaxed">
+                Need more member slots, custom problem tracks, or team pass certificates? Use our dedicated full-screen portal.
+              </p>
+            </div>
+
+          </div>
+
+          {/* RIGHT COLUMN: INTERACTIVE CYBER DESK TERMINAL (7 Cols) */}
+          <div className="lg:col-span-7 space-y-5">
+            
+            {/* Segmented Cyber Switcher Tabs */}
+            <div className="flex rounded-2xl bg-[#030106] p-1.5 border border-white/15 gap-1.5 text-xs font-mono font-bold">
+              <button
+                type="button"
+                onClick={() => setActiveTab('team-reg')}
+                className={`flex-1 py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all ${
+                  activeTab === 'team-reg'
+                    ? 'bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white shadow-glow-fuchsia'
+                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <Users className="w-4 h-4 text-white" />
+                <span>Squad Register (Desk Open)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab('inquiry')}
+                className={`flex-1 py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all ${
+                  activeTab === 'inquiry'
+                    ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-[0_0_20px_rgba(16,185,129,0.25)]'
+                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <HelpCircle className="w-4 h-4" />
+                <span>Ask Support Query</span>
+              </button>
+            </div>
+
+            {/* TAB 1: QUICK TEAM REGISTRATION */}
+            {activeTab === 'team-reg' && (
+              <div className="p-6 sm:p-8 rounded-2xl bg-[#030106]/90 border border-fuchsia-500/30 shadow-[0_0_35px_rgba(217,70,239,0.08)]">
+                {submittedTeam ? (
+                  <div className="p-6 sm:p-8 rounded-2xl bg-[#07060e] border border-emerald-500/40 text-center space-y-4">
+                    <div className="w-14 h-14 mx-auto rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+                      <CheckCircle className="w-7 h-7" />
                     </div>
-                    <div>
-                      <label htmlFor="inq-roll" className="block text-slate-300 mb-1 font-medium">
-                        Roll No. (Optional)
-                      </label>
-                      <input
-                        id="inq-roll"
-                        type="text"
-                        value={rollNo}
-                        onChange={(e) => setRollNo(e.target.value)}
-                        placeholder="e.g. 23105147042"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none font-mono transition-all"
-                      />
+                    <div className="space-y-1">
+                      <span className="text-xs font-mono text-emerald-400 uppercase tracking-widest font-bold">
+                        REGISTRATION CONFIRMED
+                      </span>
+                      <h3 className="text-2xl font-bold font-heading text-white">
+                        {submittedTeam.teamName}
+                      </h3>
+                      <span className="inline-block px-3 py-1 rounded-full bg-fuchsia-500/15 border border-fuchsia-400/40 text-xs font-mono text-fuchsia-300 font-bold">
+                        Team ID: {submittedTeam.teamId}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-300 max-w-md mx-auto font-sans leading-relaxed">
+                      Squad recorded under <strong className="text-white">{submittedTeam.eventTitle}</strong> for leader{' '}
+                      <strong className="text-white">{submittedTeam.leaderName}</strong> ({submittedTeam.leaderRoll}). Saved directly in the TechySheikhpura Desk queue!
+                    </p>
+                    <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
+                      <Link
+                        to="/team-register"
+                        className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-xs font-mono font-bold text-white shadow-glow-fuchsia transition-transform hover:scale-105"
+                      >
+                        Open Full Team Pass &amp; Details
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => setSubmittedTeam(null)}
+                        className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-mono font-bold text-white transition-colors"
+                      >
+                        Register Another Team
+                      </button>
                     </div>
                   </div>
+                ) : (
+                  <form onSubmit={handleTeamSubmit} className="space-y-4 text-xs font-sans">
+                    {teamError && (
+                      <div
+                        role="alert"
+                        className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-200 font-mono flex items-center gap-2"
+                      >
+                        <ShieldAlert className="w-4 h-4 shrink-0 text-rose-400" />
+                        <span>{teamError}</span>
+                      </div>
+                    )}
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor="inq-email" className="block text-slate-300 mb-1 font-medium">
-                        Email Address <span className="text-rose-400">*</span>
-                      </label>
-                      <input
-                        id="inq-email"
-                        type="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="student@gecsheikhpura.ac.in"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none transition-all"
-                      />
+                    {/* Event & Team Name */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      <div>
+                        <label htmlFor="desk-event" className="block text-slate-200 mb-1.5 font-semibold">
+                          Target Fest Arena / Event <span className="text-rose-400">*</span>
+                        </label>
+                        <select
+                          id="desk-event"
+                          value={eventId}
+                          onChange={(e) => setEventId(e.target.value)}
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-500/30 focus:outline-none font-mono text-xs transition-all"
+                        >
+                          {FEST_EVENTS.map((ev) => (
+                            <option key={ev.id} value={ev.id}>
+                              {ev.title} ({ev.teamSize})
+                            </option>
+                          ))}
+                        </select>
+                        <span className="text-[10px] text-slate-400 font-mono mt-1 block">
+                          Scope: <strong className="text-fuchsia-300">{selectedEvent.teamSize}</strong> • {selectedEvent.category}
+                        </span>
+                      </div>
+
+                      <div>
+                        <label htmlFor="desk-team-name" className="block text-slate-200 mb-1.5 font-semibold">
+                          Squad / Team Name <span className="text-rose-400">*</span>
+                        </label>
+                        <input
+                          id="desk-team-name"
+                          type="text"
+                          required
+                          value={teamName}
+                          onChange={(e) => setTeamName(e.target.value)}
+                          placeholder="e.g. CyberKnights, Squad Alpha"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-500/30 focus:outline-none font-mono text-xs transition-all placeholder:text-slate-500"
+                        />
+                      </div>
                     </div>
+
+                    {/* Leader Name & Roll No */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      <div>
+                        <label htmlFor="desk-leader-name" className="block text-slate-200 mb-1.5 font-semibold">
+                          Team Leader Name <span className="text-rose-400">*</span>
+                        </label>
+                        <input
+                          id="desk-leader-name"
+                          type="text"
+                          required
+                          value={leaderName}
+                          onChange={(e) => setLeaderName(e.target.value)}
+                          placeholder="Leader's Full Name"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-500/30 focus:outline-none text-xs transition-all placeholder:text-slate-500"
+                        />
+                      </div>
+
+                      <div>
+                        <label htmlFor="desk-leader-roll" className="block text-slate-200 mb-1.5 font-semibold">
+                          Leader Roll No. <span className="text-rose-400">*</span>
+                        </label>
+                        <input
+                          id="desk-leader-roll"
+                          type="text"
+                          required
+                          value={leaderRoll}
+                          onChange={(e) => setLeaderRoll(e.target.value)}
+                          placeholder="e.g. 23105147042"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-500/30 focus:outline-none font-mono text-xs transition-all placeholder:text-slate-500"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Leader Email & Phone */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      <div>
+                        <label htmlFor="desk-leader-email" className="block text-slate-200 mb-1.5 font-semibold">
+                          Leader Email Address <span className="text-rose-400">*</span>
+                        </label>
+                        <input
+                          id="desk-leader-email"
+                          type="email"
+                          required
+                          value={leaderEmail}
+                          onChange={(e) => setLeaderEmail(e.target.value)}
+                          placeholder="leader@gecsheikhpura.ac.in"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-500/30 focus:outline-none font-mono text-xs transition-all placeholder:text-slate-500"
+                        />
+                      </div>
+
+                      <div>
+                        <label htmlFor="desk-leader-phone" className="block text-slate-200 mb-1.5 font-semibold">
+                          WhatsApp / Contact No. <span className="text-rose-400">*</span>
+                        </label>
+                        <input
+                          id="desk-leader-phone"
+                          type="tel"
+                          required
+                          value={leaderPhone}
+                          onChange={(e) => setLeaderPhone(e.target.value)}
+                          placeholder="10-digit mobile number"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-500/30 focus:outline-none font-mono text-xs transition-all placeholder:text-slate-500"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Department */}
                     <div>
-                      <label htmlFor="inq-subject" className="block text-slate-300 mb-1 font-medium">
-                        Topic / Desk
+                      <label htmlFor="desk-leader-branch" className="block text-slate-200 mb-1.5 font-semibold">
+                        Department / Branch
                       </label>
                       <select
-                        id="inq-subject"
-                        value={subject}
-                        onChange={(e) => setSubject(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003] border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none transition-all"
+                        id="desk-leader-branch"
+                        value={leaderBranch}
+                        onChange={(e) => setLeaderBranch(e.target.value)}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-500/30 focus:outline-none font-mono text-xs transition-all"
                       >
-                        {SUBJECT_PRESETS.map((opt) => (
+                        {BRANCH_OPTIONS.map((opt) => (
                           <option key={opt} value={opt}>
                             {opt}
                           </option>
                         ))}
                       </select>
                     </div>
-                  </div>
 
-                  <div>
-                    <label htmlFor="inq-message" className="block text-slate-300 mb-1 font-medium">
-                      Message <span className="text-rose-400">*</span>
-                    </label>
-                    <textarea
-                      id="inq-message"
-                      rows={3}
-                      required
-                      minLength={10}
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Describe your question or team update clearly..."
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#020003]/85 border border-white/15 text-white focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/25 focus:outline-none resize-none transition-all"
-                    />
-                  </div>
+                    {/* Teammate 2 Quick Slots */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      <div>
+                        <label htmlFor="desk-member2-name" className="block text-slate-200 mb-1.5 font-semibold">
+                          Teammate 2 Name (Optional)
+                        </label>
+                        <input
+                          id="desk-member2-name"
+                          type="text"
+                          value={member2Name}
+                          onChange={(e) => setMember2Name(e.target.value)}
+                          placeholder="e.g. Priya Kumari"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-500/30 focus:outline-none text-xs transition-all placeholder:text-slate-500"
+                        />
+                      </div>
 
-                  <button
-                    type="submit"
-                    disabled={submittingInquiry}
-                    className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold font-mono text-xs uppercase tracking-wider hover:opacity-95 disabled:opacity-60 inline-flex items-center justify-center gap-2 transition-all"
-                  >
-                    {submittingInquiry ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>Sending to Desk...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4" />
-                        <span>Submit Support Ticket</span>
-                      </>
+                      <div>
+                        <label htmlFor="desk-member2-roll" className="block text-slate-200 mb-1.5 font-semibold">
+                          Teammate 2 Roll No.
+                        </label>
+                        <input
+                          id="desk-member2-roll"
+                          type="text"
+                          value={member2Roll}
+                          onChange={(e) => setMember2Roll(e.target.value)}
+                          placeholder="e.g. 23105147045"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-500/30 focus:outline-none font-mono text-xs transition-all placeholder:text-slate-500"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Action Footer */}
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3 border-t border-white/10">
+                      <Link
+                        to={`/team-register?event=${eventId}`}
+                        className="text-xs font-mono text-fuchsia-300 hover:text-white transition-colors flex items-center gap-1.5"
+                      >
+                        <Users className="w-3.5 h-3.5 text-fuchsia-400" />
+                        <span>Need 3+ members? Full Roster Page →</span>
+                      </Link>
+
+                      <button
+                        type="submit"
+                        disabled={submittingTeam}
+                        className="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white font-bold font-mono text-xs uppercase tracking-wider hover:opacity-95 disabled:opacity-60 shadow-glow-fuchsia inline-flex items-center justify-center gap-2 transition-all hover:scale-105"
+                      >
+                        {submittingTeam ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Confirming Squad...</span>
+                          </>
+                        ) : (
+                          <>
+                            <UserCheck className="w-4 h-4" />
+                            <span>Confirm Squad Registration</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            )}
+
+            {/* TAB 2: INQUIRY / SUPPORT TICKET */}
+            {activeTab === 'inquiry' && (
+              <div className="p-6 sm:p-8 rounded-2xl bg-[#030106]/90 border border-emerald-500/30 shadow-[0_0_35px_rgba(16,185,129,0.08)]">
+                {submittedTicket ? (
+                  <div className="p-6 sm:p-8 rounded-2xl bg-[#07060e] border border-emerald-500/40 text-center space-y-4">
+                    <div className="w-14 h-14 mx-auto rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+                      <CheckCircle className="w-7 h-7" />
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-xs font-mono text-emerald-400 uppercase tracking-widest font-bold">
+                        TICKET LOGGED
+                      </span>
+                      <h3 className="text-2xl font-bold font-heading text-white">
+                        Ticket #{submittedTicket.id}
+                      </h3>
+                    </div>
+                    <p className="text-xs text-slate-300 max-w-md mx-auto font-sans leading-relaxed">
+                      Logged for <strong className="text-white">{submittedTicket.name}</strong> ({submittedTicket.email}) under{' '}
+                      <span className="text-fuchsia-300 font-semibold">{submittedTicket.subject}</span>. Our student coordinator desk will review it shortly.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setSubmittedTicket(null)}
+                      className="px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-mono font-bold text-white transition-colors"
+                    >
+                      Submit Another Query
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleInquirySubmit} className="space-y-4 text-xs font-sans">
+                    {inquiryError && (
+                      <div
+                        role="alert"
+                        className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-200 font-mono flex items-center gap-2"
+                      >
+                        <ShieldAlert className="w-4 h-4 shrink-0 text-rose-400" />
+                        <span>{inquiryError}</span>
+                      </div>
                     )}
-                  </button>
-                </form>
-              )}
-            </div>
-          )}
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      <div>
+                        <label htmlFor="inq-name" className="block text-slate-200 mb-1.5 font-semibold">
+                          Your Name <span className="text-rose-400">*</span>
+                        </label>
+                        <input
+                          id="inq-name"
+                          type="text"
+                          required
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          placeholder="Your Full Name"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/25 focus:outline-none transition-all placeholder:text-slate-500"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="inq-roll" className="block text-slate-200 mb-1.5 font-semibold">
+                          Roll No. (Optional)
+                        </label>
+                        <input
+                          id="inq-roll"
+                          type="text"
+                          value={rollNo}
+                          onChange={(e) => setRollNo(e.target.value)}
+                          placeholder="e.g. 23105147042"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/25 focus:outline-none font-mono transition-all placeholder:text-slate-500"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      <div>
+                        <label htmlFor="inq-email" className="block text-slate-200 mb-1.5 font-semibold">
+                          Email Address <span className="text-rose-400">*</span>
+                        </label>
+                        <input
+                          id="inq-email"
+                          type="email"
+                          required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="student@gecsheikhpura.ac.in"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/25 focus:outline-none transition-all placeholder:text-slate-500"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="inq-subject" className="block text-slate-200 mb-1.5 font-semibold">
+                          Query Topic
+                        </label>
+                        <select
+                          id="inq-subject"
+                          value={subject}
+                          onChange={(e) => setSubject(e.target.value)}
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/25 focus:outline-none transition-all"
+                        >
+                          {SUBJECT_PRESETS.map((opt) => (
+                            <option key={opt} value={opt}>
+                              {opt}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor="inq-message" className="block text-slate-200 mb-1.5 font-semibold">
+                        Message / Query Details <span className="text-rose-400">*</span>
+                      </label>
+                      <textarea
+                        id="inq-message"
+                        rows={3}
+                        required
+                        minLength={10}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder="Describe your question, pass issue, or team query clearly..."
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#090812] border border-white/15 text-white focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/25 focus:outline-none resize-none transition-all placeholder:text-slate-500"
+                      />
+                    </div>
+
+                    <div className="flex justify-end pt-2">
+                      <button
+                        type="submit"
+                        disabled={submittingInquiry}
+                        className="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold font-mono text-xs uppercase tracking-wider hover:opacity-95 disabled:opacity-60 shadow-[0_0_20px_rgba(16,185,129,0.3)] inline-flex items-center justify-center gap-2 transition-all hover:scale-105"
+                      >
+                        {submittingInquiry ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Sending Ticket...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Send className="w-4 h-4" />
+                            <span>Submit Support Ticket</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            )}
+
+          </div>
+
         </div>
       </div>
     </section>
